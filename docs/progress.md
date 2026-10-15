@@ -1,3 +1,60 @@
+# التقرير النهائي — Motiq (بالعربية البسيطة)
+
+**الرابط:** https://aminetecharabdz-prog.github.io/Reel-Studio/ — افتحه في كروم على هاتفك.
+
+**واش تصلّح اليوم (حسب ملاحظاتك على الفيديو الأول):**
+- ما بقاش مشهد فارغ: كل مشهد فيه صورة كبيرة تشرح الكلام بالضبط (فكرة ← مصباح، جمهور ← ملعب فارغ، استراتيجية ← ملك الشطرنج، توصيل ← شاحنة، الماء ← موج حقيقي...). البرنامج يقيس حجم الصورة في كل مشهد ويرفض المشهد الفارغ ويصلحه وحده.
+- الكتابة ما تتغطّاش بالصور: فحص آلي يكتشف أي تداخل بين الكتابة والصورة ويبعّدهم.
+- العربية مع الفرنسية في الترتيب الصحيح حتى كي يبدا السطر بكلمة فرنسية (مثال: «ساعة كلاسيك، acier inoxydable»).
+- الخلفية ما تتعاودش في مشهدين ورا بعض، وكل فيديو عندو ألوانو.
+- الأرقام توصل لقيمتها النهائية وتبقى ظاهرة قبل ما يتبدل المشهد.
+- حتى بلا مفاتيح، الفيديو اللي تصنعو يجيب صور من المكتبة (أكثر من 250 صورة وعنصر ثلاثي الأبعاد) حسب كلامك بالدارجة والعربية والفرنسية.
+
+**أين تجرّب:** الصفحة الرئيسية ← الأمثلة الثلاثة (محتوى بلا جمهور، إعلان ساعة، أخطاء الشورتس). افتح أي مثال ← شغّل ← «تصدير» باش تحمّل الفيديو. أو «فيديو جديد» ← اكتب نصّك ← «اصنع».
+
+**كيف تضيف المفاتيح من الهاتف:** افتح الرابط ← «الإعدادات» تحت ← الصق المفاتيح (تحت كل خانة شرح «كيفاش نجيبو من الهاتف؟»):
+1. مفتاح Claude (المخرج الذكي — الأهم): من console.anthropic.com ← API Keys.
+2. مفتاح Gemini (صور واقعية خاصة بفيديوك): من aistudio.google.com ← Get API key.
+3. مفتاح ElevenLabs (تفريغ صوتك وصوت طبيعي): من elevenlabs.io ← Profile ← API Keys.
+المفاتيح تبقى في هاتفك فقط.
+
+**التكلفة التقريبية لفيديو 60 ثانية:** حوالي 0.35 إلى 0.45 دولار مع الصور، وأقل من 0.15 دولار بلا مفتاح الصور.
+
+**المرحلة القادمة المقترحة:** حسابات للزبائن، الدفع (بطاقة جزائرية + دفع دولي)، باقات بالرصيد، ولوحة تحكم تشوف فيها الزبائن والتكاليف.
+
+---
+
+# Session 2026-10-15 (afternoon) — quality-bar pass on Motiq
+
+> **Active branch:** `claude/modest-wozniak-1umut3` (main merged). **Status: final QA done and the final Arabic report delivered (above).**
+> The auto-resume scheduled task should stop here (owner: nothing left to resume until he asks for the next phase).
+> Sandbox has no npm registry: checks/sheets run in `.github/workflows/qa-sheets.yml` on pushes whose message contains `[qa]`,
+> results on branch `qa-sheets` (`git archive origin/qa-sheets | tar -x -C dir`): logs, contact sheets, UI shots, local e2e incl. export.
+
+Done (root causes + automated checks, all in `src/engine/qa.ts`, tests in `src/engine/__tests__/quality.test.ts`):
+- [x] Restored `docs/QUALITY_BAR.md` (the Motiq rewrite had deleted it).
+- [x] `no-hero`: hero coverage measured on each cut-out's real alpha bbox (`scripts/assets/meta.py` → `src/engine/artMeta.ts`),
+      min 20 % of the frame (≈ 35 % layer box); autofix adds the visual the words name (`src/engine/concepts.ts` lexicon,
+      Darija/Arabic/French → photo cut-out or 3D object), text moved to the top third. Guards Claude output too.
+- [x] `collision`: text/number/button rects vs picture alpha bboxes; autofix moves the picture (or number) away, then shrinks it.
+- [x] `bg-repeat` / `bg-variety` (≥ 3 treatments, never twice in a row), `hero-reuse` (same cut-out in 2 scenes, product exempt),
+      `counter-late` (number must land and hold 0.5 s before the cut; autofix pulls it earlier).
+- [x] RTL: text line direction now follows the whole layer (`containerDir`) — a wrapped line starting with French no longer
+      flips to LTR (root cause of "reversed Arabic/French order"); UI cards no longer flip because of a Latin handle.
+- [x] No-key director (`src/ai/local.ts`): every layout gets a topic-literal hero sized from its measured fill; numbers not
+      printed twice; backgrounds de-duplicated. Claude prompt: hero 0.85–1.2 wide, text top third, no repeated objects/backgrounds.
+- [x] Demos re-authored (scripts/demos/*.py, which now print hero %, bg and collision report): content (ink & red), product
+      (noir & gold watch, with "acier inoxydable"), shorts (ultraviolet). Removed: pink gift box in a luxury ad, tea-shop
+      photo, printed-quote dart poster, triple purple field, eye reused. Demo cache key = content hash (owner sees new demos).
+- [x] CI: typecheck, lint, 20 unit tests, build, local Playwright 7/7 incl. in-browser export; live-smoke on the Pages URL.
+
+Known issues / next:
+- Bundled photos are openly licensed stock cut-outs; a few have soft rembg edges (eye). Gemini images give the full look.
+- Demo videos have music but no voice-over (kinetic type); the owner's own voice + ElevenLabs gives the real result.
+- Next phase waits for the owner: accounts, payments (Chargily/Stripe), server keys, admin.
+
+---
+
 # NEW APP — Motiq · موتيك (built from scratch, 2026-10-15)
 
 Owner verdict on v1 (Nabra): everything bad, Make-it copy, rule-based. He asked for a COMPLETELY new app (not a repair) whose
@@ -29,35 +86,10 @@ Status:
 - Known: real customer videos reach full quality with Claude + Gemini keys; demos use the bundled library.
 - Next ideas: accounts + points/payments (Chargily/Stripe), server proxy so customers don't need keys, talking-head demo.
 
----
-
-# التقرير النهائي (بالعربية البسيطة)
-
-**الرابط:** https://aminetecharabdz-prog.github.io/Reel-Studio/ — افتحه في كروم على هاتفك.
-
-**واش تبدّل اليوم (بعد ملاحظتك على فيديو طبيب الأسنان):**
-- كل مشهد فيه الآن صورة كبيرة تشرح الكلام بالضبط (تقريبًا نصف الشاشة): سن مقطوع يبيّن العصب والتسوس، أسنان مع الجير والخيط، محرك يتحرك بأشواطه الأربعة، داخل سيارة والتيليفون يطيح أو يتركّب، عداد دورات، وأكثر من 140 رسمة ثلاثية الأبعاد (سن، فرشاة، حلوى، شاحنة توصيل...).
-- العنوان فوق الصورة كلمة أو ثلاث فقط، ما يعاودش الكابشن.
-- الخلفية تتبدّل بين المشاهد (ضوء، أشعة، غرفة، شبكة، نصفين...) وكل فيديو عنده ألوانه: أزرق طبي للطبيب، أسود وبرتقالي للمحرك، كريمي وبرتقالي لإعلان الحامل.
-- العربية مع الفرنسية في الترتيب الصحيح (مثال: «بدّل la brosse»، «بدّل l'huile»).
-- النظام يفحص كل فيديو تلقائيًا: يرفض المشهد الفارغ، العنوان الطويل، والخلفية المكررة، ويصلحهم وحده.
-
-**أين تجرّب:** الصفحة الرئيسية ← المشاريع التجريبية الثلاثة (طبيب الأسنان، محرك السيارة، إعلان حامل الهاتف) + مونتاج فيديو متكلم. افتح أي مشروع ← شغّل الفيديو ← «تصدير» لتحميل MP4.
-ملاحظة: الأصوات التجريبية آلية (روبوت)، بصوتك أنت تكون النتيجة أحسن بكثير.
-
-**كيف تضيف المفاتيح من الهاتف:** افتح الرابط ← زر «الإعدادات» فوق ← الصق المفاتيح (كل خانة فيها شرح خطوة بخطوة):
-1. مفتاح Claude (التصميم الذكي): من console.anthropic.com ← API Keys.
-2. مفتاح ElevenLabs (تفريغ صوتك): من elevenlabs.io ← Profile ← API Keys.
-3. **مفتاح Gemini للصور (مهم للجودة الكاملة):** من aistudio.google.com ← Get API key ← Create. مع هذا المفتاح كل مشهد مهم ياخذ صورة خاصة (شخصية ثابتة، منتجك في مواقف حقيقية).
-ثم اضغط «احفظ». المفاتيح تبقى في هاتفك فقط.
-
-**التكلفة التقريبية لفيديو 60 ثانية:** حوالي 0.35 إلى 0.45 دولار (تفريغ + تصميم Claude + صور Gemini). بدون مفتاح الصور: أقل من 0.15 دولار.
-
-**المرحلة القادمة المقترحة:** تسجيل الدخول للزبائن، الدفع (بطاقة جزائرية + دفع دولي)، باقات بالرصيد، ولوحة تحكم لك تشوف فيها الزبائن والتكاليف.
 
 ---
 
-# Progress — نبرة Nabra (AI motion-graphics reel studio)
+# (historical) Progress — v1 نبرة Nabra, replaced by Motiq
 
 > **Active branch:** `claude/modest-wozniak-1umut3` (main merged in, incl. `docs/QUALITY_BAR.md`).
 > **Status (2026-10-15, after the QUALITY_BAR rebuild):** final QA done and the final Arabic report delivered (above).
