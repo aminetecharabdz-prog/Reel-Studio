@@ -77,14 +77,14 @@ export const HomePage = () => {
       <section id="demos" className="scroll-mt-20 pb-12">
         <h2 className="font-display text-[28px] font-bold">{t.demosTitle}</h2>
         <p className="mt-1 text-muted">{t.demosSub}</p>
-        <div className="mt-5 grid gap-3 md:grid-cols-3">
+        <div className="mt-5 grid gap-3 md:grid-cols-2">
           {DEMOS.map((d) => (
             <a key={d.id} href={`#/p/demo-${d.id}`} className="flex items-center justify-between gap-3 rounded-[22px] border border-line bg-surface p-4 hover:border-mint/50">
               <div>
-                <div className="text-[13px] font-bold text-lilac">{d.mode === 'B' ? t.modeB : t.modeA}</div>
+                <div className="text-[13px] font-bold text-lilac">{d.mode === 'B' ? t.modeB : d.mode === 'C' ? t.modeC : t.modeA}</div>
                 <div className="font-display text-[20px] font-bold">{d.name}</div>
                 <div className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-raised px-2.5 py-0.5 text-[12px] text-muted">
-                  <Pulse active={false} bars={5} /> {t.demoVoiceBadge}
+                  <Pulse active={false} bars={5} /> {d.mode === 'C' ? 'فيديو اصطناعي تجريبي' : t.demoVoiceBadge}
                 </div>
               </div>
               <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-rose text-white">

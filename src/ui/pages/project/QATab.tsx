@@ -3,7 +3,6 @@ import type { Project } from '@/lib/schema/project';
 import type { CompiledReel } from '@/lib/timing/types';
 import { Button, Panel, Pulse, cx } from '../../components/ui';
 import { checkPlan, checkReel, autoFixPlan } from '@/lib/qa/checks';
-import { runVisionQA } from '@/lib/qa/vision';
 
 export const QATab = ({ project, reel, onChange }: { project: Project; reel: CompiledReel | null; onChange: (p: Project) => void }) => {
   const [busy, setBusy] = useState<string | null>(null);
@@ -26,6 +25,7 @@ export const QATab = ({ project, reel, onChange }: { project: Project; reel: Com
     if (!reel) return;
     setBusy('فحص اللقطات بالذكاء الاصطناعي…');
     try {
+      const { runVisionQA } = await import('@/lib/qa/vision');
       const res = await runVisionQA(project, reel, (m) => setBusy(m));
       onChange(res);
     } catch (e) {

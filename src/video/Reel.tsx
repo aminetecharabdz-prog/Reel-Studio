@@ -58,6 +58,10 @@ const stageFor = (mode: CompiledScene['speaker'], t: Theme): Box => {
       return { x: s.x, y: t.H * 0.5 + 30 * t.u, w: s.w, h: Math.max(200 * t.u, (t.captionBand ? t.captionBand.y : t.H * 0.8) - t.H * 0.5 - 50 * t.u) };
     case 'split-bottom':
       return { x: s.x, y: s.y, w: s.w, h: t.H * 0.5 - s.y - 30 * t.u };
+    case 'pip': {
+      const top = t.H * 0.13 + 400 * t.u;
+      return { x: s.x, y: top, w: s.w, h: Math.max(240 * t.u, s.y + s.h - top) };
+    }
     default:
       return s;
   }
@@ -88,7 +92,8 @@ const SpeakerLayer = ({ reel }: { reel: CompiledReel }) => {
             <Video
               src={seg.src}
               trimBefore={seg.trimBefore}
-              style={{ position: 'absolute', left: 0, top: 0, width: box.w, height: box.h, objectFit: 'cover' }}
+              objectFit="cover"
+              style={{ position: 'absolute', left: 0, top: 0, width: box.w, height: box.h }}
               volume={(f) => Math.min(1, (f + 1) / 2, (seg.duration - f) / 2)}
             />
           </Sequence>
@@ -100,10 +105,14 @@ const SpeakerLayer = ({ reel }: { reel: CompiledReel }) => {
 
 const SceneGraphics = ({ scene, reel }: { scene: CompiledScene; reel: CompiledReel }) => {
   const base = useTheme();
-  const theme = useMemo(() => (reel.mode === 'C' ? { ...base, stage: stageFor(scene.speaker ?? 'full', base) } : base), [base, reel.mode, scene.speaker]);
+  // mode C: graphics sit on a scrim and turn light when they overlay full-frame footage
+  const scrim = reel.mode === 'C' && !scene.isEndCard && (scene.speaker ?? 'full') === 'full';
+  const theme = useMemo(() => {
+    if (reel.mode !== 'C') return base;
+    const stage = stageFor(scene.speaker ?? 'full', base);
+    return scrim ? { ...base, stage, isDark: true, c: { ...base.c, text: '#FFFFFF', muted: '#E8E8EC', surface: 'rgba(0,0,0,0.55)' } } : { ...base, stage };
+  }, [base, reel.mode, scene.speaker, scrim]);
   const Comp: FC = PRIMITIVE_COMPONENTS[scene.primitive];
-  // mode C: graphics sit on a scrim when they overlay full-frame footage
-  const scrim = reel.mode === 'C' && (scene.speaker ?? 'full') === 'full';
   return (
     <ThemeProvider value={theme}>
       {scrim && <div style={{ position: 'absolute', left: 0, top: 0, width: base.W, height: theme.stage.y + theme.stage.h + 60 * base.u, backgroundImage: `linear-gradient(180deg, ${withAlpha('#000000', 0.55)}, rgba(0,0,0,0))` }} />}
@@ -180,7 +189,7 @@ export const Reel: FC<ReelProps> = ({ reel }) => {
           </>
         )}
         <Grain amount={reel.dna.texture.grain} frame={frame} />
-        {ready && <Captions lines={reel.captions} settings={reel.captionSettings} />}
+        {ready && <Captions lines={reel.captions} settings={reel.mode === 'C' && !reel.captionSettings.color ? { ...reel.captionSettings, color: '#FFFFFF' } : reel.captionSettings} mode={reel.mode} />}
         {reel.voice && <Audio src={reel.voice.src} volume={reel.voice.volume} />}
         {reel.music && (
           <Audio src={reel.music.src} loop volume={(f) => (reel.music!.gain[f] ?? 0) * reel.music!.baseVolume} />

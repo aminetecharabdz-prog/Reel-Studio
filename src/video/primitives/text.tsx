@@ -36,6 +36,7 @@ export const WordBuild = () => {
   });
   if (starts[0]! > Math.round(P.t.fps * 0.5)) starts[0] = 3;
   const per = Math.min(1, 3 / Math.max(1, words.length));
+  const lineCap = stage.h / (words.length * 1.45);
   return (
     <Stage>
       {words.map((w, i) => {
@@ -43,7 +44,7 @@ export const WordBuild = () => {
         const isLast = i === words.findLastIndex((_, k) => starts[k]! <= frame);
         return (
           <div key={i} style={{ opacity: clamp01(p * 1.5) * (isLast ? 1 : 0.55), transform: `scale(${0.6 + 0.4 * p})`, lineHeight: 1.1 }}>
-            <FitText text={w} maxWidth={stage.w} maxSize={(170 + 60 * per) * u * t.dna.typography.scale} maxLines={1} color={i % 2 === 1 ? col.primary : col.text} align={P.align} />
+            <FitText text={w} maxWidth={stage.w} maxSize={Math.min(lineCap, (170 + 60 * per) * u * t.dna.typography.scale)} maxLines={1} color={i % 2 === 1 ? col.primary : col.text} align={P.align} />
           </div>
         );
       })}

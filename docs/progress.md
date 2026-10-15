@@ -6,7 +6,7 @@ Read this first when resuming ("أكمل"). Source of truth: `SPEC.md`. Owner br
 built by `.github/workflows/deploy.yml` on every push to any branch).
 
 ## Plan
-- [ ] Phase 0 — scaffold, brand (name/logo/palette/type), i18n, IndexedDB repo, provider interfaces + mocks,
+- [x] Phase 0 — scaffold, brand (name/logo/palette/type), i18n, IndexedDB repo, provider interfaces + mocks,
       BYOK settings, Pages deploy + live Playwright smoke test (runs in GitHub Actions, see below)
 - [ ] Phase 1 — Mode A end-to-end: upload → transcribe → review → DNA → plan → primitives → captions → preview → export;
       3 demo projects (dentist, car engine, phone-holder ad) with bundled voice + transcript
@@ -35,8 +35,17 @@ built by `.github/workflows/deploy.yml` on every push to any branch).
   names in `src/lib/providers/config.ts`.
 
 ## Done
+- Live link works (owner enabled Pages); `live-smoke` Playwright job passes on the live URL.
+- Engine: 50 parametric primitives (src/video/primitives), Design DNA art director (local + Claude), local scene director
+  (beats → primitives, anti-repetition), word-anchored compiler, 8 caption styles, 10 transitions, music ducking, SFX,
+  deterministic QA + auto-fix, vision QA loop (Claude), export (H.264 MP4, VP9/VP8 WebM fallback), SRT, thumbnail.
+- UI: landing with live demo reel, wizard (A/B/C), transcript review w/ timestamp-preserving edits + AI fix, studio editor
+  (scene timeline, per-scene edit/regenerate/lock, global restyle, versions, QA), settings (BYOK + Arabic phone guides), costs.
+- Demos: dentist (A), engine (A), phone-holder ad (B), talking-head (C, synthetic speaker clip).
+- Visual QA: `node scripts/contact-sheet.mjs [demo] [atSeconds]` → .qa/sheet-*.png (needs `npm run build` + `vite preview`).
 - Scaffold, brand config, logo geometry, schemas (transcript, DNA, plan, project), bidi utils + tests,
   timing compiler, captions grouping, cuts (mode C), local art director, font catalog, deploy workflow.
 
-## Known issues / waiting on owner
-- Waiting for owner to enable Pages (Settings → Pages → gh-pages). Until then the `live-smoke` job fails.
+## Known issues
+- Headless Chromium (CI/sandbox) has no H.264 encoder → export falls back to WebM there; Chrome on Android exports MP4.
+- Demo voices are robotic (espeak-ng) by necessity; the owner's own voice + ElevenLabs gives the real result.

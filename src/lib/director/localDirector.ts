@@ -145,7 +145,11 @@ const contentCandidates = (b: Beat, input: DirectorInput, _r: Rng, imgIdx: { i: 
       break;
     case 'cta': {
       const phone = input.product?.phone;
-      add('cta', 4, () => ({ headline: distill(words, 3).text, headlineAt: head.firstId, icon: input.mode === 'B' ? 'cart' : icon === 'sparkle' ? 'thumbsup' : icon, phone: phone || undefined }));
+      const vi = words.findIndex((w) => /^(اطلب|اتصل|ابعث|ابعثلنا|تابع|تابعني|تابعونا|اشترك|ابوني|اضغط|زور|جرب|جربوها|commande|abonne)/.test(normalizeAr(w.text)));
+      const after = vi >= 0 ? words.slice(vi + 1) : [];
+      const stop = after.findIndex((w) => isStopword(w.text) || /^(باش|قبل|و)/.test(normalizeAr(w.text)));
+      const ctaWords = vi >= 0 ? [words[vi]!, ...after.slice(0, Math.min(2, stop < 0 ? 2 : stop))] : words;
+      add('cta', 4, () => ({ headline: distill(ctaWords, 3).text, headlineAt: ctaWords[0]!.id, icon: input.mode === 'B' ? 'cart' : icon === 'sparkle' ? 'thumbsup' : icon, phone: phone || undefined }));
       add('sticker-pop', 0.6, () => ({ ...base, icon }));
       break;
     }

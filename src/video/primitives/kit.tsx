@@ -182,6 +182,7 @@ export const Headline = ({
       maxWidth={width ?? stage.w}
       maxSize={maxSize}
       maxLines={maxLines}
+      maxHeight={stage.h * 0.6 * (0.5 + 0.5 * size)}
       color={color}
       align={al}
       style={style}

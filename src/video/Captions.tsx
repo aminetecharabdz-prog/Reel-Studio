@@ -13,7 +13,7 @@ import { clamp01 } from './motion';
 /** Is a word active at this frame? Active from its start frame until the next word starts (drift 0 f). */
 export const isActive = (frame: number, w: { start: number; end: number }) => frame >= w.start && frame < Math.max(w.end, w.start + 1);
 
-const CaptionLineView = ({ line, s }: { line: CaptionLine; s: CaptionSettings }) => {
+const CaptionLineView = ({ line, s, reelMode }: { line: CaptionLine; s: CaptionSettings; reelMode: 'A' | 'B' | 'C' }) => {
   const frame = useCurrentFrame();
   const t = useTheme();
   const band = t.captionBand!;
@@ -39,7 +39,7 @@ const CaptionLineView = ({ line, s }: { line: CaptionLine; s: CaptionSettings })
 
   const base = s.color ?? t.c.text;
   const active = s.activeColor ?? t.c.accent;
-  const stroke = withAlpha(t.isDark ? '#000000' : '#000000', t.isDark ? 0.55 : 0.35);
+  const stroke = withAlpha('#000000', t.isDark || (s.color && contrast(s.color, '#000000') > 10) ? 0.6 : 0.35);
   const shadow = `0 ${3 * u}px ${12 * u}px ${withAlpha('#000000', 0.45)}`;
   const bgCol = s.background ?? (s.style === 'block' ? t.c.primary : withAlpha(t.isDark ? '#000000' : mix(t.c.text, '#000000', 0.3), t.isDark ? 0.62 : 0.9));
   const onBg = s.style === 'block' ? textOn(bgCol.startsWith('#') ? bgCol : t.c.primary) : '#FFFFFF';
@@ -92,7 +92,9 @@ const CaptionLineView = ({ line, s }: { line: CaptionLine; s: CaptionSettings })
           padding: boxed ? `${0.18 * fs}px ${padX}px` : 0,
           borderRadius: boxed ? (s.style === 'pill' ? fs : t.radius(0.6) + 8 * u) : 0,
           backgroundColor: boxed && s.style !== 'gradient' ? bgCol : boxed ? withAlpha('#000000', 0.6) : undefined,
-          ...(s.style === 'karaoke' || s.style === 'word-pop' || s.style === 'minimal' ? { WebkitTextStroke: `${Math.max(1, fs * 0.02)}px ${stroke}`, paintOrder: 'stroke fill' } : {}),
+          ...(s.style === 'karaoke' || s.style === 'word-pop' || s.style === 'minimal'
+            ? { WebkitTextStroke: `${Math.max(1, fs * (reelMode === 'C' ? 0.09 : 0.02))}px ${reelMode === 'C' ? 'rgba(0,0,0,0.85)' : stroke}`, paintOrder: 'stroke fill' }
+            : {}),
           ...anim,
         }}
       >
@@ -123,11 +125,11 @@ const CaptionLineView = ({ line, s }: { line: CaptionLine; s: CaptionSettings })
 };
 
 /** Caption layer: shows the one line whose window contains the current frame. */
-export const Captions = ({ lines, settings }: { lines: CaptionLine[]; settings: CaptionSettings }) => {
+export const Captions = ({ lines, settings, mode = 'A' }: { lines: CaptionLine[]; settings: CaptionSettings; mode?: 'A' | 'B' | 'C' }) => {
   const frame = useCurrentFrame();
   const t = useTheme();
   if (!settings.enabled || !t.captionBand) return null;
   const line = lines.find((l) => frame >= l.from && frame < l.to);
   if (!line) return null;
-  return <CaptionLineView key={line.id} line={line} s={settings} />;
+  return <CaptionLineView key={line.id} line={line} s={settings} reelMode={mode} />;
 };

@@ -4,6 +4,9 @@ import { repo } from '@/lib/repo/db';
 import { demoProject, type DemoId } from '@/lib/demos';
 import { generateProject, loadDemoTranscript, resolveMedia, compileProject, type MediaUrls } from '@/lib/studio';
 import type { CompiledReel } from '@/lib/timing/types';
+import { publicUrl } from '@/lib/audio/library';
+import { analyzeBuffer, decodeAudio } from '@/lib/audio/analyze';
+import { proposeCuts } from '@/lib/mode-c';
 
 /** Create the demo project on first open (local director — no key needed). */
 export const ensureDemo = async (id: DemoId): Promise<Project> => {
@@ -11,6 +14,16 @@ export const ensureDemo = async (id: DemoId): Promise<Project> => {
   if (existing?.plan && existing.dna && existing.transcript) return existing;
   let p = existing ?? demoProject(id);
   if (!p.transcript) p = { ...p, transcript: await loadDemoTranscript(id) };
+  if (p.mode === 'C' && p.cuts.length === 0 && p.media.publicVideo && p.transcript) {
+    // propose silence/filler cuts from the demo footage's audio, like for an upload
+    try {
+      const blob = await (await fetch(publicUrl(p.media.publicVideo))).blob();
+      const info = analyzeBuffer(await decodeAudio(blob));
+      p = { ...p, cuts: proposeCuts(p.transcript, info.voiced) };
+    } catch (e) {
+      console.warn('cut detection unavailable', e);
+    }
+  }
   await repo.saveProject(p);
   return generateProject(p, () => undefined);
 };

@@ -42,6 +42,19 @@ export const DEMOS = [
     product: { name: 'حامل الهاتف المغناطيسي', price: 1500, oldPrice: 2500, currency: 'دج', offer: 'تخفيض 40%', deliveryWilayas: 58, cod: true, phone: '0770 00 11 22' },
     images: ['demo/phone-holder.svg', 'demo/phone-holder-in-use.svg'],
   },
+  {
+    id: 'talking',
+    name: 'مونتاج فيديو متكلم (تجريبي)',
+    mode: 'C' as const,
+    business: 'personal',
+    idea: 'صانع محتوى يعطي 3 أخطاء يديرها أصحاب المحلات في الإعلانات',
+    seed: 7703,
+    visualStyle: 'editorial',
+    artDirection: 'red, light',
+    captions: { style: 'word-pop', wordsPerLine: 3, position: 0.72 },
+    endCard: { enabled: true, cta: 'تابعني', handle: '@yacine.biz', seconds: 2.5 },
+    video: 'demo/talking.webm',
+  },
 ] as const;
 
 export type DemoId = (typeof DEMOS)[number]['id'];
@@ -63,7 +76,7 @@ export const demoProject = (id: DemoId, now = Date.now()): Project => {
       endCard: EndCardSchema.parse(d.endCard),
       music: { trackId: 'auto', volume: 0.45 },
     }),
-    media: { idea: d.idea, vocabulary: '', extra: [], publicAudio: `demo/${id}.mp3` },
+    media: { idea: d.idea, vocabulary: '', extra: [], ...('video' in d ? { publicVideo: d.video } : { publicAudio: `demo/${id}.mp3` }) },
     product: 'product' in d ? { ...d.product, script: '', reviews: [] } : undefined,
     stage: 'transcript',
   });

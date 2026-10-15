@@ -1,0 +1,315 @@
+{
+"language": "mixed",
+"source": "demo",
+"durationMs": 35920,
+"words": [
+{
+"id": "w0",
+"text": "السلام",
+"startMs": 250,
+"endMs": 1078,
+"confidence": 1
+},
+{
+"id": "w1",
+"text": "عليكم،",
+"startMs": 1078,
+"endMs": 1996,
+"confidence": 1
+},
+{
+"id": "w2",
+"text": "أنا",
+"startMs": 2165,
+"endMs": 2401,
+"confidence": 1
+},
+{
+"id": "w3",
+"text": "ياسين.",
+"startMs": 2401,
+"endMs": 4069,
+"confidence": 1
+},
+{
+"id": "w4",
+"text": "euh",
+"startMs": 4069,
+"endMs": 4326,
+"confidence": 1
+},
+{
+"id": "w5",
+"text": "اليوم",
+"startMs": 4326,
+"endMs": 4861,
+"confidence": 1
+},
+{
+"id": "w6",
+"text": "نعطيكم",
+"startMs": 4861,
+"endMs": 5705,
+"confidence": 1
+},
+{
+"id": "w7",
+"text": "3",
+"startMs": 5705,
+"endMs": 6395,
+"confidence": 1
+},
+{
+"id": "w8",
+"text": "أخطاء",
+"startMs": 6395,
+"endMs": 6995,
+"confidence": 1
+},
+{
+"id": "w9",
+"text": "يديروها",
+"startMs": 6995,
+"endMs": 7816,
+"confidence": 1
+},
+{
+"id": "w10",
+"text": "أصحاب",
+"startMs": 7816,
+"endMs": 8614,
+"confidence": 1
+},
+{
+"id": "w11",
+"text": "المحلات",
+"startMs": 8628,
+"endMs": 9494,
+"confidence": 1
+},
+{
+"id": "w12",
+"text": "في",
+"startMs": 9494,
+"endMs": 9886,
+"confidence": 1
+},
+{
+"id": "w13",
+"text": "الإعلانات.",
+"startMs": 9886,
+"endMs": 10924,
+"confidence": 1
+},
+{
+"id": "w14",
+"text": "الخطأ",
+"startMs": 11865,
+"endMs": 12484,
+"confidence": 1
+},
+{
+"id": "w15",
+"text": "الأول:",
+"startMs": 12521,
+"endMs": 13269,
+"confidence": 1
+},
+{
+"id": "w16",
+"text": "فيديو",
+"startMs": 13593,
+"endMs": 14242,
+"confidence": 1
+},
+{
+"id": "w17",
+"text": "طويل",
+"startMs": 14242,
+"endMs": 14806,
+"confidence": 1
+},
+{
+"id": "w18",
+"text": "بزاف.",
+"startMs": 14806,
+"endMs": 15105,
+"confidence": 1
+},
+{
+"id": "w19",
+"text": "الناس",
+"startMs": 15578,
+"endMs": 16232,
+"confidence": 1
+},
+{
+"id": "w20",
+"text": "تشوف",
+"startMs": 16232,
+"endMs": 16811,
+"confidence": 1
+},
+{
+"id": "w21",
+"text": "3",
+"startMs": 16873,
+"endMs": 17559,
+"confidence": 1
+},
+{
+"id": "w22",
+"text": "ثواني",
+"startMs": 17559,
+"endMs": 18279,
+"confidence": 1
+},
+{
+"id": "w23",
+"text": "برك.",
+"startMs": 18279,
+"endMs": 18728,
+"confidence": 1
+},
+{
+"id": "w24",
+"text": "الخطأ",
+"startMs": 19744,
+"endMs": 20363,
+"confidence": 1
+},
+{
+"id": "w25",
+"text": "الثاني:",
+"startMs": 20400,
+"endMs": 21661,
+"confidence": 1
+},
+{
+"id": "w26",
+"text": "ما",
+"startMs": 21661,
+"endMs": 22005,
+"confidence": 1
+},
+{
+"id": "w27",
+"text": "كاينش",
+"startMs": 22005,
+"endMs": 22503,
+"confidence": 1
+},
+{
+"id": "w28",
+"text": "السعر.",
+"startMs": 22503,
+"endMs": 23152,
+"confidence": 1
+},
+{
+"id": "w29",
+"text": "الخطأ",
+"startMs": 24104,
+"endMs": 24723,
+"confidence": 1
+},
+{
+"id": "w30",
+"text": "الثالث:",
+"startMs": 24760,
+"endMs": 25943,
+"confidence": 1
+},
+{
+"id": "w31",
+"text": "ممم",
+"startMs": 25943,
+"endMs": 26190,
+"confidence": 1
+},
+{
+"id": "w32",
+"text": "ما",
+"startMs": 26190,
+"endMs": 26515,
+"confidence": 1
+},
+{
+"id": "w33",
+"text": "تقولش",
+"startMs": 26515,
+"endMs": 26947,
+"confidence": 1
+},
+{
+"id": "w34",
+"text": "للناس",
+"startMs": 26947,
+"endMs": 27313,
+"confidence": 1
+},
+{
+"id": "w35",
+"text": "واش",
+"startMs": 27313,
+"endMs": 27594,
+"confidence": 1
+},
+{
+"id": "w36",
+"text": "يديرو.",
+"startMs": 27594,
+"endMs": 28452,
+"confidence": 1
+},
+{
+"id": "w37",
+"text": "قول",
+"startMs": 28814,
+"endMs": 29188,
+"confidence": 1
+},
+{
+"id": "w38",
+"text": "لهم:",
+"startMs": 29188,
+"endMs": 30007,
+"confidence": 1
+},
+{
+"id": "w39",
+"text": "ابعثلنا",
+"startMs": 30007,
+"endMs": 30740,
+"confidence": 1
+},
+{
+"id": "w40",
+"text": "رسالة.",
+"startMs": 30740,
+"endMs": 31349,
+"confidence": 1
+},
+{
+"id": "w41",
+"text": "جربوها",
+"startMs": 32272,
+"endMs": 32995,
+"confidence": 1
+},
+{
+"id": "w42",
+"text": "وقولولي",
+"startMs": 32995,
+"endMs": 33585,
+"confidence": 1
+},
+{
+"id": "w43",
+"text": "النتيجة.",
+"startMs": 33585,
+"endMs": 34463,
+"confidence": 1
+}
+]
+}

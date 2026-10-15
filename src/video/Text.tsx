@@ -53,6 +53,8 @@ export type FitTextProps = {
   maxSize: number;
   minSize?: number;
   maxLines?: number;
+  /** also fit vertically (lines × size × line-height ≤ maxHeight) */
+  maxHeight?: number;
   color?: string;
   weight?: number;
   align?: 'start' | 'center' | 'end';
@@ -66,20 +68,19 @@ export type FitTextProps = {
  * Text that is measured with the real font and wrapped into explicit lines, shrinking until it
  * fits `maxLines` × `maxWidth` (so it can never overflow). Arabic line-height ≥ 1.35.
  */
-export const FitText = ({ text, role = 'display', maxWidth, maxSize, minSize, maxLines = 3, color, weight, align = 'center', lineHeight, style, renderWord }: FitTextProps) => {
+export const FitText = ({ text, role = 'display', maxWidth, maxSize, minSize, maxLines = 3, maxHeight, color, weight, align = 'center', lineHeight, style, renderWord }: FitTextProps) => {
   const t = useTheme();
   const font = useFontFor(role);
   const fw = weight ?? font.weight;
   const shown = toDigits(text, t.digits);
-  const res = layoutText(shown, {
-    maxWidth,
-    maxSize,
-    minSize: minSize ?? Math.max(36 * t.u, maxSize * 0.4),
-    maxLines,
-    measure: (s, size) => measureWidth(s, font.family, fw, size),
-  });
   const dir = detectDir(shown);
   const lh = lineHeight ?? (dir === 'rtl' ? 1.38 : 1.15);
+  const minS = minSize ?? Math.max(36 * t.u, maxSize * 0.4);
+  const run = (cap: number) => layoutText(shown, { maxWidth, maxSize: cap, minSize: Math.min(minS, cap), maxLines, measure: (s, size) => measureWidth(s, font.family, fw, size) });
+  let res = run(maxSize);
+  if (maxHeight) {
+    for (let k = 0; k < 12 && res.lines.length * res.fontSize * lh > maxHeight && res.fontSize > minS * 0.8; k++) res = run(Math.floor(res.fontSize * 0.9));
+  }
   const base: number[] = [];
   res.lines.reduce((n, ln) => (base.push(n), n + ln.length), 0);
   return (

@@ -43,7 +43,21 @@ export const compileReel = (input: CompileInput): CompiledReel => {
   const f = (ms: number) => msToFrame(ms, fps);
 
   // ---- scenes: keep only scenes whose anchors survive cuts, in transcript order
+  // mode C: words removed by cuts (fillers) snap scene boundaries to the nearest surviving word
+  const orig = input.transcript.words;
+  const oIdx = new Map(orig.map((w, i) => [w.id, i]));
+  const snap = (id: string, dir: 1 | -1, limit: string): string | null => {
+    let i = oIdx.get(id);
+    const lim = oIdx.get(limit);
+    if (i === undefined || lim === undefined) return null;
+    while (i >= 0 && i < orig.length && (dir === 1 ? i <= lim : i >= lim)) {
+      if (idx.has(orig[i]!.id)) return orig[i]!.id;
+      i += dir;
+    }
+    return null;
+  };
   const scenes = plan.scenes
+    .map((s) => ({ ...s, from: snap(s.from, 1, s.to) ?? '', to: snap(s.to, -1, s.from) ?? '' }))
     .filter((s) => idx.has(s.from) && idx.has(s.to))
     .sort((a, b) => idx.get(a.from)! - idx.get(b.from)!);
   const speechEndFrame = f(transcript.durationMs);

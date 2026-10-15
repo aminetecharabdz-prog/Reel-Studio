@@ -2,7 +2,7 @@
  * The ONLY module that calls the Remotion web renderer (SPEC §2.1 licensing/telemetry: one place
  * to count renders). Exports MP4 (H.264/AAC) in the browser, stills (thumbnail / QA) and SRT.
  */
-import { renderMediaOnWeb, renderStillOnWeb, canRenderMediaOnWeb } from '@remotion/web-renderer';
+import { renderMediaOnWeb, renderStillOnWeb, canRenderMediaOnWeb, getEncodableVideoCodecs } from '@remotion/web-renderer';
 import type { CompiledReel } from '../timing/types';
 import { Reel, prepareReel } from '@/video/Reel';
 import { repo } from '../repo/db';
@@ -52,6 +52,20 @@ export const checkExportSupport = async (reel: CompiledReel, quality: ExportQual
   }
 };
 
+/** Best available format: H.264 MP4 (Chrome on phones), else VP9/VP8 WebM (e.g. Chromium without H.264). */
+export const pickFormat = async (): Promise<{ container: 'mp4' | 'webm'; videoCodec: 'h264' | 'vp9' | 'vp8'; ext: string }> => {
+  try {
+    const mp4 = await getEncodableVideoCodecs('mp4');
+    if (mp4.includes('h264')) return { container: 'mp4', videoCodec: 'h264', ext: 'mp4' };
+    const webm = await getEncodableVideoCodecs('webm');
+    if (webm.includes('vp9')) return { container: 'webm', videoCodec: 'vp9', ext: 'webm' };
+    if (webm.includes('vp8')) return { container: 'webm', videoCodec: 'vp8', ext: 'webm' };
+  } catch {
+    /* fall through */
+  }
+  return { container: 'mp4', videoCodec: 'h264', ext: 'mp4' };
+};
+
 export const exportMp4 = async (reel: CompiledReel, quality: ExportQuality, onProgress: (p: number, etaMs: number | null) => void, signal?: AbortSignal): Promise<Blob> => {
   await prepareReel(reel);
   await keepAwake();
@@ -60,8 +74,7 @@ export const exportMp4 = async (reel: CompiledReel, quality: ExportQuality, onPr
     const { getBlob } = await renderMediaOnWeb({
       composition: composition(reel),
       inputProps: { reel },
-      container: 'mp4',
-      videoCodec: 'h264',
+      ...(await (async () => { const f = await pickFormat(); return { container: f.container, videoCodec: f.videoCodec }; })()),
       scale,
       videoBitrate: quality === 'fast' ? 'medium' : 'high',
       signal,

@@ -23,6 +23,7 @@ import { openaiWhisper } from './providers/openai';
 import { browserWhisper } from './providers/whisperBrowser';
 import { hexToRgb, rgbToHsl } from './color/contrast';
 import { uid } from './util/rng';
+import { applyCuts } from './timing/cuts';
 
 const urlCache = new Map<string, string>();
 export const assetUrl = async (id: string | undefined): Promise<string | null> => {
@@ -122,11 +123,13 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
   const imageRefs = projectImageRefs(p);
   let dna: DesignDNA;
   let plan: Plan;
+  // mode C: plan on what remains after the cuts (fillers never become on-screen text); word ids are unchanged
+  const planTranscript = p.mode === 'C' ? applyCuts(p.transcript, p.cuts).transcript : p.transcript;
   onStage('design');
   if (keys.anthropic) {
     onStage('plan', 'Claude');
     const res = await claudeDirector(keys.anthropic, p.brand, imageRefs).direct({
-      transcript: p.transcript,
+      transcript: planTranscript,
       mode: p.mode,
       topicHint: topic,
       idea: p.media.idea,
@@ -153,7 +156,16 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
       avoid: recent.length && !p.demo ? { moods: recent.map((r) => r.mood), easings: recent.slice(0, 2).map((r) => r.easing), hues: recent.map((r) => r.hue) } : undefined,
     });
     onStage('plan');
-    plan = planLocally({ transcript: p.transcript, dna, mode: p.mode, pacing: p.style.pacing, seed, product: p.product, images: imageRefs, recentSequences: p.demo ? [] : recent.map((r) => r.sequence) });
+    plan = planLocally({ transcript: planTranscript, dna, mode: p.mode, pacing: p.style.pacing, seed, product: p.product, images: imageRefs, recentSequences: p.demo ? [] : recent.map((r) => r.sequence) });
+  }
+  // keep scenes the user locked: they replace whatever the new plan put over the same words
+  const locked = (p.plan?.scenes ?? []).filter((s) => s.locked);
+  if (locked.length) {
+    const order = new Map(p.transcript.words.map((w, i) => [w.id, i]));
+    const range = (s: { from: string; to: string }) => [order.get(s.from) ?? -1, order.get(s.to) ?? -1] as const;
+    let scenes = plan.scenes.filter((s) => !locked.some((l) => { const [a, b] = range(l); const [c, d] = range(s); return c <= b && d >= a; }));
+    scenes = [...scenes, ...locked].sort((x, y) => range(x)[0] - range(y)[0]).map((s, i) => ({ ...s, id: s.locked ? s.id : `s${i}` }));
+    plan = { ...plan, scenes };
   }
   // assets: generate images the plan asked for (cached by prompt hash)
   onStage('assets');
@@ -172,13 +184,13 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
   }
   // QA: deterministic checks + auto-fix (max 2 passes)
   onStage('qa');
-  let issues = checkPlan(plan, p.transcript, p.mode);
+  let issues = checkPlan(plan, planTranscript, p.mode);
   const fixedAll = [] as Project['qa'];
   for (let pass = 0; pass < 2 && issues.some((i) => i.severity === 'error' || i.check === 'anchors' || i.check === 'repetition'); pass++) {
-    const r = autoFixPlan(plan, p.transcript, issues);
+    const r = autoFixPlan(plan, planTranscript, issues);
     plan = r.plan;
     fixedAll.push(...r.fixed);
-    issues = checkPlan(plan, p.transcript, p.mode);
+    issues = checkPlan(plan, planTranscript, p.mode);
   }
   const next: Project = { ...p, dna, plan, stage: 'ready' };
   const media = await resolveMedia(next);

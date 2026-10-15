@@ -5,7 +5,8 @@ import { useProject, useReel } from '../useProject';
 import { ReelPlayer } from '../components/ReelPlayer';
 import { Button, Panel, ProgressBar, Pulse, cx, Toggle } from '../components/ui';
 import { generateProject, type Stage } from '@/lib/studio';
-import { exportMp4, renderStill, toSrt, download, type ExportQuality } from '@/lib/render/export';
+import type { ExportQuality } from '@/lib/render/export';
+const R = () => import('@/lib/render/export');
 import { ScenesTab } from './project/ScenesTab';
 import { StyleTab } from './project/StyleTab';
 import { TextTab } from './project/TextTab';
@@ -55,12 +56,12 @@ const ExportPanel = ({ project, reel }: { project: Project; reel: NonNullable<Re
     setProgress(0);
     abort.current = new AbortController();
     try {
-      const blob = await exportMp4(reel, q, (p, e) => {
+      const blob = await (await R()).exportMp4(reel, q, (p, e) => {
         setProgress(p);
         setEta(e);
       }, abort.current.signal);
       setDone(blob);
-      download(blob, `${project.name.replace(/\s+/g, '-')}-${q}.mp4`);
+      (await R()).download(blob, `${project.name.replace(/\s+/g, '-')}-${q}.${blob.type.includes('webm') ? 'webm' : 'mp4'}`);
     } catch (e) {
       if (!abort.current.signal.aborted) setError(String(e instanceof Error ? e.message : e));
     } finally {
@@ -86,13 +87,13 @@ const ExportPanel = ({ project, reel }: { project: Project; reel: NonNullable<Re
       {done && (
         <div className="flex items-center justify-between rounded-xl bg-mint/10 p-3 text-mint" data-testid="export-done">
           <span className="font-bold">تم التصدير ✓ ({(done.size / 1e6).toFixed(1)} MB)</span>
-          <Button size="sm" variant="ghost" onClick={() => download(done, `${project.name}.mp4`)}>نزّل مرة أخرى</Button>
+          <Button size="sm" variant="ghost" onClick={async () => (await R()).download(done, `${project.name}.${done.type.includes('webm') ? 'webm' : 'mp4'}`)}>نزّل مرة أخرى</Button>
         </div>
       )}
       {error && <p className="rounded-xl bg-rose/10 p-3 text-[14px] text-rose">تعذّر التصدير: {error}. جرّب «سريع 720p» أو استعمل Chrome محدّث.</p>}
       <div className="flex flex-wrap gap-2">
-        <Button size="sm" variant="ghost" onClick={() => download(new Blob([toSrt(reel)], { type: 'text/plain' }), `${project.name}.srt`)}>{t.downloadSrt}</Button>
-        <Button size="sm" variant="ghost" onClick={async () => download(await renderStill(reel, reel.scenes[0] ? Math.min(reel.durationInFrames - 1, reel.scenes[0].from + 24) : 0, 1), `${project.name}.png`)}>{t.downloadThumb}</Button>
+        <Button size="sm" variant="ghost" onClick={async () => { const r = await R(); r.download(new Blob([r.toSrt(reel)], { type: 'text/plain' }), `${project.name}.srt`); }}>{t.downloadSrt}</Button>
+        <Button size="sm" variant="ghost" onClick={async () => { const r = await R(); const f = reel.scenes[0] ? Math.min(reel.durationInFrames - 1, reel.scenes[0].from + 24) : 0; r.download(await r.renderStill(reel, f, 1), `${project.name}.png`); }}>{t.downloadThumb}</Button>
       </div>
     </Panel>
   );

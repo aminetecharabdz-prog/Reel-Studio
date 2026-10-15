@@ -88,7 +88,8 @@ def energy_end(samples, start_ms, limit_ms, sr):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    for demo in DEMOS:
+    only = sys.argv[1:]
+    for demo in [d for d in DEMOS if not only or d['id'] in only]:
         tokens, spans, samples, events = synth(demo)
         lead_ms = 250
         starts = [None] * len(tokens)
