@@ -1,23 +1,13 @@
-// Visual QA contact sheets: node scripts/contact-sheet.mjs [demo] [at-seconds] [aspect]
+// node scripts/contact-sheet.mjs <demo> [out.png] [per] — needs `vite preview` on :4173
 import { chromium } from '@playwright/test';
-const demos = process.argv[2] ? [process.argv[2]] : ['dentist', 'engine', 'phone-holder'];
-const at = process.argv[3] ?? '1.0';
-const aspect = process.argv[4] ? `&aspect=${process.argv[4]}` : '';
-const base = process.env.BASE ?? 'http://localhost:4173/';
-const browser = await chromium.launch({ executablePath: process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
-for (const d of demos) {
-  const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
-  const errs = [];
-  page.on('pageerror', (e) => errs.push(e.message));
-  page.on('console', (m) => m.type() === 'error' && errs.push(m.text().slice(0, 200)));
-  await page.goto(`${base}#/qa?demo=${d}&at=${at}${aspect}`);
-  await page.waitForSelector('[data-testid=qa-sheet]', { timeout: 60000 });
-  await page.waitForTimeout(4000);
-  const metrics = await page.evaluate(() => globalThis.__qaMetrics ?? null);
-  if (metrics) console.log(`metrics ${d}@${at}`, JSON.stringify(metrics));
-  const out = `.qa/sheet-${d}-${at}${process.argv[4] ? '-' + process.argv[4].replace(':', 'x') : ''}.png`;
-  await page.screenshot({ path: out, fullPage: true });
-  console.log(out, errs.length ? `errors: ${errs.slice(0, 5).join(' | ')}` : 'ok');
-  await page.close();
-}
-await browser.close();
+const [demo = 'content', out = `.qa/${demo}.png`, per = '3', extra = ''] = process.argv.slice(2);
+const b = await chromium.launch({ executablePath: process.env.PW_CHROMIUM || undefined });
+const p = await b.newPage({ viewport: { width: 1200, height: 900 } });
+p.on('console', (m) => m.type() === 'error' && console.log('console:', m.text()));
+p.on('pageerror', (e) => console.log('pageerror:', e.message));
+await p.goto(`http://localhost:4173/#/qa?demo=${demo}&per=${per}${extra}`);
+await p.waitForSelector('[data-qa-ready="1"]', { timeout: 60000 });
+await p.waitForTimeout(2500);
+await p.locator('[data-qa-ready]').screenshot({ path: out });
+await b.close();
+console.log('wrote', out);

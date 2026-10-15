@@ -19,7 +19,7 @@ export default tseslint.config(
   },
   {
     // Remotion compositions must be deterministic (CLAUDE.md video rules).
-    files: ['src/video/**/*.{ts,tsx}'],
+    files: ['src/engine/render/**/*.{ts,tsx}'],
     rules: {
       'no-restricted-properties': ['error',
         { object: 'Math', property: 'random', message: 'Use random(seed) from remotion.' },

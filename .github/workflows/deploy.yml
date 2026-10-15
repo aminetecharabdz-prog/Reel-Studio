@@ -4,7 +4,7 @@ name: Build & deploy to GitHub Pages
 # the build is published to the `gh-pages` branch, which GitHub Pages serves.
 on:
   push:
-    branches: ['**']
+    branches: ['**', '!asset-staging', '!gh-pages', '!qa-sheets']
     paths-ignore: ['docs/**', '**.md']
   workflow_dispatch:
 
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build-deploy:
-    if: github.ref != 'refs/heads/gh-pages'
+    if: github.ref != 'refs/heads/gh-pages' && !contains(github.event.head_commit.message, '[no-deploy]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

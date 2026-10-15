@@ -1,0 +1,1020 @@
+{
+ "id": "content",
+ "title": "محتوى بلا جمهور = ضجيج",
+ "blurb": "تسويق بالمحتوى، بالدارجة",
+ "mode": "content",
+ "music": "upbeat-pop",
+ "transcript": {
+  "words": [
+   {
+    "id": "w0",
+    "text": "عندك",
+    "startMs": 254,
+    "endMs": 597,
+    "confidence": 1
+   },
+   {
+    "id": "w1",
+    "text": "فكرة",
+    "startMs": 635,
+    "endMs": 978,
+    "confidence": 1
+   },
+   {
+    "id": "w2",
+    "text": "قوية",
+    "startMs": 1016,
+    "endMs": 1358,
+    "confidence": 1
+   },
+   {
+    "id": "w3",
+    "text": "ومنتوج",
+    "startMs": 1780,
+    "endMs": 2199,
+    "confidence": 1
+   },
+   {
+    "id": "w4",
+    "text": "مليح",
+    "startMs": 2245,
+    "endMs": 2588,
+    "confidence": 1
+   },
+   {
+    "id": "w5",
+    "text": "بزاف",
+    "startMs": 2626,
+    "endMs": 2969,
+    "confidence": 1
+   },
+   {
+    "id": "w6",
+    "text": "بصح…",
+    "startMs": 3305,
+    "endMs": 3648,
+    "confidence": 1
+   },
+   {
+    "id": "w7",
+    "text": "الناس",
+    "startMs": 3686,
+    "endMs": 4067,
+    "confidence": 1
+   },
+   {
+    "id": "w8",
+    "text": "ما",
+    "startMs": 4109,
+    "endMs": 4375,
+    "confidence": 1
+   },
+   {
+    "id": "w9",
+    "text": "يشوفوكش",
+    "startMs": 4405,
+    "endMs": 4862,
+    "confidence": 1
+   },
+   {
+    "id": "w10",
+    "text": "المحتوى",
+    "startMs": 5339,
+    "endMs": 5796,
+    "confidence": 1
+   },
+   {
+    "id": "w11",
+    "text": "بلا",
+    "startMs": 5847,
+    "endMs": 6151,
+    "confidence": 1
+   },
+   {
+    "id": "w12",
+    "text": "جمهور",
+    "startMs": 6185,
+    "endMs": 6566,
+    "confidence": 1
+   },
+   {
+    "id": "w13",
+    "text": "غير",
+    "startMs": 6864,
+    "endMs": 7169,
+    "confidence": 1
+   },
+   {
+    "id": "w14",
+    "text": "ضجيج",
+    "startMs": 7203,
+    "endMs": 7546,
+    "confidence": 1
+   },
+   {
+    "id": "w15",
+    "text": "الجمهور",
+    "startMs": 8136,
+    "endMs": 8593,
+    "confidence": 1
+   },
+   {
+    "id": "w16",
+    "text": "هو",
+    "startMs": 8643,
+    "endMs": 8910,
+    "confidence": 1
+   },
+   {
+    "id": "w17",
+    "text": "الرأس",
+    "startMs": 8939,
+    "endMs": 9320,
+    "confidence": 1
+   },
+   {
+    "id": "w18",
+    "text": "مال",
+    "startMs": 9363,
+    "endMs": 9667,
+    "confidence": 1
+   },
+   {
+    "id": "w19",
+    "text": "الحقيقي",
+    "startMs": 9701,
+    "endMs": 10158,
+    "confidence": 1
+   },
+   {
+    "id": "w20",
+    "text": "إنستغرام",
+    "startMs": 10678,
+    "endMs": 11173,
+    "confidence": 1
+   },
+   {
+    "id": "w21",
+    "text": "ما",
+    "startMs": 11228,
+    "endMs": 11495,
+    "confidence": 1
+   },
+   {
+    "id": "w22",
+    "text": "يكافيش",
+    "startMs": 11524,
+    "endMs": 11943,
+    "confidence": 1
+   },
+   {
+    "id": "w23",
+    "text": "التعب",
+    "startMs": 11990,
+    "endMs": 12370,
+    "confidence": 1
+   },
+   {
+    "id": "w24",
+    "text": "يكافي",
+    "startMs": 12712,
+    "endMs": 13093,
+    "confidence": 1
+   },
+   {
+    "id": "w25",
+    "text": "الاستراتيجية",
+    "startMs": 13135,
+    "endMs": 13782,
+    "confidence": 1
+   },
+   {
+    "id": "w26",
+    "text": "كل",
+    "startMs": 14492,
+    "endMs": 14758,
+    "confidence": 1
+   },
+   {
+    "id": "w27",
+    "text": "فيديو",
+    "startMs": 14788,
+    "endMs": 15168,
+    "confidence": 1
+   },
+   {
+    "id": "w28",
+    "text": "لازم",
+    "startMs": 15211,
+    "endMs": 15553,
+    "confidence": 1
+   },
+   {
+    "id": "w29",
+    "text": "يوقف",
+    "startMs": 15592,
+    "endMs": 15934,
+    "confidence": 1
+   },
+   {
+    "id": "w30",
+    "text": "السكرول",
+    "startMs": 15972,
+    "endMs": 16429,
+    "confidence": 1
+   },
+   {
+    "id": "w31",
+    "text": "في",
+    "startMs": 16480,
+    "endMs": 16747,
+    "confidence": 1
+   },
+   {
+    "id": "w32",
+    "text": "3",
+    "startMs": 16776,
+    "endMs": 17005,
+    "confidence": 1
+   },
+   {
+    "id": "w33",
+    "text": "ثواني",
+    "startMs": 17030,
+    "endMs": 17411,
+    "confidence": 1
+   },
+   {
+    "id": "w34",
+    "text": "ابدا",
+    "startMs": 18051,
+    "endMs": 18394,
+    "confidence": 1
+   },
+   {
+    "id": "w35",
+    "text": "اليوم",
+    "startMs": 18432,
+    "endMs": 18812,
+    "confidence": 1
+   },
+   {
+    "id": "w36",
+    "text": "مع",
+    "startMs": 18855,
+    "endMs": 19121,
+    "confidence": 1
+   },
+   {
+    "id": "w37",
+    "text": "موتيك",
+    "startMs": 19151,
+    "endMs": 19532,
+    "confidence": 1
+   }
+  ],
+  "durationMs": 20974,
+  "language": "ar",
+  "source": "demo"
+ },
+ "plan": {
+  "v": 1,
+  "style": {
+   "name": "Ink & red",
+   "palette": {
+    "ink": "#151515",
+    "paper": "#F5F2EC",
+    "accent": "#E8141C",
+    "accent2": "#FFB400",
+    "muted": "#9A968F",
+    "dark": "#050506"
+   },
+   "fonts": {
+    "display": {
+     "ar": "alexandria",
+     "lat": "inter",
+     "weight": 800,
+     "italic": false
+    },
+    "serif": {
+     "ar": "amiri",
+     "lat": "playfair",
+     "weight": 700,
+     "italic": true
+    },
+    "body": {
+     "ar": "readex",
+     "lat": "inter",
+     "weight": 500,
+     "italic": false
+    },
+    "impact": {
+     "ar": "alexandria",
+     "lat": "inter",
+     "weight": 900,
+     "italic": false
+    }
+   },
+   "grain": 0.18,
+   "motion": "snappy",
+   "music": "upbeat-pop",
+   "sfx": "punchy",
+   "captions": "none"
+  },
+  "scenes": [
+   {
+    "id": "s0",
+    "from": "w0",
+    "to": "w2",
+    "intent": "bulb bleeds in from the edge; small lead-in, huge red key word",
+    "bg": {
+     "kind": "paper",
+     "tone": "light",
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.4
+    },
+    "transition": "cut",
+    "layers": [
+     {
+      "id": "bulb",
+      "type": "image",
+      "src": {
+       "kind": "sticker",
+       "name": "light-bulb"
+      },
+      "x": 0.08,
+      "y": 0.42,
+      "w": 0.95,
+      "rotate": -18,
+      "anim": "slide-right",
+      "idle": "sway",
+      "at": "w0",
+      "depth": 0.8
+     },
+     {
+      "id": "t1",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "عندك",
+         "at": "w0"
+        },
+        {
+         "t": "فكرة",
+         "at": "w1"
+        }
+       ],
+       [
+        {
+         "t": "قوية",
+         "at": "w2",
+         "em": "accent"
+        }
+       ]
+      ],
+      "x": 0.66,
+      "y": 0.36,
+      "w": 0.56,
+      "size": "xxl",
+      "anim": "rise",
+      "align": "end"
+     }
+    ]
+   },
+   {
+    "id": "s1",
+    "from": "w3",
+    "to": "w5",
+    "intent": "grey band sweeps, product drops; serif contrast on مليح",
+    "bg": {
+     "kind": "paper",
+     "tone": "light",
+     "vignette": true
+    },
+    "camera": {
+     "move": "drift",
+     "amount": 0.5
+    },
+    "transition": "whip",
+    "layers": [
+     {
+      "id": "arc",
+      "type": "shape",
+      "kind": "arc",
+      "x": 0.62,
+      "y": 0.5,
+      "w": 1.1,
+      "h": 1.1,
+      "color": "muted",
+      "stroke": 14,
+      "anim": "draw",
+      "at": "w3"
+     },
+     {
+      "id": "box",
+      "type": "image",
+      "src": {
+       "kind": "sticker",
+       "name": "package"
+      },
+      "x": 0.5,
+      "y": 0.6,
+      "w": 0.62,
+      "anim": "drop",
+      "idle": "float",
+      "at": "w4"
+     },
+     {
+      "id": "t2",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "ومنتوج",
+         "at": "w3"
+        }
+       ],
+       [
+        {
+         "t": "مليح",
+         "at": "w4",
+         "em": "serif"
+        },
+        {
+         "t": "بزاف",
+         "at": "w5"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.27,
+      "w": 0.86,
+      "size": "xxl",
+      "anim": "mask"
+     }
+    ]
+   },
+   {
+    "id": "s2",
+    "from": "w6",
+    "to": "w9",
+    "intent": "hard cut to black: nobody sees you, red glow",
+    "bg": {
+     "kind": "spotlight",
+     "tone": "dark",
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.6
+    },
+    "transition": "flash",
+    "layers": [
+     {
+      "id": "t3a",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "بصح…",
+         "at": "w6",
+         "em": "ghost"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.3,
+      "w": 0.8,
+      "size": "mega",
+      "anim": "blur",
+      "exitAt": "w7"
+     },
+     {
+      "id": "eye",
+      "type": "image",
+      "src": {
+       "kind": "sticker",
+       "name": "thinking-face"
+      },
+      "x": 0.5,
+      "y": 0.62,
+      "w": 0.5,
+      "anim": "zoom",
+      "idle": "sway",
+      "at": "w7"
+     },
+     {
+      "id": "t3",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "الناس",
+         "at": "w7"
+        },
+        {
+         "t": "ما",
+         "at": "w8"
+        }
+       ],
+       [
+        {
+         "t": "يشوفوكش",
+         "at": "w9",
+         "em": "accent"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.3,
+      "w": 0.86,
+      "size": "xxl",
+      "anim": "rise",
+      "at": "w7"
+     }
+    ]
+   },
+   {
+    "id": "s3",
+    "from": "w10",
+    "to": "w12",
+    "intent": "pure black, type only: small lead-in, huge glowing red جمهور",
+    "bg": {
+     "kind": "noise-dark",
+     "tone": "dark",
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.5
+    },
+    "transition": "cut",
+    "layers": [
+     {
+      "id": "t4",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "المحتوى",
+         "at": "w10"
+        },
+        {
+         "t": "بلا",
+         "at": "w11"
+        }
+       ],
+       [
+        {
+         "t": "جمهور",
+         "at": "w12",
+         "em": "big"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.46,
+      "w": 0.86,
+      "size": "xxl",
+      "anim": "blur"
+     }
+    ]
+   },
+   {
+    "id": "s4",
+    "from": "w13",
+    "to": "w14",
+    "intent": "just noise: loudspeakers cropped at the corners",
+    "bg": {
+     "kind": "paper",
+     "tone": "light",
+     "vignette": true
+    },
+    "camera": {
+     "move": "shake",
+     "amount": 0.5
+    },
+    "transition": "glitch",
+    "layers": [
+     {
+      "id": "mega",
+      "type": "image",
+      "src": {
+       "kind": "sticker",
+       "name": "loudspeaker"
+      },
+      "x": 0.5,
+      "y": 0.6,
+      "w": 0.66,
+      "anim": "spin",
+      "idle": "pulse",
+      "at": "w14",
+      "rotate": -12
+     },
+     {
+      "id": "t5",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "غير",
+         "at": "w13"
+        }
+       ],
+       [
+        {
+         "t": "ضجيج",
+         "at": "w14",
+         "em": "accent"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.27,
+      "w": 0.86,
+      "size": "xxl",
+      "anim": "stamp",
+      "at": "w13"
+     },
+     {
+      "id": "mega2",
+      "type": "image",
+      "src": {
+       "kind": "sticker",
+       "name": "loudspeaker"
+      },
+      "x": 0.95,
+      "y": 0.92,
+      "w": 0.4,
+      "anim": "slide-left",
+      "idle": "float",
+      "at": "w14",
+      "rotate": 20,
+      "depth": 0.9
+     },
+     {
+      "id": "mega3",
+      "type": "image",
+      "src": {
+       "kind": "sticker",
+       "name": "loudspeaker"
+      },
+      "x": 0.02,
+      "y": 0.06,
+      "w": 0.34,
+      "anim": "slide-right",
+      "idle": "float",
+      "at": "w14",
+      "rotate": 160,
+      "depth": 0.9
+     }
+    ]
+   },
+   {
+    "id": "s5",
+    "from": "w15",
+    "to": "w19",
+    "intent": "audience = real capital: money bag drops on الرأس مال",
+    "bg": {
+     "kind": "spotlight",
+     "tone": "dark",
+     "vignette": true
+    },
+    "camera": {
+     "move": "rise",
+     "amount": 0.5
+    },
+    "transition": "zoom",
+    "layers": [
+     {
+      "id": "bag",
+      "type": "image",
+      "src": {
+       "kind": "sticker",
+       "name": "money-bag"
+      },
+      "x": 0.5,
+      "y": 0.62,
+      "w": 0.62,
+      "anim": "drop",
+      "idle": "float",
+      "at": "w17",
+      "glow": "accent2"
+     },
+     {
+      "id": "t6",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "الجمهور",
+         "at": "w15"
+        },
+        {
+         "t": "هو",
+         "at": "w16"
+        }
+       ],
+       [
+        {
+         "t": "الرأس",
+         "at": "w17"
+        },
+        {
+         "t": "مال",
+         "at": "w18",
+         "em": "accent"
+        }
+       ],
+       [
+        {
+         "t": "الحقيقي",
+         "at": "w19"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.28,
+      "w": 0.88,
+      "size": "xxl",
+      "anim": "rise",
+      "hier": true
+     }
+    ]
+   },
+   {
+    "id": "s6",
+    "from": "w20",
+    "to": "w23",
+    "intent": "type only on paper: effort struck out",
+    "bg": {
+     "kind": "paper",
+     "tone": "light",
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.4
+    },
+    "transition": "slide-up",
+    "layers": [
+     {
+      "id": "t7",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "إنستغرام",
+         "at": "w20",
+         "em": "serif"
+        }
+       ],
+       [
+        {
+         "t": "ما",
+         "at": "w21"
+        },
+        {
+         "t": "يكافيش",
+         "at": "w22"
+        }
+       ],
+       [
+        {
+         "t": "التعب",
+         "at": "w23",
+         "em": "strike"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.45,
+      "w": 0.88,
+      "size": "xxl",
+      "anim": "mask",
+      "hier": false
+     }
+    ]
+   },
+   {
+    "id": "s7",
+    "from": "w24",
+    "to": "w25",
+    "intent": "strategy in red, bullseye bleeding off the right edge",
+    "bg": {
+     "kind": "paper",
+     "tone": "light",
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.4
+    },
+    "transition": "cut",
+    "layers": [
+     {
+      "id": "t8",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "يكافي",
+         "at": "w24"
+        }
+       ],
+       [
+        {
+         "t": "الاستراتيجية",
+         "at": "w25",
+         "em": "accent"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.3,
+      "w": 0.9,
+      "size": "xxl",
+      "anim": "pop",
+      "at": "w24"
+     },
+     {
+      "id": "target",
+      "type": "image",
+      "src": {
+       "kind": "sticker",
+       "name": "bullseye"
+      },
+      "x": 0.82,
+      "y": 0.72,
+      "w": 0.7,
+      "anim": "slide-left",
+      "idle": "float",
+      "at": "w25",
+      "depth": 0.8
+     }
+    ]
+   },
+   {
+    "id": "s8",
+    "from": "w26",
+    "to": "w33",
+    "intent": "hook rule: profile card, a giant red 3",
+    "bg": {
+     "kind": "spotlight",
+     "tone": "dark",
+     "vignette": true
+    },
+    "camera": {
+     "move": "punch",
+     "amount": 0.5
+    },
+    "transition": "whip",
+    "layers": [
+     {
+      "id": "notif",
+      "type": "ui",
+      "kind": "profile",
+      "title": "motiq.studio",
+      "sub": "+1 250 متابع جديد هذا الأسبوع",
+      "x": 0.5,
+      "y": 0.24,
+      "w": 0.84,
+      "at": "w26",
+      "anim": "drop"
+     },
+     {
+      "id": "three",
+      "type": "counter",
+      "value": 3,
+      "suffix": "",
+      "x": 0.5,
+      "y": 0.5,
+      "w": 0.8,
+      "size": "mega",
+      "color": "accent",
+      "at": "w32",
+      "from": 0
+     },
+     {
+      "id": "t9",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "كل",
+         "at": "w26"
+        },
+        {
+         "t": "فيديو",
+         "at": "w27"
+        },
+        {
+         "t": "لازم",
+         "at": "w28"
+        },
+        {
+         "t": "يوقف",
+         "at": "w29"
+        }
+       ],
+       [
+        {
+         "t": "السكرول",
+         "at": "w30",
+         "em": "accent"
+        },
+        {
+         "t": "في",
+         "at": "w31"
+        }
+       ],
+       [
+        {
+         "t": "3",
+         "at": "w32"
+        },
+        {
+         "t": "ثواني",
+         "at": "w33"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.72,
+      "w": 0.9,
+      "size": "l",
+      "anim": "rise",
+      "hier": false
+     }
+    ]
+   },
+   {
+    "id": "s9",
+    "from": "w34",
+    "to": "w37",
+    "intent": "call to action",
+    "bg": {
+     "kind": "spotlight",
+     "tone": "dark",
+     "glow": "accent",
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.6
+    },
+    "transition": "flash",
+    "layers": [
+     {
+      "id": "t10",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "ابدا",
+         "at": "w34"
+        },
+        {
+         "t": "اليوم",
+         "at": "w35"
+        }
+       ],
+       [
+        {
+         "t": "مع",
+         "at": "w36"
+        },
+        {
+         "t": "موتيك",
+         "at": "w37",
+         "em": "big"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.42,
+      "w": 0.86,
+      "size": "xxl",
+      "anim": "blur"
+     },
+     {
+      "id": "cta",
+      "type": "ui",
+      "kind": "button",
+      "title": "اصنع الريلز تاعك",
+      "x": 0.5,
+      "y": 0.68,
+      "w": 0.66,
+      "at": "w37"
+     }
+    ]
+   }
+  ],
+  "hooks": [],
+  "author": "fixture"
+ }
+}

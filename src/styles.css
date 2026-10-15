@@ -1,37 +1,71 @@
-@import "tailwindcss";
-@import "@fontsource/reem-kufi/500.css";
-@import "@fontsource/reem-kufi/700.css";
-@import "@fontsource/ibm-plex-sans-arabic/400.css";
-@import "@fontsource/ibm-plex-sans-arabic/500.css";
-@import "@fontsource/ibm-plex-sans-arabic/700.css";
+@import 'tailwindcss';
+@import '@fontsource/alexandria/400.css';
+@import '@fontsource/alexandria/600.css';
+@import '@fontsource/alexandria/800.css';
+@import '@fontsource/alexandria/900.css';
+@import '@fontsource/unbounded/700.css';
+@import '@fontsource/unbounded/900.css';
+@import '@fontsource/readex-pro/400.css';
+@import '@fontsource/readex-pro/500.css';
 
 @theme {
-  --color-night: #170E21;
-  --color-surface: #221630;
-  --color-raised: #2D1F3D;
-  --color-line: #3D2D50;
-  --color-ink: #F7F0FA;
-  --color-muted: #BBAACB;
-  --color-rose: #FF3E7A;
-  --color-rose-deep: #D61F5C;
-  --color-mint: #3CE3B4;
-  --color-lilac: #B49CFF;
-  --font-display: "Reem Kufi", "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-body: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --color-ink: #0a0910;
+  --color-panel: #14121d;
+  --color-raised: #1d1a29;
+  --color-line: #2a2638;
+  --color-text: #f5f3fb;
+  --color-muted: #a49eba;
+  --color-violet: #7c5cff;
+  --color-coral: #ff5b2e;
+  --color-sun: #ffc43d;
+  --color-mint: #3ee6a8;
+  --font-display: 'Unbounded', 'Alexandria', sans-serif;
+  --font-ar: 'Alexandria', 'Unbounded', sans-serif;
+  --font-body: 'Readex Pro', 'Alexandria', sans-serif;
 }
 
-html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
-body { overflow-x: clip; }
-body {
-  background: var(--color-night);
-  color: var(--color-ink);
-  font-family: var(--font-body);
-  line-height: 1.6;
+html {
+  color-scheme: dark;
   -webkit-tap-highlight-color: transparent;
 }
-:focus-visible { outline: 2px solid var(--color-mint); outline-offset: 2px; border-radius: 6px; }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+body {
+  background: var(--color-ink);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  overflow-x: clip;
+  min-height: 100dvh;
+}
+::selection { background: var(--color-violet); color: white; }
+:focus-visible { outline: 2px solid var(--color-sun); outline-offset: 2px; border-radius: 8px; }
 
-@keyframes nb-bar { from { transform: scaleY(0.35); } to { transform: scaleY(1); } }
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { scrollbar-width: none; }
+.grad-text {
+  background: linear-gradient(100deg, var(--color-violet), var(--color-coral) 70%, var(--color-sun));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.grad-bg { background: linear-gradient(120deg, var(--color-violet), var(--color-coral)); }
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+.streaks { display: flex; flex-direction: column; gap: 5px; }
+.streaks > i { display: block; height: 5px; border-radius: 9px; background: linear-gradient(90deg, transparent, var(--color-violet), var(--color-coral)); }
+
+@keyframes word-in {
+  from { opacity: 0; transform: translateY(40%) scale(0.96); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+.word-in { display: inline-block; animation: word-in 0.55s cubic-bezier(0.2, 0.9, 0.1, 1) both; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 1s linear infinite; }
+@keyframes bar { 0%, 100% { transform: scaleY(0.35); } 50% { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .word-in { animation: none; }
+}
+input[type='range'] { accent-color: var(--color-violet); }
