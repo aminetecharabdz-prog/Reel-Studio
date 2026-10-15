@@ -250,7 +250,7 @@ export const HeroScene = () => {
           </div>
         )}
       </div>
-      {hasLabel && (
+      {hasLabel && !compact && (
         <div style={{ position: 'absolute', left: 0, top: labelTop ? 0 : boxH, width: stage.w, height: labelH, display: 'flex', flexDirection: labelTop ? 'column-reverse' : 'column', alignItems: 'center', justifyContent: 'center', gap: 14 * u }}>
           {c.kicker && (
             <div style={{ transform: `scale(${m.enter(frame, labelStart + 6)})` }}>
