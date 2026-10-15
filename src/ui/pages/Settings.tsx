@@ -100,7 +100,9 @@ export const SettingsPage = () => {
         <Button size="lg" onClick={async () => { await setKeys(k); setSaved(true); }}>احفظ</Button>
         {saved && <span className="font-bold text-mint">تم الحفظ ✓</span>}
       </div>
-      <p className="pb-6 text-[13px] text-muted">التكلفة التقريبية لفيديو 60 ثانية بمفاتيحك: تفريغ ≈ 0.01$ + تصميم Claude ≈ 0.08–0.15$ + صورتان ≈ 0.08$ → أقل من 0.30$. <a className="underline" href="#/admin">سجل التكاليف</a></p>
+      <p className="pb-6 text-[13px] leading-6 text-muted">
+        التكلفة التقريبية لفيديو 60 ثانية بمفاتيحك: تفريغ ≈ <bdi dir="ltr">$0.01</bdi>، تصميم Claude ≈ <bdi dir="ltr">$0.08–0.15</bdi>، صورتان (اختياري) ≈ <bdi dir="ltr">$0.08</bdi> — المجموع أقل من <bdi dir="ltr">$0.30</bdi>. <a className="underline" href="#/admin">سجل التكاليف</a>
+      </p>
     </div>
   );
 };

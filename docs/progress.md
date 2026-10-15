@@ -14,7 +14,7 @@ built by `.github/workflows/deploy.yml` on every push to any branch).
       image generation + cache, QA (deterministic + vision) with auto-fix
 - [x] Phase 3 — editor: timeline, per-scene edit/regenerate, global restyle, versions, MP4/SRT/thumbnail
 - [x] Phase 4 — Mode B (product ad) + Mode C (talking head)
-- [ ] Final QA on the live link + Arabic report to the owner
+- [x] Final QA on the live link (16 Playwright tests pass on the live URL in CI) + Arabic report to the owner
 
 ## Decisions (made autonomously)
 - **Name: نبرة / Nabra** (see `docs/brand.md`, 10 candidates). Rename in `src/config/brand.ts` only.
