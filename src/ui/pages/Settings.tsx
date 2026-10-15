@@ -79,7 +79,7 @@ export const SettingsPage = () => {
       </Panel>
 
       <Panel className="space-y-3">
-        <Label hint="الصور تُولَّد فقط للمشاهد التي تحتاج صورة فريدة، وتُحفظ لإعادة الاستعمال">مزوّد الصور (اختياري)</Label>
+        <Label hint="ينصح به: يولّد صورًا خاصة لكل مشهد مهم (شخصية ثابتة، منتجك في مواقف حقيقية) — الجودة الكاملة. الصور تُحفظ لإعادة الاستعمال">مزوّد الصور (اختياري)</Label>
         <Segmented value={k.imageProvider ?? 'none'} options={[{ value: 'none', label: 'بدون' }, { value: 'gemini', label: 'Gemini' }, { value: 'openai', label: 'OpenAI' }, { value: 'fal', label: 'fal' }]} onChange={(v) => up({ imageProvider: v })} />
         {k.imageProvider === 'gemini' && (
           <>
@@ -101,7 +101,7 @@ export const SettingsPage = () => {
         {saved && <span className="font-bold text-mint">تم الحفظ ✓</span>}
       </div>
       <p className="pb-6 text-[13px] leading-6 text-muted">
-        التكلفة التقريبية لفيديو 60 ثانية بمفاتيحك: تفريغ ≈ <bdi dir="ltr">$0.01</bdi>، تصميم Claude ≈ <bdi dir="ltr">$0.08–0.15</bdi>، صورتان (اختياري) ≈ <bdi dir="ltr">$0.08</bdi> — المجموع أقل من <bdi dir="ltr">$0.30</bdi>. <a className="underline" href="#/admin">سجل التكاليف</a>
+        التكلفة التقريبية لفيديو 60 ثانية بمفاتيحك: تفريغ ≈ <bdi dir="ltr">$0.01</bdi>، تصميم Claude ≈ <bdi dir="ltr">$0.08–0.15</bdi>، صور المشاهد (≈ 6 + ورقة أسلوب) ≈ <bdi dir="ltr">$0.25–0.30</bdi> — المجموع ≈ <bdi dir="ltr">$0.35–0.45</bdi>. <a className="underline" href="#/admin">سجل التكاليف</a>
       </p>
     </div>
   );
