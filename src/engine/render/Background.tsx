@@ -44,7 +44,7 @@ export const Background = ({ bg, base, url, abs, seed }: { bg: Scene['bg']; base
     case 'blur-photo':
       if (url) {
         const z = 1.08 + 0.06 * Math.min(1, time / 6);
-        layers.push(<Img key="ph" src={url} style={{ position: 'absolute', left: 0, top: 0, width: W, height: H, objectFit: 'cover', transform: `scale(${z})`, filter: bg.kind === 'blur-photo' ? `blur(${36 * u}px) brightness(0.55)` : undefined }} />);
+        layers.push(<Img key="ph" src={url} style={{ position: 'absolute', left: 0, top: 0, width: W, height: H, objectFit: 'cover', transform: `scale(${z})`, filter: bg.kind === 'blur-photo' ? `blur(${36 * u}px) brightness(0.55)` : light ? 'contrast(1.04)' : 'contrast(1.12) saturate(0.9) brightness(0.82)' }} />);
         layers.push(<AbsoluteFill key="scrim" style={{ backgroundImage: `linear-gradient(180deg, ${alpha('#000000', 0.3)}, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 55%, ${alpha('#000000', 0.6)})` }} />);
       }
       break;
@@ -64,7 +64,8 @@ export const Background = ({ bg, base, url, abs, seed }: { bg: Scene['bg']; base
     // a subtle film light sweeping across one edge (neutral warm, never a coloured blob wash)
     const side = random(`${seed}-side`) > 0.5 ? 1 : -1;
     const x = W / 2 + side * (W * 0.62 + Math.sin(time * 0.7) * 40 * u);
-    layers.push(pool('lk', x, H * (0.3 + 0.4 * random(`${seed}-ly`)), W * 0.7, '#FFE8D0', light ? 0.35 : 0.1 + 0.03 * Math.sin(time * 1.4), 150));
+    const lc = bg.glow ? glowCol : '#FFE8D0';
+    layers.push(pool('lk', x, H * (0.3 + 0.4 * random(`${seed}-ly`)), W * 0.8, lc, (bg.glow ? 0.42 : light ? 0.35 : 0.1) + 0.06 * Math.sin(time * 1.4), 130));
   }
   if (bg.glow && bg.kind !== 'rays') {
     layers.push(pool('gl', W / 2, H * 0.44, W * 0.62, glowCol, light ? 0.1 : 0.13, 150));

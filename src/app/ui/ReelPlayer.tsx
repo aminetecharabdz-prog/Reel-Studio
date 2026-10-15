@@ -33,6 +33,7 @@ export const ReelPlayer = forwardRef<PlayerRef, Props>(({ c, className, autoPlay
           autoPlay={autoPlay}
           loop={loop}
           initiallyMuted={muted}
+          initialFrame={Math.min(c.durationInFrames - 1, Math.round(c.fps * 1.3))}
           clickToPlay
           spaceKeyToPlayOrPause
           acknowledgeRemotionLicense

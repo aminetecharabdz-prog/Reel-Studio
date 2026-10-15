@@ -5,6 +5,7 @@ import { Reel, prepare } from '@/engine/render/Reel';
 import type { Compiled } from '@/engine/compile';
 import { loadDemo } from '../demos';
 import { build } from '../build';
+import { localDirector } from '@/ai/local';
 
 export const QA = ({ q }: { q: URLSearchParams }) => {
   const id = q.get('demo') ?? 'content';
@@ -13,7 +14,8 @@ export const QA = ({ q }: { q: URLSearchParams }) => {
   const [ready, setReady] = useState(false);
   useEffect(() => {
     loadDemo(id).then(async (d) => {
-      const comp = build({ plan: d.plan, transcript: d.transcript, mode: d.mode, captions: q.get('captions') === '1', aspect: (q.get('aspect') as '9:16') ?? '9:16' });
+      const plan = q.get('local') ? localDirector(d.transcript, { mode: d.mode, seed: q.get('local')! }) : d.plan;
+      const comp = build({ plan, transcript: d.transcript, mode: d.mode, captions: q.get('captions') === '1', aspect: (q.get('aspect') as '9:16') ?? '9:16' });
       await prepare(comp);
       setC(comp);
       setTimeout(() => setReady(true), 1500);

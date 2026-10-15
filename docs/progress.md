@@ -1,26 +1,32 @@
-# REBUILD v2 — AI motion engine (owner request 2026-10-15, deadline: evening)
+# NEW APP — Motiq · موتيك (built from scratch, 2026-10-15)
 
-Owner verdict on v1: everything bad, looked like a "Make it" copy, rule-based (a wall-decor ad showed a broken tooth).
-He sent 4 Pinterest reference reels (.qa/refs/*.png contact sheets; originals in /root/.claude/uploads/...) for the
-QUALITY LEVEL only — do NOT copy them, do NOT copy Make it. Wants: AI (Claude) directs everything, Gemini makes images,
-no templates, no keyword→image rules, only strong craft rules. New strong name + logo + very attractive UI. Sellable
-later (credits). Owner says: don't ask, just deliver the link. Auto-resume trigger: trig_01DsLxrv2WFQdrdHBPEt67KE (every 2h).
+Owner verdict on v1 (Nabra): everything bad, Make-it copy, rule-based. He asked for a COMPLETELY new app (not a repair) whose
+videos reach the level of his 4 Pinterest references (.qa/refs, quality examples only — never copy them, never copy Make it).
+Owner later clarified: NOT "simple white background + centred text"; the result must feel like those references
+(photoreal objects as metaphors, bold colour fields, editorial serif/italic + giant ghost type, film leaks, framed photos).
+Auto-resume task: trig_01DsLxrv2WFQdrdHBPEt67KE (every 2h) — disable it after the final report.
 
-What the references show (craft, not content): spoken words animate word-by-word as kinetic typography with ONE
-emphasised word (colour/size/serif italic contrast); photoreal cut-out objects as visual metaphors; rhythm by alternating
-light/dark scenes; grain, glow, light leaks, vignettes; camera push-ins; real photo backgrounds; B-roll inserts.
+Architecture (all new):
+- src/engine: schema.ts (AI scene graph), compile.ts (word ids → frames), render/* (Reel, Background, Text/Image/Shape/Counter/UI layers),
+  fonts.ts (self-hosted catalog), audio.ts, assets.ts, library.ts (photo library ids), stickers.ts.
+- src/ai: prompt.ts (director craft rules, no templates), claude.ts (tool call + Zod + repair, caching, ledger), sanitize.ts,
+  gemini.ts (images, model fallback), cutout.ts, speech.ts (Scribe STT, TTS with timestamps, no-key estimator), local.ts
+  (no-key kinetic-type fallback), script.ts (Claude writes the script), pipeline.ts.
+- src/data: settings (localStorage, BYOK), db (IndexedDB projects/assets/cache/ledger), project.ts.
+- src/app: Landing, New (wizard), Studio (player, restyle, style/audio/end/export tabs), Settings (complete), Projects, Credits, QA (#/qa?demo=).
+- Demos are authored by me as fixtures: scripts/demos/*.py → public/demo/*.json.
+- Photo library: scripts/assets/fetch.py runs in GitHub Actions (fetch-assets.yml; sandbox has no internet for images),
+  openly licensed (CC0/BY/BY-SA) photos from Wikimedia Commons + Openverse, rembg cut-outs → branch asset-staging;
+  chosen ones copied to public/art/{obj,bg}/ with credits.json.
+- Deploy: commits with [no-deploy] skip the Pages deploy (keeps the live link stable while building).
 
-Plan / status:
-- [ ] R1 new brand in src/config/brand.ts + logo (logo.ts) + docs/brand.md
-- [ ] R2 src/lib/schema/motion.ts (scene graph, DONE) + src/motion/compile.ts (word ids → frames)
-- [ ] R3 src/motion/* renderer: MotionReel (bg, camera, text runs, images, shapes, counters, UI, transitions, textures, captions, audio)
-- [ ] R4 Claude motion director (src/lib/providers/motionDirector.ts): craft rules prompt, JSON schema tool, Zod + repair retry;
-      Gemini images (model fallback list, configurable), client-side cut-out, cache by hash, cost ledger
-- [ ] R5 demos authored by Claude as fixtures (public/demo/*.motion.json): content-marketing explainer, wall-decor ad,
-      talking head, youtube short; contact sheets reviewed (node scripts/contact-sheet.mjs)
-- [ ] R6 UI rebuild: new identity, landing, use cases (e-commerce, content marketers, YouTubers), AI-first wizard,
-      complete settings (keys, models, image quality, brand kit, defaults, credits estimate)
-- [ ] R7 tests + live Playwright (CI) + final short Arabic report with link
+Status:
+- [x] engine, AI layer, data layer, UI pages written; typecheck/lint/unit tests green locally
+- [ ] photo library (waiting for fetch-assets run) → director prompt lists library ids when no Gemini key
+- [ ] demos: content (re-author with photos, bold), product ad, YouTube short
+- [ ] contact-sheet QA vs references, Playwright local, deploy, live smoke, final Arabic report
+
+---
 
 # التقرير النهائي (بالعربية البسيطة)
 

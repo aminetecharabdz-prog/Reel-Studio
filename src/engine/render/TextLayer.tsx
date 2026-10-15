@@ -38,12 +38,12 @@ export const TextLayerView = ({ l }: { l: CLayer & TextL }) => {
   const ls = lines.map((ln) => (l.hier !== false && anyEm && lines.length > 1 && !ln.some((w) => w.em && w.em !== 'ghost') ? 0.5 : 1));
   for (let guard = 0; guard < 30; guard++) {
     const widest = Math.max(...lines.map((ln, li) => ln.reduce((a, w, i) => a + wordW(w, size * ls[li]!) + (i ? size * ls[li]! * 0.26 : 0), 0)));
-    const tall = ls.reduce((a, k) => a + k, 0) * size * 1.3;
+    const tall = ls.reduce((a, k) => a + k, 0) * size * 1.42;
     if (widest <= boxW && tall <= H * 0.62) break;
     size *= 0.94;
   }
   const lh = 1.28;
-  const lineH = (li: number) => size * ls[li]! * lh * (lines[li]!.some((w) => w.em === 'big') ? 1.25 : 1);
+  const lineH = (li: number) => { const ln = lines[li]!; const has = (e: string) => ln.some((w) => w.em === e); return size * ls[li]! * lh * (has('big') ? 1.45 : has('serif') ? 1.42 : has('box') || has('highlight') ? 1.16 : 1) * (ls[li]! < 1 ? 1.12 : 1); };
   const totalH = lines.reduce((a, _, li) => a + lineH(li), 0);
   const cy = Math.max(t.safe.y0 * H + totalH / 2, Math.min(t.safe.y1 * H - totalH / 2, l.y * H));
   const out = exitP(frame, l.outF, t.fps);

@@ -1,5 +1,6 @@
 import type { Src } from './schema';
 import { STICKERS } from './stickers';
+import { LIBRARY } from './library';
 
 export const publicUrl = (p: string) => `${import.meta.env?.BASE_URL ?? './'}${p.replace(/^\.?\//, '')}`;
 
@@ -11,6 +12,7 @@ export const makeResolver = (lookup: (assetId: string) => string | null, userMed
   }
   if (s.kind === 'user' && s.index !== undefined) return userMedia[s.index] ?? null;
   if (s.kind === 'url' && s.url) return /^(https?:|blob:|data:)/.test(s.url) ? s.url : publicUrl(s.url);
+  if (s.kind === 'library' && s.name && LIBRARY.has(s.name)) return publicUrl(`art/${s.name}.webp`);
   if (s.name && STICKERS.has(s.name)) return publicUrl(`art/3d/${s.name}.webp`);
   return null;
 };

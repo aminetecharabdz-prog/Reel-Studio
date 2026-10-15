@@ -19,7 +19,7 @@ export const EMPHASIS = ['accent', 'big', 'serif', 'outline', 'ghost', 'highligh
 export const TEXT_ANIMS = ['rise', 'pop', 'blur', 'mask', 'type', 'slide', 'zoom', 'stamp', 'fade', 'wave'] as const;
 export const IMG_ANIMS = ['pop', 'drop', 'float', 'slide-left', 'slide-right', 'zoom', 'reveal', 'spin', 'fade', 'flip'] as const;
 export const IDLES = ['float', 'bob', 'spin', 'pulse', 'sway', 'none'] as const;
-export const SHAPES = ['circle', 'ring', 'rect', 'line', 'arrow', 'underline', 'scribble', 'burst', 'cross', 'check', 'blob', 'bar', 'dots', 'spark', 'frame', 'wave', 'arc'] as const;
+export const SHAPES = ['circle', 'ring', 'rect', 'line', 'arrow', 'underline', 'scribble', 'burst', 'cross', 'check', 'blob', 'bar', 'dots', 'spark', 'frame', 'wave', 'arc', 'shard'] as const;
 export const SHAPE_ANIMS = ['draw', 'pop', 'grow', 'pulse', 'spin', 'fade'] as const;
 export const UI_KINDS = ['badge', 'price', 'button', 'notification', 'chat', 'checklist', 'progress', 'rating', 'profile', 'search', 'timer', 'stat'] as const;
 export const BGS = ['solid', 'gradient', 'spotlight', 'paper', 'photo', 'blur-photo', 'split', 'rays', 'noise-dark'] as const;
@@ -32,7 +32,7 @@ export const MWordSchema = z.object({ t: z.string().min(1).max(40), at: z.string
 export type MWord = z.infer<typeof MWordSchema>;
 
 export const SrcSchema = z.object({
-  kind: z.enum(['generate', 'user', 'sticker', 'url']),
+  kind: z.enum(['generate', 'user', 'sticker', 'library', 'url']),
   prompt: z.string().max(700).optional(),
   cutout: z.boolean().optional(),
   index: z.number().int().min(0).optional(),
