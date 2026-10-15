@@ -133,7 +133,7 @@ export const compileReel = (input: CompileInput): CompiledReel => {
     const withImage = scenes.find((s) => s.content.hero?.image && s.content.hero.cutout);
     if (withImage) return { image: withImage.content.hero!.image, cutout: true };
     const counts = new Map<string, number>();
-    for (const s of scenes) for (const a of [s.content.hero?.art, s.content.hero?.badge?.art]) if (a) counts.set(a, (counts.get(a) ?? 0) + 1);
+    for (const s of scenes) for (const a of [s.content.hero?.art, s.content.hero?.badge?.art, ...(s.content.hero?.props ?? [])]) if (a) counts.set(a, (counts.get(a) ?? 0) + 1);
     const best = [...counts.entries()].sort((x, y) => y[1] - x[1])[0]?.[0];
     return best ? { art: best } : undefined;
   })();

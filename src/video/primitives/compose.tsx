@@ -104,7 +104,9 @@ export const HeroScene = () => {
   const art = hero.art ?? (hero.illus || scene.heroImage ? undefined : findArt(spoken) ?? c.icon ?? 'sparkles');
   const hasLabel = !!(c.headline || c.kicker);
   const labelTop = scene.variant % 2 === 1; // label above the hero on odd variants
-  const labelH = hasLabel ? Math.min(stage.h * 0.23, 280 * u) : 0;
+  // compact panel (speaker-top layouts): the hero fills the panel and the label becomes a chip on it
+  const compact = stage.h < t.H * 0.36;
+  const labelH = hasLabel && !compact ? Math.min(stage.h * 0.23, 280 * u) : 0;
   // the hero box spans the full frame width (QUALITY_BAR: hero ≥ 35 % of the frame)
   const boxW = t.W;
   const boxLeft = -stage.x;
@@ -242,6 +244,11 @@ export const HeroScene = () => {
         })}
         {hero.badge && (hero.badge.art || hero.badge.text) && <Badge badge={hero.badge} boxW={boxW} boxH={boxH} />}
         {c.price !== undefined && <PriceSticker boxW={boxW} boxH={boxH} />}
+        {compact && c.headline && (
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: boxH * 0.04, display: 'flex', justifyContent: 'center', transform: `scale(${m.enter(frame, labelStart) * labelPulse})` }}>
+            <Chip text={c.headline} size={52 * u} bg={col.accent} color={col.textOnAccent} />
+          </div>
+        )}
       </div>
       {hasLabel && (
         <div style={{ position: 'absolute', left: 0, top: labelTop ? 0 : boxH, width: stage.w, height: labelH, display: 'flex', flexDirection: labelTop ? 'column-reverse' : 'column', alignItems: 'center', justifyContent: 'center', gap: 14 * u }}>
