@@ -1,5 +1,5 @@
 import type { DesignDNA } from '../schema/dna';
-import type { CaptionSettings, EndCard, PrimitiveId, SceneContent } from '../schema/plan';
+import type { BgTreatment, CaptionSettings, EndCard, PrimitiveId, SceneContent } from '../schema/plan';
 import type { TransitionId } from '../schema/dna';
 import type { DigitStyle } from '../text/digits';
 
@@ -23,6 +23,9 @@ export type CompiledScene = {
   emphasis: number[]; // relative frames
   transition: TransitionId;
   bgIndex: number;
+  bg: BgTreatment;
+  /** hero image (content.hero.image) resolved to a url */
+  heroImage: ResolvedImage;
   images: ResolvedImage[]; // content.image / content.images resolved to urls
   speaker?: 'full' | 'split-top' | 'split-bottom' | 'pip' | 'hidden';
   zooms: number[]; // relative frames (mode C punch-ins)

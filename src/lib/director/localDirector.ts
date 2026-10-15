@@ -13,6 +13,7 @@ import { buildBeats, classifyBeat, type Beat } from './beats';
 import { beatText, distill, emphasisWords, findNumbers, iconFor, iconsFor, itemsFrom } from './content';
 import { PRIMITIVE_META } from './primitiveMeta';
 import { isStopword, normalizeAr } from '../text/keywords';
+import { heroContent, heroKey, pickBg, sceneSignature } from './hero';
 
 const UNIT_WORD = /^(دج|da|دينار|ولايه|ولايات|km|كيلومتر|دقيقه|دقايق|شهر|شهور|مره|مرات|دوره|درجه|ساعه|يوم|ايام)$/;
 
@@ -179,7 +180,7 @@ const jaccard = (a: string[], b: string[]) => {
 export const planLocally = (input: DirectorInput): Plan => {
   for (let attempt = 0; attempt < 4; attempt++) {
     const plan = planOnce({ ...input, seed: input.seed + attempt * 7919 });
-    const seq = plan.scenes.map((s) => s.primitive);
+    const seq = plan.scenes.map(sceneSignature);
     const tooSimilar = (input.recentSequences ?? []).some((r) => jaccard(seq, r) >= 0.4 && r.length > 2);
     if (!tooSimilar || attempt === 3) return plan;
   }
@@ -227,9 +228,21 @@ const planOnce = (input: DirectorInput): Plan => {
       }
     }
     if (!chosen) chosen = { headline: distill(b.words, 4).text, headlineAt: b.words[0]!.id };
+    // QUALITY_BAR: every scene carries a big topic-literal hero visual. Text/data primitives become
+    // hero compositions (mode C keeps light overlays on full-frame speaker scenes — the speaker is the hero).
+    if (input.mode !== 'C' || speaker === 'split-top' || speaker === 'hidden') {
+      const img = input.mode === 'B' && input.images?.length ? input.images[0] : undefined;
+      const artCount = (a: string) => scenes.filter((x) => x.content.hero?.art === a || x.content.hero?.art2 === a).length;
+      chosen = heroContent({ words: b.words, type: b.type, index: i, seed: input.seed, mode: input.mode, product: input.product, image: img, overused: (a) => artCount(a) >= 2 });
+      pid = 'hero-scene';
+      if (prev?.primitive === 'hero-scene' && heroKey(prev.content) === heroKey(chosen) && chosen.hero) {
+        // avoid two identical compositions in a row: switch layout / backdrop
+        chosen.hero.layout = chosen.hero.layout === 'orbit' ? 'center' : 'orbit';
+      }
+    }
     used.set(pid, (used.get(pid) ?? 0) + 1);
     if (b.type === 'problem' || b.type === 'offer' || (i > 0 && r.chance(0.3))) bg = (bg + 1) % 3;
-    let variant = r.int(0, 2);
+    let variant = pid === 'hero-scene' ? i % 2 : r.int(0, 2);
     if (prev && prev.primitive === pid && prev.variant === variant) variant = (variant + 1) % 3;
     const transition: TransitionId = i === 0 ? 'cut' : r.chance(0.18) ? 'cut' : r.pick(transitions);
     const emph = emphasisWords(b.words, b.type === 'hook' ? 2 : 1);
@@ -243,6 +256,7 @@ const planOnce = (input: DirectorInput): Plan => {
       emphasis: emph,
       transition,
       bgIndex: bg,
+      bg: input.mode === 'C' && speaker === 'full' ? undefined : pickBg(i, input.seed),
       speaker,
       zoomOn: input.mode === 'C' ? emph.slice(0, 1) : [],
       locked: false,

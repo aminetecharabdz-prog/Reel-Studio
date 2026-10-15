@@ -94,6 +94,7 @@ export const ProjectSchema = z.object({
   mode: z.enum(['A', 'B', 'C']),
   business: z.string().default('other'),
   demo: z.string().optional(), // demo id when this is a built-in sample
+  demoRev: z.number().int().optional(), // demo direction revision this project was generated from
   brand: BrandKitSchema.default(BrandKitSchema.parse({})),
   style: StyleSettingsSchema.default(StyleSettingsSchema.parse({})),
   media: MediaSchema.default(MediaSchema.parse({})),

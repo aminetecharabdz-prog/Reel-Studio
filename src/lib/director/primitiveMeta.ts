@@ -53,4 +53,5 @@ export const PRIMITIVE_META: Record<PrimitiveId, { beats: BeatType[]; needs: str
   urgency: { beats: ['offer'], needs: 'value (stock %), headline — only if spoken', desc: 'limited stock bar', modes: ['B'] },
   'offer-ribbon': { beats: ['offer'], needs: 'kicker, headline', desc: 'offer ribbon', modes: ['B'] },
   'feature-callouts': { beats: ['product', 'list'], needs: 'image (product), items[] (2–4)', desc: 'feature labels on the product', modes: ['B'] },
+  'hero-scene': { beats: ['hook', 'problem', 'fact', 'statement', 'emotion', 'product', 'process', 'comparison', 'cta', 'list', 'offer'], needs: 'hero {art|illus|image, layout, mark, props, badge, note}, headline (1–3 words), kicker (chip)', desc: 'DEFAULT: big topic-literal hero visual (3D object, animated illustration or photo) on a backdrop with props, badge, red/green mark and a short label' },
 };

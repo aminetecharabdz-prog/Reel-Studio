@@ -3,8 +3,8 @@
  * compile to a CompiledReel. Each stage saves its output so a reloaded tab resumes (SPEC §4).
  */
 import type { Project } from './schema/project';
-import type { ImageRef, Plan } from './schema/plan';
-import type { DesignDNA } from './schema/dna';
+import { PlanSchema, type ImageRef, type Plan } from './schema/plan';
+import { DesignDNASchema, type DesignDNA } from './schema/dna';
 import { TranscriptSchema, type Transcript } from './schema/transcript';
 import { repo } from './repo/db';
 import { getKeys, type Keys } from './providers/keys';
@@ -14,9 +14,10 @@ import { designDNA, finalizeDNA } from './design/artDirector';
 import { paletteFromImage } from './media';
 import { detectTopic } from './design/topics';
 import { planLocally, replanScene } from './director/localDirector';
+import { sceneSignature } from './director/hero';
 import { pickMusic, publicUrl, sfxSrc } from './audio/library';
 import { checkPlan, checkReel, autoFixPlan } from './qa/checks';
-import { demoImages, demoSeed } from './demos';
+import { DEMO_REV, demoImages, demoSeed } from './demos';
 import { claudeDirector } from './providers/claude';
 import { cachedImage, imageGenerator } from './providers/images';
 import { elevenScribe } from './providers/elevenlabs';
@@ -68,6 +69,24 @@ export const resolveMedia = async (p: Project): Promise<MediaUrls> => {
     images,
     imageRefs: projectImageRefs(p),
   };
+};
+
+/** Demo art/scene direction authored by Claude and stored as a fixture (QUALITY_BAR: demos are Claude-quality). */
+export const loadDemoDirection = async (demo: string): Promise<{ dna: DesignDNA; plan: Plan } | null> => {
+  try {
+    const res = await fetch(publicUrl(`demo/${demo}.direction.json`));
+    if (!res.ok) return null;
+    const json = (await res.json()) as { dna: unknown; plan: unknown };
+    const plan = PlanSchema.parse(json.plan);
+    for (const sc of plan.scenes) {
+      const im = sc.content.hero?.image;
+      if (im?.src && !/^(https?:|blob:|data:)/.test(im.src)) im.src = publicUrl(im.src);
+    }
+    return { dna: finalizeDNA(DesignDNASchema.parse(json.dna)), plan };
+  } catch (e) {
+    console.warn('demo direction unavailable', e);
+    return null;
+  }
 };
 
 export const loadDemoTranscript = async (demo: string): Promise<Transcript> => {
@@ -136,7 +155,12 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
   // mode C: plan on what remains after the cuts (fillers never become on-screen text); word ids are unchanged
   const planTranscript = p.mode === 'C' ? applyCuts(p.transcript, p.cuts).transcript : p.transcript;
   onStage('design');
-  if (keys.anthropic) {
+  const fixture = p.demo && !opts.newLook ? await loadDemoDirection(p.demo) : null;
+  if (fixture) {
+    onStage('plan', 'Claude');
+    dna = fixture.dna;
+    plan = fixture.plan;
+  } else if (keys.anthropic) {
     onStage('plan', 'Claude');
     const res = await claudeDirector(keys.anthropic, p.brand, imageRefs).direct({
       transcript: planTranscript,
@@ -206,13 +230,13 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
   onStage('qa');
   let issues = checkPlan(plan, planTranscript, p.mode);
   const fixedAll = [] as Project['qa'];
-  for (let pass = 0; pass < 2 && issues.some((i) => i.severity === 'error' || i.check === 'anchors' || i.check === 'repetition'); pass++) {
+  for (let pass = 0; pass < 2 && issues.some((i) => i.severity === 'error' || ['anchors', 'repetition', 'bg-variety', 'headline-long'].includes(i.check)); pass++) {
     const r = autoFixPlan(plan, planTranscript, issues);
     plan = r.plan;
     fixedAll.push(...r.fixed);
     issues = checkPlan(plan, planTranscript, p.mode);
   }
-  const next: Project = { ...p, dna, plan, stage: 'ready' };
+  const next: Project = { ...p, dna, plan, stage: 'ready', demoRev: p.demo ? DEMO_REV : p.demoRev };
   const media = await resolveMedia(next);
   const reel = compileProject(next, media);
   const reelIssues = reel ? checkReel(reel, p.transcript) : [];
@@ -220,7 +244,7 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
   next.versions = [...p.versions, { id: uid('v_'), createdAt: Date.now(), label: keys.anthropic ? 'Claude' : 'محلي', dna, plan }].slice(-12);
   await repo.saveProject(next);
   const [h] = rgbToHsl(hexToRgb(dna.palette.primary));
-  await repo.addFingerprint({ id: uid('f_'), projectId: p.id, createdAt: Date.now(), mood: dna.mood, easing: dna.motionLanguage.easing, hue: Math.round(h), sequence: plan.scenes.map((s) => s.primitive) });
+  await repo.addFingerprint({ id: uid('f_'), projectId: p.id, createdAt: Date.now(), mood: dna.mood, easing: dna.motionLanguage.easing, hue: Math.round(h), sequence: plan.scenes.map(sceneSignature) });
   onStage('done');
   return next;
 };

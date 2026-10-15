@@ -40,7 +40,7 @@ jobs:
           export PW_CHROMIUM=$(node -e "console.log(require('@playwright/test').chromium.executablePath())")
           (node scripts/contact-sheet.mjs '' 1.2 > .qa/sheets.log 2>&1) || true
           (node scripts/contact-sheet.mjs '' 0.25 >> .qa/sheets.log 2>&1) || true
-          (node scripts/qa-metrics.mjs >> .qa/metrics.log 2>&1) || true
+          true
       - name: Publish to qa-sheets branch
         run: |
           cd .qa

@@ -1,0 +1,547 @@
+{
+ "author": "Claude (art + scene director) — authored fixture, see scripts/demo-direction/build.py",
+ "dna": {
+  "mood": "clinical-blue-trust",
+  "palette": {
+   "bg": [
+    "#0E6BD8",
+    "#0A55B8",
+    "#1477E0"
+   ],
+   "surface": "#0A3F8F",
+   "primary": "#8FE6FF",
+   "accent": "#5CF2C0",
+   "text": "#FFFFFF",
+   "textOnAccent": "#111111"
+  },
+  "typography": {
+   "display": {
+    "family": "readex",
+    "weight": 700
+   },
+   "body": {
+    "family": "tajawal",
+    "weight": 500
+   },
+   "captions": {
+    "family": "tajawal",
+    "weight": 800
+   },
+   "latin": "bricolage",
+   "scale": 1.0,
+   "weightContrast": "high"
+  },
+  "layoutGrammar": "centered",
+  "motionLanguage": {
+   "easing": "bouncy",
+   "baseDurationFrames": 14,
+   "overshoot": 0.2,
+   "stagger": 3,
+   "transitionFamily": [
+    "zoom",
+    "slide",
+    "iris"
+   ]
+  },
+  "background": {
+   "kind": "gradient",
+   "params": {
+    "angle": 165,
+    "pattern": "dots",
+    "density": 0.6
+   }
+  },
+  "illustrationStyle": "glossy 3D dental illustration, white teeth on clinical blue, soft studio light",
+  "iconSet": "fluent-emoji-flat",
+  "texture": {
+   "grain": 0.04,
+   "shadows": "soft",
+   "corners": 36
+  },
+  "sfxPalette": "soft-ui",
+  "seed": 4127
+ },
+ "plan": {
+  "scenes": [
+   {
+    "id": "s0",
+    "from": "w0",
+    "to": "w3",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "7 worried faces out of 10 = the 70% statistic, literally",
+      "layout": "count",
+      "art": "grimacing-face",
+      "art2": "smiling-face-with-smiling-eyes",
+      "count": 10,
+      "highlight": 7,
+      "backdrop": "card"
+     },
+     "headline": "70%",
+     "kicker": "من الناس",
+     "headlineAt": "w3"
+    },
+    "emphasis": [
+     "w3"
+    ],
+    "transition": "cut",
+    "bgIndex": 0,
+    "bg": "spotlight",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s1",
+    "from": "w4",
+    "to": "w9",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "teeth with yellow plaque between them = teeth not brushed well; microbe badge",
+      "illus": "teeth-row",
+      "illusParams": {
+       "plaque": true
+      },
+      "badge": {
+       "art": "microbe",
+       "at": "w8"
+      }
+     },
+     "headline": "سنان مهملة",
+     "headlineAt": "w7"
+    },
+    "emphasis": [
+     "w7"
+    ],
+    "transition": "zoom",
+    "bgIndex": 1,
+    "bg": "dna",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s2",
+    "from": "w10",
+    "to": "w14",
+    "primitive": "hero-scene",
+    "variant": 1,
+    "content": {
+     "hero": {
+      "note": "the dentist introduces herself: health-worker character in a clinic room, tooth + stethoscope props",
+      "art": "woman-health-worker",
+      "backdrop": "arch",
+      "props": [
+       "tooth",
+       "stethoscope",
+       "sparkles"
+      ]
+     },
+     "headline": "د. سارة",
+     "kicker": "طبيبة أسنان",
+     "headlineAt": "w11"
+    },
+    "emphasis": [],
+    "transition": "slide",
+    "bgIndex": 2,
+    "bg": "room",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s3",
+    "from": "w15",
+    "to": "w19",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "3 light bulbs = 3 tips",
+      "layout": "count",
+      "art": "light-bulb",
+      "count": 3,
+      "backdrop": "none"
+     },
+     "headline": "3 نصائح",
+     "kicker": "بسيطة",
+     "headlineAt": "w17"
+    },
+    "emphasis": [
+     "w17"
+    ],
+    "transition": "iris",
+    "bgIndex": 0,
+    "bg": "rays",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s4",
+    "from": "w20",
+    "to": "w26",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "tip 1: twice a day = sun (morning) and night, toothbrush badge",
+      "layout": "pair",
+      "art": "sun-behind-small-cloud",
+      "art2": "night-with-stars",
+      "markAt": "w23",
+      "badge": {
+       "art": "toothbrush",
+       "text": "نصيحة 1",
+       "at": "w21"
+      }
+     },
+     "headline": "مرتين",
+     "kicker": "في النهار",
+     "headlineAt": "w23"
+    },
+    "emphasis": [
+     "w23"
+    ],
+    "transition": "slide",
+    "bgIndex": 1,
+    "bg": "split",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s5",
+    "from": "w27",
+    "to": "w29",
+    "primitive": "hero-scene",
+    "variant": 1,
+    "content": {
+     "hero": {
+      "note": "2 minutes = stopwatch, toothbrush prop",
+      "art": "stopwatch",
+      "backdrop": "ring",
+      "props": [
+       "toothbrush",
+       "sparkles"
+      ]
+     },
+     "headline": "2 دقايق",
+     "headlineAt": "w27"
+    },
+    "emphasis": [
+     "w28"
+    ],
+    "transition": "zoom",
+    "bgIndex": 2,
+    "bg": "spotlight",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s6",
+    "from": "w30",
+    "to": "w37",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "tip 2: change the toothbrush every 3 months = toothbrush + calendar badge",
+      "art": "toothbrush",
+      "backdrop": "blob",
+      "badge": {
+       "art": "spiral-calendar",
+       "text": "3 شهور",
+       "at": "w36"
+      },
+      "props": [
+       "counterclockwise-arrows-button"
+      ]
+     },
+     "headline": "بدّل la brosse",
+     "kicker": "نصيحة 2",
+     "headlineAt": "w31"
+    },
+    "emphasis": [
+     "w33"
+    ],
+    "transition": "slide",
+    "bgIndex": 0,
+    "bg": "duotone",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s7",
+    "from": "w38",
+    "to": "w40",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "don't wait until it's worn out = old toothbrush crossed out",
+      "art": "toothbrush",
+      "mark": "cross",
+      "markAt": "w40",
+      "backdrop": "disc"
+     },
+     "headline": "فرشاة مهترئة",
+     "headlineAt": "w40"
+    },
+    "emphasis": [],
+    "transition": "zoom",
+    "bgIndex": 1,
+    "bg": "dna",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s8",
+    "from": "w41",
+    "to": "w45",
+    "primitive": "hero-scene",
+    "variant": 1,
+    "content": {
+     "hero": {
+      "note": "tip 3: floss = thread sliding between the teeth, cleaning the plaque",
+      "illus": "teeth-row",
+      "illusParams": {
+       "plaque": true,
+       "floss": true
+      },
+      "badge": {
+       "art": "thread",
+       "text": "نصيحة 3",
+       "at": "w44"
+      }
+     },
+     "headline": "le fil dentaire",
+     "headlineAt": "w44"
+    },
+    "emphasis": [
+     "w44"
+    ],
+    "transition": "iris",
+    "bgIndex": 2,
+    "bg": "grid",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s9",
+    "from": "w46",
+    "to": "w51",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "the brush can't reach between teeth = magnifier on the gaps with germs",
+      "art": "magnifying-glass-tilted-left",
+      "backdrop": "disc",
+      "props": [
+       "microbe",
+       "tooth",
+       "microbe"
+      ]
+     },
+     "headline": "بين السنان",
+     "kicker": "ما توصلش",
+     "headlineAt": "w50"
+    },
+    "emphasis": [],
+    "transition": "slide",
+    "bgIndex": 0,
+    "bg": "spotlight",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s10",
+    "from": "w52",
+    "to": "w56",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "beware sugar and soft drinks = candy + soda forbidden",
+      "layout": "pair",
+      "art": "candy",
+      "art2": "cup-with-straw",
+      "mark": "forbidden",
+      "markAt": "w54",
+      "badge": {
+       "art": "warning",
+       "at": "w52"
+      }
+     },
+     "headline": "حذاري!",
+     "kicker": "sucre · soda",
+     "headlineAt": "w52"
+    },
+    "emphasis": [
+     "w54",
+     "w55"
+    ],
+    "transition": "zoom",
+    "bgIndex": 1,
+    "bg": "rays",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s11",
+    "from": "w57",
+    "to": "w61",
+    "primitive": "hero-scene",
+    "variant": 1,
+    "content": {
+     "hero": {
+      "note": "first cause of tooth decay = cross-section with a cavity reaching the dentin, candy badge",
+      "illus": "tooth-cross",
+      "illusParams": {
+       "highlight": "cavity"
+      },
+      "badge": {
+       "art": "candy",
+       "at": "w58"
+      }
+     },
+     "headline": "التسوس",
+     "kicker": "la carie",
+     "headlineAt": "w61"
+    },
+    "emphasis": [
+     "w58"
+    ],
+    "transition": "iris",
+    "bgIndex": 2,
+    "bg": "dna",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s12",
+    "from": "w62",
+    "to": "w67",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "pain when drinking cold = cold waves hitting the tooth, pulsing red pulp, cold face badge",
+      "illus": "tooth-cross",
+      "illusParams": {
+       "highlight": "cold"
+      },
+      "badge": {
+       "art": "cold-face",
+       "at": "w64"
+      }
+     },
+     "headline": "حساسية",
+     "kicker": "sensibilité",
+     "headlineAt": "w64"
+    },
+    "emphasis": [
+     "w64",
+     "w67"
+    ],
+    "transition": "slide",
+    "bgIndex": 0,
+    "bg": "deep",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s13",
+    "from": "w68",
+    "to": "w72",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "go see the dentist = clinic with calendar badge",
+      "art": "hospital",
+      "backdrop": "arch",
+      "props": [
+       "tooth",
+       "stethoscope"
+      ],
+      "badge": {
+       "art": "spiral-calendar",
+       "text": "موعد",
+       "at": "w70"
+      }
+     },
+     "headline": "زور الطبيب",
+     "headlineAt": "w70"
+    },
+    "emphasis": [
+     "w70"
+    ],
+    "transition": "zoom",
+    "bgIndex": 1,
+    "bg": "room",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s14",
+    "from": "w73",
+    "to": "w74",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "your smile deserves it = beaming face with sparkles and hearts orbiting",
+      "layout": "orbit",
+      "art": "beaming-face-with-smiling-eyes",
+      "props": [
+       "sparkles",
+       "sparkling-heart",
+       "glowing-star",
+       "tooth"
+      ]
+     },
+     "headline": "ابتسامتك",
+     "headlineAt": "w73"
+    },
+    "emphasis": [
+     "w73"
+    ],
+    "transition": "iris",
+    "bgIndex": 2,
+    "bg": "rays",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s15",
+    "from": "w75",
+    "to": "w78",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "follow me = bell + thumbs up + heart",
+      "art": "bell",
+      "backdrop": "ring",
+      "props": [
+       "thumbs-up",
+       "red-heart"
+      ]
+     },
+     "headline": "تابعني",
+     "kicker": "@dr.sara.dental",
+     "headlineAt": "w75"
+    },
+    "emphasis": [
+     "w75"
+    ],
+    "transition": "slide",
+    "bgIndex": 0,
+    "bg": "split",
+    "zoomOn": [],
+    "locked": false
+   }
+  ]
+ }
+}

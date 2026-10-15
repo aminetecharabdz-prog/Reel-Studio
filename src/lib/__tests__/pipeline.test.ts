@@ -5,6 +5,7 @@ import { StyleSettingsSchema } from '../schema/project';
 import { designDNA } from '../design/artDirector';
 import { detectTopic } from '../design/topics';
 import { planLocally } from '../director/localDirector';
+import { sceneSignature } from '../director/hero';
 import { compileReel } from '../timing/compiler';
 import { msToFrame } from '../timing/frames';
 
@@ -41,7 +42,7 @@ describe.each(['dentist', 'engine', 'phone-holder'])('pipeline %s', (id) => {
     }
   });
   it('no primitive twice in a row and ≤3 uses', () => {
-    const seq = plan.scenes.map((s) => s.primitive);
+    const seq = plan.scenes.map(sceneSignature);
     for (let i = 1; i < seq.length; i++) expect(seq[i]).not.toBe(seq[i - 1]);
     const counts = seq.reduce<Record<string, number>>((m, p) => ({ ...m, [p]: (m[p] ?? 0) + 1 }), {});
     expect(Math.max(...Object.values(counts))).toBeLessThanOrEqual(3);

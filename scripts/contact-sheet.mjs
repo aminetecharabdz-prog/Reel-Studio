@@ -13,6 +13,8 @@ for (const d of demos) {
   await page.goto(`${base}#/qa?demo=${d}&at=${at}${aspect}`);
   await page.waitForSelector('[data-testid=qa-sheet]', { timeout: 60000 });
   await page.waitForTimeout(4000);
+  const metrics = await page.evaluate(() => window.__qaMetrics ?? null);
+  if (metrics) console.log(`metrics ${d}@${at}`, JSON.stringify(metrics));
   const out = `.qa/sheet-${d}-${at}${process.argv[4] ? '-' + process.argv[4].replace(':', 'x') : ''}.png`;
   await page.screenshot({ path: out, fullPage: true });
   console.log(out, errs.length ? `errors: ${errs.slice(0, 5).join(' | ')}` : 'ok');

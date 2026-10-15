@@ -109,3 +109,73 @@ export const Grain = ({ amount, frame }: { amount: number; frame: number }) => {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="540" height="960"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="${seed}" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 ${(amount * 0.35).toFixed(3)} 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>`;
   return <Img src={`data:image/svg+xml;utf8,${encodeURIComponent(svg)}`} style={{ position: 'absolute', left: 0, top: 0, width: t.W, height: t.H }} />;
 };
+
+/**
+ * Per-scene background treatment layered over the DNA background (QUALITY_BAR §MUST 4): the same palette,
+ * different composition — spotlight, colour panel, sun-rays, room, blueprint grid, duotone diagonal.
+ * Linear gradients / solid shapes / inline SVG only (web-renderer subset).
+ */
+export const Treatment = ({ kind, absFrame, seed }: { kind: string; absFrame: number; seed: number }) => {
+  const t = useTheme();
+  const { W, H, u } = t;
+  const p = t.c.primary;
+  const a = t.c.accent;
+  const b0 = t.c.bg[0]!;
+  const drift = absFrame / t.fps;
+  switch (kind) {
+    case 'spotlight': {
+      const cx = W / 2 + Math.sin(drift * 0.3) * 30 * u;
+      const cy = H * 0.36;
+      return (
+        <AbsoluteFill>
+          {[1.25, 1.0, 0.78, 0.58].map((k, i) => (
+            <div key={i} style={{ position: 'absolute', left: cx - (W * k) / 2, top: cy - (W * k) / 2, width: W * k, height: W * k, borderRadius: '50%', backgroundColor: t.isDark ? withAlpha(mix(p, '#FFFFFF', 0.3), 0.07 + i * 0.03) : withAlpha('#FFFFFF', 0.16 + i * 0.1) }} />
+          ))}
+          <div style={{ position: 'absolute', left: 0, top: H * 0.66, width: W, height: H * 0.34, backgroundImage: `linear-gradient(180deg, ${withAlpha(mix(b0, p, 0.25), 0)} 0%, ${withAlpha(mix(b0, p, t.isDark ? 0.18 : 0.14), 1)} 30%)` }} />
+        </AbsoluteFill>
+      );
+    }
+    case 'split': {
+      const y = H * (0.5 + 0.015 * Math.sin(drift * 0.6));
+      const col = t.isDark ? mix(b0, p, 0.22) : mix(b0, p, 0.16);
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><path d="M0 ${y} C ${W * 0.3} ${y - 90 * u} ${W * 0.7} ${y + 90 * u} ${W} ${y - 20 * u} L ${W} ${H} L 0 ${H} Z" fill="${col}"/><path d="M0 ${y} C ${W * 0.3} ${y - 90 * u} ${W * 0.7} ${y + 90 * u} ${W} ${y - 20 * u}" stroke="${withAlpha(a, 0.8)}" stroke-width="${8 * u}" fill="none"/></svg>`;
+      return <Img src={`data:image/svg+xml;utf8,${encodeURIComponent(svg)}`} style={{ position: 'absolute', left: 0, top: 0, width: W, height: H }} />;
+    }
+    case 'rays': {
+      const n = 18;
+      const cx = W / 2;
+      const cy = H * 0.38;
+      const R = H * 1.2;
+      const rot = drift * 6 + (seed % 30);
+      let d = '';
+      for (let i = 0; i < n; i++) {
+        const a0 = ((i * 2) / (n * 2)) * Math.PI * 2;
+        const a1 = ((i * 2 + 1) / (n * 2)) * Math.PI * 2;
+        d += `M${cx} ${cy} L${cx + Math.cos(a0) * R} ${cy + Math.sin(a0) * R} L${cx + Math.cos(a1) * R} ${cy + Math.sin(a1) * R} Z `;
+      }
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><path d="${d}" fill="${withAlpha(t.isDark ? mix(p, '#FFFFFF', 0.2) : p, t.isDark ? 0.1 : 0.08)}" transform="rotate(${rot.toFixed(2)} ${cx} ${cy})"/></svg>`;
+      return <Img src={`data:image/svg+xml;utf8,${encodeURIComponent(svg)}`} style={{ position: 'absolute', left: 0, top: 0, width: W, height: H }} />;
+    }
+    case 'room': {
+      const horizon = H * 0.64;
+      const wall = t.isDark ? mix(b0, p, 0.12) : mix(b0, '#FFFFFF', 0.35);
+      const floor = t.isDark ? mix(b0, '#000000', 0.25) : mix(b0, p, 0.14);
+      const lines = Array.from({ length: 9 }, (_, i) => `<line x1="${W / 2}" y1="${horizon - H * 0.1}" x2="${(i / 8) * W * 2.4 - W * 0.7}" y2="${H}" stroke="${withAlpha(t.c.text, 0.06)}" stroke-width="${3 * u}"/>`).join('');
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><rect width="${W}" height="${horizon}" fill="${wall}"/><rect y="${horizon}" width="${W}" height="${H - horizon}" fill="${floor}"/><rect x="${W * 0.62}" y="${H * 0.1}" width="${W * 0.26}" height="${H * 0.2}" rx="${16 * u}" fill="${withAlpha(a, 0.16)}"/><rect x="${W * 0.1}" y="${H * 0.14}" width="${W * 0.18}" height="${H * 0.12}" rx="${12 * u}" fill="${withAlpha(p, 0.12)}"/>${lines}</svg>`;
+      return <Img src={`data:image/svg+xml;utf8,${encodeURIComponent(svg)}`} style={{ position: 'absolute', left: 0, top: 0, width: W, height: H }} />;
+    }
+    case 'grid': {
+      const s = 90 * u;
+      const off = (drift * 10 * u) % s;
+      const col = withAlpha(t.isDark ? mix(p, '#FFFFFF', 0.4) : p, t.isDark ? 0.14 : 0.1);
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W + s}" height="${H + s}"><defs><pattern id="g" width="${s}" height="${s}" patternUnits="userSpaceOnUse"><path d="M ${s} 0 L 0 0 0 ${s}" fill="none" stroke="${col}" stroke-width="${2 * u}"/></pattern></defs><rect width="100%" height="100%" fill="url(#g)"/></svg>`;
+      return <Img src={`data:image/svg+xml;utf8,${encodeURIComponent(svg)}`} style={{ position: 'absolute', left: -off, top: -off, width: W + s, height: H + s }} />;
+    }
+    case 'duotone':
+      return <AbsoluteFill style={{ backgroundImage: `linear-gradient(${155 + Math.sin(drift * 0.3) * 4}deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 54%, ${withAlpha(t.isDark ? mix(p, b0, 0.5) : mix(b0, p, 0.22), 1)} 54.2%, ${withAlpha(t.isDark ? mix(a, b0, 0.6) : mix(b0, a, 0.22), 1)} 100%)` }} />;
+    case 'deep':
+      return <AbsoluteFill style={{ backgroundImage: `linear-gradient(180deg, ${withAlpha(mix(b0, p, 0.18), 1)} 0%, ${withAlpha(mix(b0, a, 0.12), 1)} 100%)` }} />;
+    default:
+      return null;
+  }
+};

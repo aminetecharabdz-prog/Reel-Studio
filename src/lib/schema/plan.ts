@@ -8,6 +8,8 @@ export const PRIMITIVES = {
   graphic: ['icon-burst', 'icon-grid', 'illustration-scene', 'sticker-pop', 'callout-arrows', 'highlighter-circle', 'shape-morph', 'gauge', 'do-dont', 'warning-alert'],
   structure: ['title-card', 'chapter-divider', 'cta', 'end-card', 'logo-sting'],
   ad: ['price-tag', 'delivery-badge', 'cod-badge', 'urgency', 'offer-ribbon', 'feature-callouts'],
+  /** layered hero compositions (QUALITY_BAR): big topic-literal visual + props + badge + short label */
+  compose: ['hero-scene'],
 } as const;
 
 export type PrimitiveFamily = keyof typeof PRIMITIVES;
@@ -21,6 +23,31 @@ export const ImageRefSchema = z.object({
   prompt: z.string().optional(), // when an image should be generated
 });
 export type ImageRef = z.infer<typeof ImageRefSchema>;
+
+/** Background treatment per scene (QUALITY_BAR §MUST 4: ≥ 3 different treatments per video). */
+export const BG_TREATMENTS = ['dna', 'spotlight', 'split', 'rays', 'room', 'grid', 'duotone', 'deep'] as const;
+export type BgTreatment = (typeof BG_TREATMENTS)[number];
+
+export const HERO_LAYOUTS = ['center', 'pair', 'orbit', 'count', 'side'] as const;
+export const HeroSchema = z.object({
+  /** what the viewer sees and why it matches the words (director's statement, shown in the editor) */
+  note: z.string().max(240).optional(),
+  layout: z.enum(HERO_LAYOUTS).optional(),
+  art: z.string().max(60).optional(), // 3D object id (src/lib/design/art3d.ts)
+  art2: z.string().max(60).optional(), // second object (pair / count remainder)
+  illus: z.string().max(40).optional(), // vector illustration id (src/video/illustrations)
+  illusParams: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])).optional(),
+  image: ImageRefSchema.optional(), // user photo / generated image — wins over art when it resolves
+  cutout: z.boolean().optional(), // image is a product cut-out (transparent): show it as an object, not a framed photo
+  mark: z.enum(['forbidden', 'check', 'warning', 'cross', 'circle']).optional(),
+  markAt: z.string().optional(), // word id
+  props: z.array(z.string().max(60)).max(5).optional(), // small floating 3D objects
+  count: z.number().int().min(1).max(12).optional(),
+  highlight: z.number().int().min(0).max(12).optional(), // count layout: how many are `art` (rest `art2`)
+  badge: z.object({ art: z.string().max(60).optional(), text: z.string().max(24).optional(), at: z.string().optional() }).optional(),
+  backdrop: z.enum(['disc', 'blob', 'arch', 'ring', 'card', 'none']).optional(),
+});
+export type Hero = z.infer<typeof HeroSchema>;
 
 export const ItemSchema = z.object({
   text: z.string().max(80),
@@ -56,6 +83,7 @@ export const SceneContentSchema = z.object({
   rating: z.number().min(0).max(5).optional(),
   wilayas: z.number().int().optional(),
   colorTone: z.enum(['primary', 'accent', 'warning', 'success']).optional(),
+  hero: HeroSchema.optional(),
 });
 export type SceneContent = z.infer<typeof SceneContentSchema>;
 
@@ -69,6 +97,7 @@ export const SceneSchema = z.object({
   emphasis: z.array(z.string()).max(6).default([]), // word ids that get emphasis motion
   transition: z.enum(TRANSITIONS).default('cut'),
   bgIndex: z.number().int().min(0).max(3).default(0),
+  bg: z.enum(BG_TREATMENTS).optional(),
   /** mode C: how the speaker footage is shown in this scene */
   speaker: z.enum(['full', 'split-top', 'split-bottom', 'pip', 'hidden']).optional(),
   zoomOn: z.array(z.string()).max(4).default([]), // mode C punch-in word ids

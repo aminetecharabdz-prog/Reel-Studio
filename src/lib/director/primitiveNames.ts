@@ -11,6 +11,7 @@ export const PRIMITIVE_AR: Record<PrimitiveId, string> = {
   'highlighter-circle': 'دائرة يدوية', 'shape-morph': 'شكل متحوّل', gauge: 'عداد', 'do-dont': 'ديرها / ماديرهاش', 'warning-alert': 'تحذير',
   'title-card': 'بطاقة عنوان', 'chapter-divider': 'فاصل فصل', cta: 'دعوة للفعل', 'end-card': 'البطاقة الأخيرة', 'logo-sting': 'ظهور الشعار',
   'price-tag': 'السعر', 'delivery-badge': 'التوصيل', 'cod-badge': 'الدفع عند الاستلام', urgency: 'كمية محدودة', 'offer-ribbon': 'شريط العرض', 'feature-callouts': 'مميزات المنتج',
+  'hero-scene': 'مشهد بطل مركّب',
 };
 
 export const TRANSITION_AR: Record<string, string> = {

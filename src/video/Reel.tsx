@@ -4,7 +4,7 @@ import { Audio, Video } from '@remotion/media';
 import type { CompiledReel, CompiledScene } from '@/lib/timing/types';
 import { ensureFonts } from '@/lib/design/fonts';
 import { buildTheme, ThemeProvider, useTheme, type Box, type Theme } from './theme';
-import { Background, Grain } from './Background';
+import { Background, Grain, Treatment } from './Background';
 import { Captions } from './Captions';
 import { TransitionIn, transitionFrames } from './Transition';
 import { PRIMITIVE_COMPONENTS } from './registry';
@@ -124,7 +124,12 @@ const SceneGraphics = ({ scene, reel }: { scene: CompiledScene; reel: CompiledRe
 const SceneBackground = ({ scene, reel }: { scene: CompiledScene; reel: CompiledReel }) => {
   const frame = useCurrentFrame();
   const bgImage = scene.images[0]?.src ?? reel.scenes.find((s) => s.images[0])?.images[0]?.src ?? null;
-  return <Background index={scene.bgIndex} absFrame={scene.from + frame} image={bgImage} />;
+  return (
+    <>
+      <Background index={scene.bgIndex} absFrame={scene.from + frame} image={bgImage} />
+      {scene.bg !== 'dna' && <Treatment kind={scene.bg} absFrame={scene.from + frame} seed={reel.dna.seed} />}
+    </>
+  );
 };
 
 export const Reel: FC<ReelProps> = ({ reel }) => {

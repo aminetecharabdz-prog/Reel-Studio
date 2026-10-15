@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { Project } from '@/lib/schema/project';
 import { repo } from '@/lib/repo/db';
-import { demoProject, type DemoId } from '@/lib/demos';
+import { DEMO_REV, demoProject, type DemoId } from '@/lib/demos';
 import { generateProject, loadDemoTranscript, resolveMedia, compileProject, type MediaUrls } from '@/lib/studio';
 import type { CompiledReel } from '@/lib/timing/types';
 import { publicUrl } from '@/lib/audio/library';
@@ -11,7 +11,7 @@ import { proposeCuts } from '@/lib/mode-c';
 /** Create the demo project on first open (local director — no key needed). */
 export const ensureDemo = async (id: DemoId): Promise<Project> => {
   const existing = await repo.getProject(`demo-${id}`);
-  if (existing?.plan && existing.dna && existing.transcript) return existing;
+  if (existing?.plan && existing.dna && existing.transcript && existing.demoRev === DEMO_REV) return existing;
   let p = existing ?? demoProject(id);
   if (!p.transcript) p = { ...p, transcript: await loadDemoTranscript(id) };
   if (p.mode === 'C' && p.cuts.length === 0 && p.media.publicVideo && p.transcript) {

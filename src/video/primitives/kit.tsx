@@ -154,7 +154,8 @@ export const Headline = ({
   perWord = true,
   style,
   align,
-}: { text?: string; start: number; size?: number; maxLines?: number; color?: string; width?: number; role?: FitTextProps['role']; perWord?: boolean; style?: CSSProperties; align?: 'center' | 'start' }) => {
+  maxHeight,
+}: { text?: string; start: number; size?: number; maxLines?: number; color?: string; width?: number; role?: FitTextProps['role']; perWord?: boolean; style?: CSSProperties; align?: 'center' | 'start'; maxHeight?: number }) => {
   const P = usePrim();
   if (!text) return null;
   const { t, m, frame, stage, matchWord, at } = P;
@@ -182,7 +183,7 @@ export const Headline = ({
       maxWidth={width ?? stage.w}
       maxSize={maxSize}
       maxLines={maxLines}
-      maxHeight={stage.h * 0.6 * (0.5 + 0.5 * size)}
+      maxHeight={maxHeight ?? stage.h * 0.6 * (0.5 + 0.5 * size)}
       color={color}
       align={al}
       style={style}

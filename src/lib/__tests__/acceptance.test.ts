@@ -4,6 +4,7 @@ import { TranscriptSchema, type Transcript } from '../schema/transcript';
 import { designDNA } from '../design/artDirector';
 import { detectTopic, type Topic } from '../design/topics';
 import { planLocally } from '../director/localDirector';
+import { sceneSignature } from '../director/hero';
 import { checkPlan, autoFixPlan } from '../qa/checks';
 import { toPlan } from '../providers/claude';
 import { contrast } from '../color/contrast';
@@ -24,7 +25,7 @@ describe('Phase 2: 10 consecutive videos show no repeated look', () => {
       const recent = history.slice(-10);
       const dna = designDNA({ topic, seed: 1000 + i * 7919, avoid: { moods: recent.map((r) => r.mood), easings: recent.slice(-1).map((r) => r.easing), hues: [] } });
       const plan = planLocally({ transcript: t, dna, mode: 'A', pacing: 'auto', seed: 1000 + i * 7919, recentSequences: recent.map((r) => r.seq) });
-      const seq = plan.scenes.map((s) => s.primitive);
+      const seq = plan.scenes.map(sceneSignature);
       for (const h of history.filter((x) => x.seq.length && x.hue !== '')) {
         // looks never repeat: either the palette or the primitive sequence differs strongly
         expect(h.hue === dna.palette.primary && jaccard(h.seq, seq) >= 0.4).toBe(false);
@@ -61,6 +62,7 @@ describe('Phase 2: QA catches seeded errors', () => {
     bad.scenes[4]!.content.headlineAt = 'w-unknown';
     bad.scenes[6]!.primitive = bad.scenes[5]!.primitive;
     bad.scenes[6]!.variant = bad.scenes[5]!.variant;
+    bad.scenes[6]!.content = structuredClone(bad.scenes[5]!.content);
     const issues = checkPlan(bad, t, 'A');
     const kinds = new Set(issues.map((i) => i.check));
     expect(kinds.has('content')).toBe(true);
@@ -83,7 +85,12 @@ describe('Claude director output → internal plan', () => {
     const plan = toPlan([scene('w0', 'w5', 'question-hook'), scene('w6', 'w52', 'product-hero', { userImage: 0, price: 1500 })], ['h1', 'h2'], [{ src: 'demo/phone-holder.svg' }]);
     expect(plan.scenes[1]!.content.image).toEqual({ src: 'demo/phone-holder.svg' });
     expect(plan.scenes[0]!.content.sub).toBeUndefined();
-    expect(checkPlan(plan, t, 'B').filter((i) => i.severity === 'error')).toEqual([]);
+    // a text-only hook is flagged (QUALITY_BAR: no empty scenes) and auto-fixed into a hero composition
+    const issues = checkPlan(plan, t, 'B');
+    expect(issues.some((i) => i.check === 'hero' && i.sceneId === 's0')).toBe(true);
+    const fixed = autoFixPlan(plan, t, issues).plan;
+    expect(fixed.scenes[0]!.primitive).toBe('hero-scene');
+    expect(checkPlan(fixed, t, 'B').filter((i) => i.severity === 'error')).toEqual([]);
   });
 });
 

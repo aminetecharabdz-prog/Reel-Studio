@@ -9,6 +9,22 @@ import type { CompiledReel } from '../timing/types';
 import { msToFrame } from '../timing/frames';
 import { contrast } from '../color/contrast';
 import { PRIMITIVE_META } from '../director/primitiveMeta';
+import { heroContent, pickBg, sceneSignature, shortLabel } from '../director/hero';
+import { classifyBeat } from '../director/beats';
+import { normalizeAr } from '../text/keywords';
+
+/** Primitives whose visual can be the hero (QUALITY_BAR §MUST 1). Everything else is text/data on an empty stage. */
+const HERO_PRIMITIVES = new Set<string>(['hero-scene', 'product-hero', 'ken-burns', 'before-after', 'collage', 'polaroid-stack', 'end-card']);
+const hasHero = (s: Scene) => HERO_PRIMITIVES.has(s.primitive) || (['image-card', 'phone-mockup', 'laptop-mockup', 'feature-callouts'].includes(s.primitive) && !!s.content.image);
+const wordsOf = (s: string) => s.split(/\s+/).map(normalizeAr).filter(Boolean);
+/** a headline repeats the caption when it is ≥ 4 words copied in order from what is said */
+export const headlineEchoes = (headline: string, spoken: string[]) => {
+  const h = wordsOf(headline);
+  if (h.length < 4) return false;
+  const sp = spoken.map(normalizeAr).join(' ');
+  return sp.includes(h.join(' '));
+};
+const isLabelWord = (w: string) => /[\p{L}]{2,}/u.test(w) && !/^\d/.test(w);
 
 const need = (s: Scene): string | null => {
   const c = s.content;
@@ -54,11 +70,23 @@ export const checkPlan = (plan: Plan, t: Transcript, mode: 'A' | 'B' | 'C'): QAI
     const modes = PRIMITIVE_META[s.primitive].modes;
     if (modes && !modes.includes(mode) && !s.content.image) issues.push({ check: 'mode', severity: 'warning', sceneId: s.id, message: `${s.primitive} مخصص لوضع آخر`, fixed: false });
     const prev = plan.scenes[i - 1];
-    if (prev && prev.primitive === s.primitive && prev.variant === s.variant) issues.push({ check: 'repetition', severity: 'warning', sceneId: s.id, message: `نفس الشكل مرتين متتاليتين (${s.primitive})`, fixed: false });
+    if (prev && sceneSignature(prev) === sceneSignature(s) && prev.variant === s.variant) issues.push({ check: 'repetition', severity: 'warning', sceneId: s.id, message: `نفس الشكل مرتين متتاليتين (${s.primitive})`, fixed: false });
+    // QUALITY_BAR §1: no empty scenes — every scene has a hero visual (mode C full-frame speaker = the speaker is the hero)
+    const speakerHero = mode === 'C' && (s.speaker ?? 'full') !== 'split-top' && s.speaker !== 'hidden';
+    if (!speakerHero && !hasHero(s)) issues.push({ check: 'hero', severity: 'error', sceneId: s.id, message: `المشهد ${i + 1} (${s.primitive}) بلا صورة بطل كبيرة`, fixed: false });
+    // QUALITY_BAR §5: headline = 1–3 key words or a number, never the caption sentence
+    const hl = s.content.headline ?? '';
+    if (a !== undefined && b !== undefined && hl) {
+      const spoken = t.words.slice(a, b + 1).map((w) => w.text);
+      if (headlineEchoes(hl, spoken)) issues.push({ check: 'headline-echo', severity: 'error', sceneId: s.id, message: `المشهد ${i + 1}: العنوان يكرر الكابشن`, fixed: false });
+      else if (s.primitive === 'hero-scene' && hl.split(/\s+/).filter(isLabelWord).length > 3) issues.push({ check: 'headline-long', severity: 'warning', sceneId: s.id, message: `المشهد ${i + 1}: العنوان أطول من 3 كلمات`, fixed: false });
+    }
   });
+  // QUALITY_BAR §4: backgrounds vary within a video (≥ 3 treatments)
+  if (plan.scenes.length >= 4 && mode !== 'C' && new Set(plan.scenes.map((s) => s.bg ?? 'dna')).size < 3) issues.push({ check: 'bg-variety', severity: 'warning', message: 'الخلفية نفسها في كل الفيديو — نحتاج 3 معالجات مختلفة على الأقل', fixed: false });
   if (prevTo !== t.words.length - 1) issues.push({ check: 'coverage', severity: 'error', message: 'بعض الكلمات في الآخر بلا مشهد', fixed: false });
   const counts = new Map<string, number>();
-  for (const s of plan.scenes) counts.set(s.primitive, (counts.get(s.primitive) ?? 0) + 1);
+  for (const s of plan.scenes) counts.set(sceneSignature(s), (counts.get(sceneSignature(s)) ?? 0) + 1);
   for (const [p, n] of counts) if (n > 3 && p !== 'end-card') issues.push({ check: 'repetition', severity: 'warning', message: `${p} مستعمل ${n} مرات`, fixed: false });
   return issues;
 };
@@ -122,6 +150,24 @@ export const autoFixPlan = (plan: Plan, t: Transcript, issues: QAIssue[]): { pla
       s.content.valueAt = ok(s.content.valueAt);
       s.content.items = s.content.items?.map((it) => ({ ...it, at: ok(it.at) }));
       s.emphasis = s.emphasis.filter((id) => ok(id));
+      fixed.push({ ...iss, fixed: true });
+    } else if (iss.check === 'hero' && s) {
+      const a = order.get(s.from)!;
+      const words = t.words.slice(a, order.get(s.to)! + 1);
+      const idx = next.scenes.indexOf(s);
+      const content = heroContent({ words, type: classifyBeat(words, idx, next.scenes.length), index: idx, seed: idx * 31, mode: 'A' });
+      s.primitive = 'hero-scene';
+      s.content = { ...content, image: s.content.image, price: s.content.price ?? content.price, oldPrice: s.content.oldPrice ?? content.oldPrice, currency: s.content.currency ?? content.currency, valueAt: s.content.valueAt ?? content.valueAt };
+      if (s.content.image && s.content.hero && !s.content.hero.image) s.content.hero = { ...s.content.hero, image: s.content.image, cutout: true };
+      fixed.push({ ...iss, fixed: true });
+    } else if ((iss.check === 'headline-echo' || iss.check === 'headline-long') && s) {
+      const words = t.words.slice(order.get(s.from)!, order.get(s.to)! + 1);
+      const l = shortLabel(words, 3);
+      s.content.headline = l.text;
+      s.content.headlineAt = l.firstId;
+      fixed.push({ ...iss, fixed: true });
+    } else if (iss.check === 'bg-variety') {
+      next.scenes.forEach((x, i) => { x.bg = pickBg(i, 0); });
       fixed.push({ ...iss, fixed: true });
     } else if (iss.check === 'repetition' && s) {
       s.variant = (s.variant + 1) % 3;

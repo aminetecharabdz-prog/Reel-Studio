@@ -6,6 +6,7 @@ import * as M from './primitives/media';
 import * as G from './primitives/graphic';
 import * as S from './primitives/structure';
 import * as A from './primitives/ad';
+import * as C from './primitives/compose';
 
 export const PRIMITIVE_COMPONENTS: Record<PrimitiveId, FC> = {
   'kinetic-headline': T.KineticHeadline,
@@ -57,4 +58,5 @@ export const PRIMITIVE_COMPONENTS: Record<PrimitiveId, FC> = {
   urgency: A.Urgency,
   'offer-ribbon': A.OfferRibbon,
   'feature-callouts': A.FeatureCallouts,
+  'hero-scene': C.HeroScene,
 };

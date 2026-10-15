@@ -7,8 +7,8 @@ import { Button, Input, Label, Panel, Segmented, Toggle, cx } from '../../compon
 import { regenerateScene } from '@/lib/studio';
 import { useState } from 'react';
 
-const FAMILY_AR: Record<keyof typeof PRIMITIVES, string> = { text: 'نصوص', data: 'بيانات', media: 'صور', graphic: 'رسوم', structure: 'هيكل', ad: 'إعلان' };
-const FAMILY_COLOR: Record<keyof typeof PRIMITIVES, string> = { text: '#B49CFF', data: '#3CE3B4', media: '#FFB86B', graphic: '#FF3E7A', structure: '#8FB8FF', ad: '#FFD84D' };
+const FAMILY_AR: Record<keyof typeof PRIMITIVES, string> = { text: 'نصوص', data: 'بيانات', media: 'صور', graphic: 'رسوم', structure: 'هيكل', ad: 'إعلان', compose: 'مشاهد مركّبة' };
+const FAMILY_COLOR: Record<keyof typeof PRIMITIVES, string> = { text: '#B49CFF', data: '#3CE3B4', media: '#FFB86B', graphic: '#FF3E7A', structure: '#8FB8FF', ad: '#FFD84D', compose: '#5EEAD4' };
 const familyOf = (p: PrimitiveId) => (Object.keys(PRIMITIVES) as Array<keyof typeof PRIMITIVES>).find((f) => (PRIMITIVES[f] as readonly string[]).includes(p))!;
 
 export const ScenesTab = ({ project, reel, selected, onSelect, onChange }: { project: Project; reel: CompiledReel | null; selected: string | null; onSelect: (id: string) => void; onChange: (p: Project) => void }) => {

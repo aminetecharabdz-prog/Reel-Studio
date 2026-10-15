@@ -1,0 +1,494 @@
+{
+ "author": "Claude (art + scene director) — authored fixture, see scripts/demo-direction/build.py",
+ "dna": {
+  "mood": "garage-night-precision",
+  "palette": {
+   "bg": [
+    "#15181D",
+    "#1B1F26",
+    "#101216"
+   ],
+   "surface": "#232830",
+   "primary": "#FF7A1A",
+   "accent": "#FFC53D",
+   "text": "#F4F6F8",
+   "textOnAccent": "#111111"
+  },
+  "typography": {
+   "display": {
+    "family": "changa",
+    "weight": 800
+   },
+   "body": {
+    "family": "cairo",
+    "weight": 600
+   },
+   "captions": {
+    "family": "cairo",
+    "weight": 800
+   },
+   "latin": "unbounded",
+   "scale": 1.05,
+   "weightContrast": "high"
+  },
+  "layoutGrammar": "asymmetric",
+  "motionLanguage": {
+   "easing": "snappy",
+   "baseDurationFrames": 10,
+   "overshoot": 0.2,
+   "stagger": 3,
+   "transitionFamily": [
+    "wipe",
+    "shutter",
+    "push"
+   ]
+  },
+  "background": {
+   "kind": "grain",
+   "params": {
+    "angle": 200,
+    "pattern": "dots",
+    "density": 0.6
+   }
+  },
+  "illustrationStyle": "technical cutaway illustration, brushed metal, molten orange accents",
+  "iconSet": "tabler",
+  "texture": {
+   "grain": 0.12,
+   "shadows": "long",
+   "corners": 12
+  },
+  "sfxPalette": "mechanical",
+  "seed": 90211
+ },
+ "plan": {
+  "scenes": [
+   {
+    "id": "s0",
+    "from": "w0",
+    "to": "w3",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "how does a car engine work = the engine cross-section running",
+      "illus": "engine-cylinder",
+      "illusParams": {
+       "stroke": "cycle",
+       "speed": 1.1
+      }
+     },
+     "headline": "الموتور",
+     "kicker": "4 temps",
+     "headlineAt": "w2"
+    },
+    "emphasis": [
+     "w2"
+    ],
+    "transition": "cut",
+    "bgIndex": 0,
+    "bg": "grid",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s1",
+    "from": "w4",
+    "to": "w9",
+    "primitive": "hero-scene",
+    "variant": 1,
+    "content": {
+     "hero": {
+      "note": "everything happens in a quarter of a second = stopwatch with sparks",
+      "art": "stopwatch",
+      "backdrop": "ring",
+      "props": [
+       "high-voltage",
+       "gear",
+       "fire"
+      ]
+     },
+     "headline": "ربع ثانية",
+     "headlineAt": "w5"
+    },
+    "emphasis": [
+     "w5"
+    ],
+    "transition": "wipe",
+    "bgIndex": 1,
+    "bg": "spotlight",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s2",
+    "from": "w10",
+    "to": "w14",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "4 stages = 4 gears",
+      "layout": "count",
+      "art": "gear",
+      "count": 4,
+      "backdrop": "none"
+     },
+     "headline": "4 مراحل",
+     "headlineAt": "w13"
+    },
+    "emphasis": [
+     "w13"
+    ],
+    "transition": "shutter",
+    "bgIndex": 2,
+    "bg": "rays",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s3",
+    "from": "w15",
+    "to": "w22",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "stroke 1: piston goes down, air + fuel enter through the intake valve",
+      "illus": "engine-cylinder",
+      "illusParams": {
+       "stroke": 1
+      },
+      "badge": {
+       "art": "fuel-pump",
+       "text": "l'essence",
+       "at": "w22"
+      }
+     },
+     "headline": "الشفط",
+     "kicker": "1 · admission",
+     "headlineAt": "w15"
+    },
+    "emphasis": [
+     "w18"
+    ],
+    "transition": "push",
+    "bgIndex": 0,
+    "bg": "dna",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s4",
+    "from": "w23",
+    "to": "w25",
+    "primitive": "hero-scene",
+    "variant": 1,
+    "content": {
+     "hero": {
+      "note": "stroke 2: piston goes up and compresses the mixture",
+      "illus": "engine-cylinder",
+      "illusParams": {
+       "stroke": 2
+      }
+     },
+     "headline": "الضغط",
+     "kicker": "2 · compression",
+     "headlineAt": "w23"
+    },
+    "emphasis": [
+     "w25"
+    ],
+    "transition": "wipe",
+    "bgIndex": 1,
+    "bg": "grid",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s5",
+    "from": "w26",
+    "to": "w30",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "stroke 3: the spark plug fires",
+      "illus": "engine-cylinder",
+      "illusParams": {
+       "stroke": 3
+      },
+      "badge": {
+       "art": "high-voltage",
+       "text": "شرارة",
+       "at": "w30"
+      }
+     },
+     "headline": "la bougie",
+     "kicker": "3 · étincelle",
+     "headlineAt": "w28"
+    },
+    "emphasis": [
+     "w30"
+    ],
+    "transition": "shutter",
+    "bgIndex": 2,
+    "bg": "spotlight",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s6",
+    "from": "w31",
+    "to": "w36",
+    "primitive": "hero-scene",
+    "variant": 1,
+    "content": {
+     "hero": {
+      "note": "the explosion pushes the piston down hard = explosion with fire",
+      "art": "collision",
+      "backdrop": "ring",
+      "props": [
+       "fire",
+       "high-voltage",
+       "fire"
+      ]
+     },
+     "headline": "انفجار!",
+     "kicker": "explosion",
+     "headlineAt": "w31"
+    },
+    "emphasis": [
+     "w31",
+     "w36"
+    ],
+    "transition": "push",
+    "bgIndex": 0,
+    "bg": "rays",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s7",
+    "from": "w37",
+    "to": "w41",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "stroke 4: smoke leaves through the exhaust valve",
+      "illus": "engine-cylinder",
+      "illusParams": {
+       "stroke": 4
+      },
+      "badge": {
+       "art": "dashing-away",
+       "at": "w39"
+      }
+     },
+     "headline": "l'échappement",
+     "kicker": "4 · الدخان",
+     "headlineAt": "w41"
+    },
+    "emphasis": [
+     "w39"
+    ],
+    "transition": "wipe",
+    "bgIndex": 1,
+    "bg": "dna",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s8",
+    "from": "w42",
+    "to": "w48",
+    "primitive": "hero-scene",
+    "variant": 1,
+    "content": {
+     "hero": {
+      "note": "the cycle repeats thousands of times a minute = engine running fast with a cycle badge",
+      "illus": "engine-cylinder",
+      "illusParams": {
+       "stroke": "cycle",
+       "speed": 3.2
+      },
+      "badge": {
+       "art": "counterclockwise-arrows-button",
+       "at": "w44"
+      }
+     },
+     "headline": "بلا حبس",
+     "kicker": "آلاف المرات",
+     "headlineAt": "w45"
+    },
+    "emphasis": [
+     "w45"
+    ],
+    "transition": "shutter",
+    "bgIndex": 2,
+    "bg": "grid",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s9",
+    "from": "w49",
+    "to": "w55",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "3000 rpm at 90 km/h = tachometer needle on 3, car badge with 90",
+      "illus": "gauge-dial",
+      "illusParams": {
+       "value": 3,
+       "max": 8,
+       "unit": "x1000 tr/min"
+      },
+      "badge": {
+       "art": "racing-car",
+       "text": "90 km/h",
+       "at": "w55"
+      }
+     },
+     "headline": "3000 دورة",
+     "headlineAt": "w50"
+    },
+    "emphasis": [
+     "w50"
+    ],
+    "transition": "push",
+    "bgIndex": 0,
+    "bg": "spotlight",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s10",
+    "from": "w56",
+    "to": "w59",
+    "primitive": "hero-scene",
+    "variant": 1,
+    "content": {
+     "hero": {
+      "note": "to make the engine last = mechanic with tools",
+      "art": "man-mechanic",
+      "backdrop": "arch",
+      "props": [
+       "wrench",
+       "gear",
+       "nut-and-bolt"
+      ]
+     },
+     "headline": "صيانة",
+     "kicker": "entretien",
+     "headlineAt": "w58"
+    },
+    "emphasis": [],
+    "transition": "wipe",
+    "bgIndex": 1,
+    "bg": "room",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s11",
+    "from": "w60",
+    "to": "w64",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "change the oil every 10 000 km = oil drum + motorway badge",
+      "art": "oil-drum",
+      "backdrop": "disc",
+      "props": [
+       "droplet",
+       "droplet"
+      ],
+      "badge": {
+       "art": "motorway",
+       "text": "10 000 km",
+       "at": "w63"
+      }
+     },
+     "headline": "بدّل l'huile",
+     "headlineAt": "w61"
+    },
+    "emphasis": [
+     "w61",
+     "w63"
+    ],
+    "transition": "shutter",
+    "bgIndex": 2,
+    "bg": "duotone",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s12",
+    "from": "w65",
+    "to": "w69",
+    "primitive": "hero-scene",
+    "variant": 1,
+    "content": {
+     "hero": {
+      "note": "check the radiator water = water + thermometer",
+      "art": "water-wave",
+      "backdrop": "blob",
+      "props": [
+       "thermometer",
+       "droplet"
+      ],
+      "badge": {
+       "art": "magnifying-glass-tilted-left",
+       "at": "w65"
+      }
+     },
+     "headline": "le radiateur",
+     "kicker": "الماء",
+     "headlineAt": "w69"
+    },
+    "emphasis": [
+     "w66"
+    ],
+    "transition": "push",
+    "bgIndex": 0,
+    "bg": "grid",
+    "zoomOn": [],
+    "locked": false
+   },
+   {
+    "id": "s13",
+    "from": "w70",
+    "to": "w73",
+    "primitive": "hero-scene",
+    "variant": 0,
+    "content": {
+     "hero": {
+      "note": "good engine, safe road = car with shield and a green check",
+      "art": "oncoming-automobile",
+      "mark": "check",
+      "markAt": "w73",
+      "backdrop": "ring",
+      "props": [
+       "shield",
+       "sparkles"
+      ]
+     },
+     "headline": "طريق آمنة",
+     "headlineAt": "w72"
+    },
+    "emphasis": [
+     "w73"
+    ],
+    "transition": "wipe",
+    "bgIndex": 1,
+    "bg": "rays",
+    "zoomOn": [],
+    "locked": false
+   }
+  ]
+ }
+}
