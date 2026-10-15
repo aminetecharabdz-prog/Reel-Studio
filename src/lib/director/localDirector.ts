@@ -12,6 +12,7 @@ import { rng, type Rng } from '../util/rng';
 import { buildBeats, classifyBeat, type Beat } from './beats';
 import { beatText, distill, emphasisWords, findNumbers, iconFor, iconsFor, itemsFrom } from './content';
 import { PRIMITIVE_META } from './primitiveMeta';
+import { detectTopic } from '../design/topics';
 import { isStopword, normalizeAr } from '../text/keywords';
 import { heroContent, heroKey, pickBg, sceneSignature } from './hero';
 
@@ -25,7 +26,8 @@ export type DirectorInput = {
   seed: number;
   product?: ProductInfo;
   images?: ImageRef[]; // user media (product photos etc.)
-  recentSequences?: string[][]; // primitive sequences of the user's last videos
+  recentSequences?: string[][];
+  business?: string; // primitive sequences of the user's last videos
   speakerFootage?: boolean; // mode A with a face video: speaker-top + graphic panel
 };
 
@@ -191,6 +193,8 @@ export const planLocally = (input: DirectorInput): Plan => {
 const planOnce = (input: DirectorInput): Plan => {
   const r = rng(input.seed);
   const beats = buildBeats(input.transcript.words, input.pacing);
+  // topic gates the topic-specific illustrations (a wall-decor ad must never get a tooth cross-section)
+  const topic = detectTopic(input.transcript.words.map((w) => w.text).join(' '), input.business).topic;
   const used = new Map<string, number>();
   const scenes: Scene[] = [];
   const imgIdx = { i: 0 };
@@ -236,7 +240,7 @@ const planOnce = (input: DirectorInput): Plan => {
       const img = input.mode === 'B' && input.images?.length ? input.images[0] : undefined;
       const artCount = (a: string) => scenes.filter((x) => x.content.hero?.art === a || x.content.hero?.art2 === a).length;
       const keyCount = (k: string) => scenes.filter((x) => x.primitive === 'hero-scene' && heroKey(x.content) === k).length;
-      chosen = heroContent({ words: b.words, type: b.type, index: i, seed: input.seed, mode: input.mode, product: input.product, image: img, overused: (a) => artCount(a) >= 2, overusedKey: (k) => keyCount(k) >= 2 });
+      chosen = heroContent({ topic, words: b.words, type: b.type, index: i, seed: input.seed, mode: input.mode, product: input.product, image: img, overused: (a) => artCount(a) >= 2, overusedKey: (k) => keyCount(k) >= 2 });
       pid = 'hero-scene';
       // ≤ 3 identical compositions per video: rotate the layout when this one is already used a lot
       if (chosen.hero && !chosen.hero.illus && !chosen.hero.image && keyCount(heroKey(chosen)) >= 2) {

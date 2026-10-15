@@ -11,25 +11,26 @@ import { artsIn, findArt, type Art3DId } from '../design/art3d';
 import { normalizeAr, isStopword } from '../text/keywords';
 import { distill, findNumbers } from './content';
 import type { BeatType } from './primitiveMeta';
+import type { Topic } from '../design/topics';
 
-type Rule = { re: RegExp; illus: string; params: Hero['illusParams'] };
+type Rule = { re: RegExp; illus: string; params: Hero['illusParams']; topics: Topic[] };
 /** topic illustrations, matched on the normalised beat text (first match wins) */
 const ILLUS_RULES: Rule[] = [
-  { re: /(بارد|البارد|froid|حساسيه|sensib)/, illus: 'tooth-cross', params: { highlight: 'cold' } },
-  { re: /(تسوس|التسوس|carie|سوسه)/, illus: 'tooth-cross', params: { highlight: 'cavity' } },
-  { re: /(تشقق|تشققات|fissure|كسر|مكسور)/, illus: 'tooth-cross', params: { highlight: 'crack' } },
-  { re: /(\bfil\b|خيط|floss)/, illus: 'teeth-row', params: { plaque: true, floss: true } },
-  { re: /(ما يغسلوش|مايغسلوش|بلاك|plaque|tartre|جير)/, illus: 'teeth-row', params: { plaque: true } },
-  { re: /(ابيض|بياض|blancheur|تبييض|ابتسام)/, illus: 'teeth-row', params: { clean: true } },
-  { re: /(يهبط.*يدخل|admission|الشفط)/, illus: 'engine-cylinder', params: { stroke: 1 } },
-  { re: /(يضغط|compression)/, illus: 'engine-cylinder', params: { stroke: 2 } },
-  { re: /(bougie|شراره|étincelle|etincelle)/, illus: 'engine-cylinder', params: { stroke: 3 } },
-  { re: /(échappement|echappement|الدخان)/, illus: 'engine-cylinder', params: { stroke: 4 } },
-  { re: /(piston|بيستون|موتور|moteur|محرك)/, illus: 'engine-cylinder', params: { stroke: 'cycle', speed: 1.1 } },
-  { re: /(tr\/min|rpm|دوره.*تمشي|كي تمشي ب)/, illus: 'gauge-dial', params: { value: 3, max: 8, unit: 'x1000 tr/min' } },
-  { re: /(تسوق|تسوقي|conduis).*(تيليفون|هاتف|phone)|(تيليفون|phone).*(يطيح|طاح|tombe)/, illus: 'car-dash', params: { phone: 'falling', bumpy: true } },
-  { re: /(يتركب|clim|يشد|ثابت|support)/, illus: 'car-dash', params: { phone: 'snap' } },
-  { re: /(يدور|360|rotation)/, illus: 'car-dash', params: { phone: 'rotate' } },
+  { re: /(بارد|البارد|froid|حساسيه|sensib)/, illus: 'tooth-cross', params: { highlight: 'cold' }, topics: ['dental', 'medical'] },
+  { re: /(تسوس|التسوس|carie|سوسه)/, illus: 'tooth-cross', params: { highlight: 'cavity' }, topics: ['dental', 'medical'] },
+  { re: /(تشقق|تشققات|fissure|كسر|مكسور)/, illus: 'tooth-cross', params: { highlight: 'crack' }, topics: ['dental', 'medical'] },
+  { re: /(\bfil\b|خيط|floss)/, illus: 'teeth-row', params: { plaque: true, floss: true }, topics: ['dental', 'medical'] },
+  { re: /(ما يغسلوش|مايغسلوش|بلاك|plaque|tartre|جير)/, illus: 'teeth-row', params: { plaque: true }, topics: ['dental', 'medical'] },
+  { re: /(ابيض|بياض|blancheur|تبييض|ابتسام)/, illus: 'teeth-row', params: { clean: true }, topics: ['dental', 'medical'] },
+  { re: /(يهبط.*يدخل|admission|الشفط)/, illus: 'engine-cylinder', params: { stroke: 1 }, topics: ['automotive'] },
+  { re: /(يضغط|compression)/, illus: 'engine-cylinder', params: { stroke: 2 }, topics: ['automotive'] },
+  { re: /(bougie|شراره|étincelle|etincelle)/, illus: 'engine-cylinder', params: { stroke: 3 }, topics: ['automotive'] },
+  { re: /(échappement|echappement|الدخان)/, illus: 'engine-cylinder', params: { stroke: 4 }, topics: ['automotive'] },
+  { re: /(piston|بيستون|موتور|moteur|محرك)/, illus: 'engine-cylinder', params: { stroke: 'cycle', speed: 1.1 }, topics: ['automotive'] },
+  { re: /(tr\/min|rpm|دوره.*تمشي|كي تمشي ب)/, illus: 'gauge-dial', params: { value: 3, max: 8, unit: 'x1000 tr/min' }, topics: ['automotive'] },
+  { re: /(تسوق|تسوقي|conduis).*(تيليفون|هاتف|phone)|(تيليفون|phone).*(يطيح|طاح|tombe)/, illus: 'car-dash', params: { phone: 'falling', bumpy: true }, topics: ['automotive', 'product'] },
+  { re: /(يتركب|clim|يشد|ثابت|support)/, illus: 'car-dash', params: { phone: 'snap' }, topics: ['automotive', 'product'] },
+  { re: /(يدور|360|rotation)/, illus: 'car-dash', params: { phone: 'rotate' }, topics: ['automotive', 'product'] },
 ];
 
 const NEG = /^(ما|ماشي|لا|ممنوع|حذاري|وحذاري|جامي|jamais|ne|pas|never|don't)$/;
@@ -48,7 +49,7 @@ export const shortLabel = (words: Word[], max = 3) => {
   return { text: ws.slice(0, max).join(' '), firstId: d.firstId };
 };
 
-export type HeroInput = { words: Word[]; type: BeatType; index: number; seed: number; mode: 'A' | 'B' | 'C'; product?: ProductInfo; image?: ImageRef; overused?: (art: string) => boolean; overusedKey?: (key: string) => boolean };
+export type HeroInput = { topic?: Topic; words: Word[]; type: BeatType; index: number; seed: number; mode: 'A' | 'B' | 'C'; product?: ProductInfo; image?: ImageRef; overused?: (art: string) => boolean; overusedKey?: (key: string) => boolean };
 
 /** Build hero-scene content for a beat. */
 export const heroContent = (x: HeroInput): SceneContent => {
@@ -68,7 +69,7 @@ export const heroContent = (x: HeroInput): SceneContent => {
   const content: SceneContent = { headline: label.text, headlineAt: label.firstId, hero };
   const neg = words.some((w) => NEG.test(normalizeAr(w.text)) || /^ما.+ش[؟?!.،]*$/.test(w.text));
   const pos = words.some((w) => POS.test(normalizeAr(w.text)));
-  const rule = ILLUS_RULES.find((r) => (r.re.test(norm) || r.re.test(raw)) && !x.overusedKey?.(`hero:center:${r.illus}${JSON.stringify(r.params ?? {})}`));
+  const rule = ILLUS_RULES.find((r) => !!x.topic && r.topics.includes(x.topic) && (r.illus !== 'car-dash' || /(تيليفون|هاتف|phone|سياره|طوموبيل|voiture|clim)/.test(norm + ' ' + raw)) && (r.re.test(norm) || r.re.test(raw)) && !x.overusedKey?.(`hero:center:${r.illus}${JSON.stringify(r.params ?? {})}`));
 
   // product ads: the real product is the hero for product / offer beats
   if (x.mode === 'B' && x.image && (type === 'product' || (type === 'offer' && prices.length))) {
