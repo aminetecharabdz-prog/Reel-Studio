@@ -339,19 +339,40 @@
     "transition": "cut",
     "layers": [
      {
-      "id": "bulb",
+      "id": "ghost",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "فكرة"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.66,
+      "w": 1.5,
+      "size": "mega",
+      "role": "serif",
+      "opacity": 0.08,
+      "rotate": -10,
+      "anim": "blur",
+      "hier": false,
+      "at": "w0"
+     },
+     {
+      "id": "pen",
       "type": "image",
       "src": {
-       "kind": "sticker",
-       "name": "light-bulb"
+       "kind": "library",
+       "name": "obj/fountain-pen"
       },
-      "x": 0.08,
-      "y": 0.42,
-      "w": 0.95,
-      "rotate": -18,
+      "x": 0.3,
+      "y": 0.66,
+      "w": 1.1,
+      "rotate": -28,
       "anim": "slide-right",
       "idle": "sway",
-      "at": "w0",
+      "at": "w1",
       "depth": 0.8
      },
      {
@@ -418,12 +439,12 @@
       "id": "box",
       "type": "image",
       "src": {
-       "kind": "sticker",
-       "name": "package"
+       "kind": "library",
+       "name": "obj/gift-box"
       },
       "x": 0.5,
-      "y": 0.6,
-      "w": 0.62,
+      "y": 0.62,
+      "w": 0.72,
       "anim": "drop",
       "idle": "float",
       "at": "w4"
@@ -497,15 +518,16 @@
       "id": "eye",
       "type": "image",
       "src": {
-       "kind": "sticker",
-       "name": "thinking-face"
+       "kind": "library",
+       "name": "obj/eye"
       },
       "x": 0.5,
-      "y": 0.62,
-      "w": 0.5,
+      "y": 0.6,
+      "w": 1.0,
       "anim": "zoom",
-      "idle": "sway",
-      "at": "w7"
+      "idle": "float",
+      "at": "w7",
+      "depth": 0.7
      },
      {
       "id": "t3",
@@ -604,16 +626,16 @@
       "id": "mega",
       "type": "image",
       "src": {
-       "kind": "sticker",
-       "name": "loudspeaker"
+       "kind": "library",
+       "name": "obj/megaphone-man"
       },
-      "x": 0.5,
-      "y": 0.6,
-      "w": 0.66,
-      "anim": "spin",
-      "idle": "pulse",
-      "at": "w14",
-      "rotate": -12
+      "x": 0.62,
+      "y": 0.64,
+      "w": 0.95,
+      "anim": "slide-left",
+      "idle": "none",
+      "at": "w13",
+      "depth": 0.6
      },
      {
       "id": "t5",
@@ -641,36 +663,16 @@
       "at": "w13"
      },
      {
-      "id": "mega2",
-      "type": "image",
-      "src": {
-       "kind": "sticker",
-       "name": "loudspeaker"
-      },
-      "x": 0.95,
-      "y": 0.92,
-      "w": 0.4,
-      "anim": "slide-left",
-      "idle": "float",
-      "at": "w14",
-      "rotate": 20,
-      "depth": 0.9
-     },
-     {
-      "id": "mega3",
-      "type": "image",
-      "src": {
-       "kind": "sticker",
-       "name": "loudspeaker"
-      },
-      "x": 0.02,
-      "y": 0.06,
-      "w": 0.34,
-      "anim": "slide-right",
-      "idle": "float",
-      "at": "w14",
-      "rotate": 160,
-      "depth": 0.9
+      "id": "burst",
+      "type": "shape",
+      "kind": "burst",
+      "x": 0.3,
+      "y": 0.52,
+      "w": 0.5,
+      "color": "accent",
+      "stroke": 10,
+      "anim": "pop",
+      "at": "w14"
      }
     ]
    },
@@ -694,12 +696,12 @@
       "id": "bag",
       "type": "image",
       "src": {
-       "kind": "sticker",
-       "name": "money-bag"
+       "kind": "library",
+       "name": "obj/property-coins"
       },
       "x": 0.5,
-      "y": 0.62,
-      "w": 0.62,
+      "y": 0.64,
+      "w": 0.86,
       "anim": "drop",
       "idle": "float",
       "at": "w17",
@@ -752,8 +754,8 @@
     "to": "w23",
     "intent": "type only on paper: effort struck out",
     "bg": {
-     "kind": "paper",
-     "tone": "light",
+     "kind": "solid",
+     "tone": "accent",
      "vignette": true
     },
     "camera": {
@@ -762,6 +764,21 @@
     },
     "transition": "slide-up",
     "layers": [
+     {
+      "id": "lap",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/stressed-laptop"
+      },
+      "x": 0.5,
+      "y": 0.7,
+      "w": 0.8,
+      "anim": "float",
+      "idle": "none",
+      "at": "w21",
+      "shadow": true
+     },
      {
       "id": "t7",
       "type": "text",
@@ -792,11 +809,12 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.45,
+      "y": 0.3,
       "w": 0.88,
-      "size": "xxl",
+      "size": "xl",
       "anim": "mask",
-      "hier": false
+      "hier": false,
+      "color": "white"
      }
     ]
    },
@@ -845,12 +863,12 @@
       "id": "target",
       "type": "image",
       "src": {
-       "kind": "sticker",
-       "name": "bullseye"
+       "kind": "library",
+       "name": "obj/dart"
       },
-      "x": 0.82,
-      "y": 0.72,
-      "w": 0.7,
+      "x": 0.78,
+      "y": 0.7,
+      "w": 0.9,
       "anim": "slide-left",
       "idle": "float",
       "at": "w25",
@@ -864,8 +882,12 @@
     "to": "w33",
     "intent": "hook rule: profile card, a giant red 3",
     "bg": {
-     "kind": "spotlight",
+     "kind": "blur-photo",
      "tone": "dark",
+     "image": {
+      "kind": "library",
+      "name": "bg/phone-feed"
+     },
      "vignette": true
     },
     "camera": {

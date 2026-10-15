@@ -16,7 +16,7 @@ a = v.say('راك تحوس على هدية تبقى؟', pause=450)
 v.scene(a, DARK,
   [T('ghost', [[{'t': 'هدية'}]], x=0.5, y=0.5, w=1.4, size='mega', role='serif', opacity=0.08, rotate=-8, anim='blur', hier=False, at=a[0]),
    I('gift', obj('gift-box'), x=0.5, y=0.62, w=0.7, anim='drop', idle='float', at=v.find(a, 'هدية'), depth=0.7),
-   T('t1', [words(v, a[:2]), words(v, a[2:3], {'هدية': 'serif'}), words(v, a[3:])], x=0.62, y=0.27, w=0.72, size='xxl', align='start', anim='rise')],
+   T('t1', [words(v, a[:3]), words(v, a[3:4], {'هدية': 'serif'}), words(v, a[4:])], x=0.62, y=0.27, w=0.72, size='xxl', align='start', anim='rise')],
   camera=('push', 0.5), intent='hook: a gift drops into a warm spotlight, ghost word behind')
 
 b = v.say('ساعة كلاسيك، معدن صافي', pause=350)
@@ -27,14 +27,14 @@ v.scene(b, {'kind': 'solid', 'tone': 'light', 'vignette': True},
   transition='fade', camera=('push', 0.4), intent='product reveal: the watch slides in, cropped by the right edge, gold arc')
 
 c = v.say('تقاوم الماء', pause=380)
-v.scene(c, {'kind': 'photo', 'tone': 'dark', 'image': bgp('ocean'), 'vignette': True},
+v.scene(c, {'kind': 'photo', 'tone': 'dark', 'image': bgp('water'), 'vignette': True},
   [T('t3', [words(v, c[:1]), words(v, c[1:], {'الماء': 'serif'})], x=0.5, y=0.3, w=0.86, size='xxl', anim='blur', color='white'),
    I('w2', obj('wristwatch'), x=0.5, y=0.64, w=0.6, anim='zoom', idle='float', at=c[1], glow='accent2')],
   transition='blur', camera=('drift', 0.5), intent='benefit 1: water resistant, real ocean photo behind')
 
 d = v.say('وتليق مع كل لبسة', pause=400)
 v.scene(d, {'kind': 'photo', 'tone': 'dark', 'image': bgp('city-night'), 'vignette': True, 'leak': True, 'glow': 'accent'},
-  [I('frame', bgp('shop'), x=0.5, y=0.56, w=0.66, h=0.46, frame='card', anim='reveal', idle='none', at=d[0], shadow=True, fit='cover'),
+  [I('frame', bgp('boutique'), x=0.5, y=0.56, w=0.66, h=0.46, frame='card', anim='reveal', idle='none', at=d[0], shadow=True, fit='cover'),
    T('t4', [words(v, d[:2]), words(v, d[2:], {'لبسة': 'accent'})], x=0.5, y=0.22, w=0.86, size='xl', anim='rise', color='white')],
   transition='zoom', camera=('push', 0.4), intent='benefit 2: lifestyle framed photo, city at night')
 

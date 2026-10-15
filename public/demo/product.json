@@ -318,9 +318,7 @@
         {
          "t": "تحوس",
          "at": "w1"
-        }
-       ],
-       [
+        },
         {
          "t": "على",
          "at": "w2"
@@ -329,8 +327,11 @@
        [
         {
          "t": "هدية",
-         "at": "w3"
-        },
+         "at": "w3",
+         "em": "serif"
+        }
+       ],
+       [
         {
          "t": "تبقى؟",
          "at": "w4"
@@ -436,7 +437,7 @@
      "tone": "dark",
      "image": {
       "kind": "library",
-      "name": "bg/ocean"
+      "name": "bg/water"
      },
      "vignette": true
     },
@@ -515,7 +516,7 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "bg/shop"
+       "name": "bg/boutique"
       },
       "x": 0.5,
       "y": 0.56,

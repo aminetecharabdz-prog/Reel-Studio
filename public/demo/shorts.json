@@ -384,11 +384,11 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/eyeball"
+       "name": "obj/eye"
       },
-      "x": 0.88,
-      "y": 0.62,
-      "w": 0.75,
+      "x": 0.78,
+      "y": 0.86,
+      "w": 0.9,
       "anim": "slide-left",
       "idle": "sway",
       "at": "w2",
@@ -474,7 +474,7 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/hourglass"
+       "name": "obj/clock"
       },
       "x": 0.5,
       "y": 0.62,
@@ -610,7 +610,7 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/television"
+       "name": "obj/retro-computer"
       },
       "x": 0.5,
       "y": 0.62,
@@ -681,11 +681,11 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/eyeball"
+       "name": "obj/eye"
       },
-      "x": 0.12,
-      "y": 0.38,
-      "w": 0.8,
+      "x": 0.3,
+      "y": 0.36,
+      "w": 1.2,
       "anim": "slide-right",
       "idle": "float",
       "at": "w19",
@@ -767,7 +767,7 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/chess-king"
+       "name": "obj/bust"
       },
       "x": 0.68,
       "y": 0.64,
@@ -838,7 +838,7 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/dartboard"
+       "name": "obj/dart"
       },
       "x": 0.82,
       "y": 0.66,

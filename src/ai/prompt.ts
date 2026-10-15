@@ -4,6 +4,7 @@
  */
 import { FONTS } from '@/engine/fonts';
 import { STICKER_LIST } from '@/engine/stickers';
+import { LIBRARY_LIST } from '@/engine/library';
 import { BGS, CAMERAS, EMPHASIS, IDLES, IMG_ANIMS, SHAPES, SHAPE_ANIMS, TEXT_ANIMS, TRANSITIONS, UI_KINDS } from '@/engine/schema';
 import { MUSIC, MUSIC_INFO } from '@/engine/audio';
 
@@ -78,8 +79,10 @@ These are examples of craft, not a template: design what THIS content needs.
   no text". Keep one visual style for all prompts of a video (same lighting/lens/colour grade). Max ~6 generated images.
 - The user's own media (product photos) are {kind:"user", index}. In product videos the product must be the hero of several
   scenes (cutout:true to remove its background).
-- If image generation is NOT available: use bundled 3D objects {kind:"sticker", name} from the list, only where they truly
-  add meaning — kinetic type, UI, shapes and counters are often better. Never use a sticker as a lazy literal caption.
+- If image generation is NOT available: use the bundled photo library {kind:"library", name:"obj/…"} (photoreal cut-out
+  objects) and {kind:"library", name:"bg/…"} (9:16 photo backgrounds for bg.kind photo/blur-photo or framed images).
+  Choose by MEANING (metaphor), not by keyword; skip images when nothing fits — type, UI, shapes and counters are often
+  better. 3D emoji stickers {kind:"sticker"} only for playful topics.
 
 # Music and sound
 - music: one of the library ids by mood. sfx: punchy (marketing), soft (calm/premium), cinematic (dramatic), none.
@@ -110,7 +113,8 @@ Colour roles for layers: ink, paper, accent, accent2, muted, white, black.
 Fonts (style.fonts.*.ar must be an Arabic id, .lat a Latin id):
 ${FONTS.map((f) => `- ${f.id} (${f.script}${f.italic ? ', has italic' : ''}, weights ${f.weights.join('/')}): ${f.vibe}`).join('\n')}
 Music: ${MUSIC.map((m) => `${m} (${MUSIC_INFO[m].mood})`).join('; ')}.
-3D objects (stickers): ${STICKER_LIST.join(', ')}.`;
+Photo library: ${LIBRARY_LIST.join(', ')}.
+3D emoji stickers: ${STICKER_LIST.join(', ')}.`;
 
 export type DirectorBrief = {
   mode: 'content' | 'product' | 'talking';
@@ -127,7 +131,7 @@ export type DirectorBrief = {
 export const briefText = (b: DirectorBrief) => {
   const lines = [
     `VIDEO TYPE: ${b.mode === 'product' ? 'product ad (e-commerce)' : b.mode === 'talking' ? 'talking-head video with speaker footage' : 'content / explainer / short'}`,
-    `IMAGE GENERATION: ${b.imagesAvailable ? 'AVAILABLE' : 'NOT available (use stickers sparingly)'}`,
+    `IMAGE GENERATION: ${b.imagesAvailable ? 'AVAILABLE (library photos also allowed)' : 'NOT available (use the photo library)'}`,
   ];
   if (b.userMedia.length) lines.push(`USER MEDIA: ${b.userMedia.map((m) => `#${m.index} ${m.label}`).join('; ')}`);
   if (b.product) lines.push(`PRODUCT: ${JSON.stringify(b.product)}`);
