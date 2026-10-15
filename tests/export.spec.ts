@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('demo project: preview plays and MP4 export finishes in the browser', async ({ page }) => {
+test('demo project: preview plays and MP4 export finishes in the browser @live', async ({ page }) => {
   test.setTimeout(900_000);
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));

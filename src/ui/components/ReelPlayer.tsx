@@ -34,6 +34,7 @@ export const ReelPlayer = forwardRef<PlayerRef, Props>(({ reel, autoPlay, loop =
           autoPlay={autoPlay}
           loop={loop}
           initiallyMuted={muted}
+          initialFrame={Math.min(r.durationInFrames - 1, Math.round(r.fps * 1.2))}
           clickToPlay={clickToPlay}
           showVolumeControls
           allowFullscreen
