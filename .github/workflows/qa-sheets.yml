@@ -1,0 +1,63 @@
+name: Visual QA contact sheets
+
+# The scheduled Claude sandbox cannot reach the npm registry, so checks, contact sheets, UI shots and the
+# local Playwright suite run here and are published to the `qa-sheets` branch for the next session to inspect.
+# Runs on pushes to claude/** whose commit message contains [qa], or manually.
+on:
+  push:
+    branches: ['claude/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: qa-sheets-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sheets:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[qa]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Checks (logged, never stop the sheets)
+        run: |
+          mkdir -p .qa
+          (npm run typecheck > .qa/typecheck.log 2>&1; echo "exit $?" >> .qa/typecheck.log) || true
+          (npm run lint > .qa/lint.log 2>&1; echo "exit $?" >> .qa/lint.log) || true
+          (npm test > .qa/test.log 2>&1; echo "exit $?" >> .qa/test.log) || true
+      - run: (npm run build > .qa/build.log 2>&1; echo "exit $?" >> .qa/build.log) || true
+      - run: npx playwright install --with-deps chromium
+      - name: Contact sheets + UI shots
+        run: |
+          npx vite preview --port 4173 --strictPort > /dev/null 2>&1 &
+          sleep 5
+          export PW_CHROMIUM=$(node -e "console.log(require('@playwright/test').chromium.executablePath())")
+          for d in content product shorts; do
+            (node scripts/contact-sheet.mjs $d .qa/sheet-$d.png 3 >> .qa/sheets.log 2>&1) || true
+            (node scripts/contact-sheet.mjs $d .qa/sheet-$d-captions.png 1 '&captions=1&cols=6' >> .qa/sheets.log 2>&1) || true
+            (node scripts/contact-sheet.mjs $d .qa/sheet-$d-local.png 1 '&local=qa1&cols=6' >> .qa/sheets.log 2>&1) || true
+          done
+          (node scripts/shots.mjs / /new /settings /projects /demo/content > .qa/shots.log 2>&1) || true
+      - name: Local Playwright suite (incl. in-browser export)
+        run: |
+          export PW_CHROMIUM=$(node -e "console.log(require('@playwright/test').chromium.executablePath())")
+          (npx playwright test --project=local > .qa/e2e.log 2>&1; echo "exit $?" >> .qa/e2e.log) || true
+          ls -la test-results >> .qa/e2e.log 2>&1 || true
+      - name: Publish to qa-sheets branch
+        run: |
+          cd .qa
+          echo "${GITHUB_SHA} ${GITHUB_REF_NAME} $(date -u +%FT%TZ)" > SHA.txt
+          git init -q -b qa-sheets
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "QA sheets for ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" qa-sheets
