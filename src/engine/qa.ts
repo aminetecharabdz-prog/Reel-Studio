@@ -189,6 +189,20 @@ export const autofix = (c: Compiled): Issue[] => {
 export const settleCollisions = (c: Compiled) => {
   const W = c.width, H = c.height;
   for (const s of c.scenes) {
+    // a big number gives way to the text block it sits on (moves up, then shrinks)
+    const texts = s.layers.filter((l) => l.type === 'text');
+    for (const n of s.layers) {
+      if (n.type !== 'counter') continue;
+      for (let k = 0; k < 16; k++) {
+        const nr = readableRect(n, W, H)!;
+        const hit = texts.map((t) => readableRect(t, W, H)).find((tr) => tr && overlap(nr, tr) / Math.min(area(nr), area(tr)) > 0.1);
+        if (!hit) break;
+        const up = (nr[1] + nr[3]) / 2 <= (hit[1] + hit[3]) / 2;
+        const ny = n.y + (up ? -0.02 : 0.02);
+        if (ny > 0.12 && ny < 0.82 && k < 10) n.y = ny;
+        else if (n.size !== 'l') n.size = n.size === 'mega' ? 'xxl' : n.size === 'xxl' ? 'xl' : 'l';
+      }
+    }
     const reads = s.layers.map((l) => readableRect(l, W, H)).filter((r): r is Rect => !!r);
     if (!reads.length) continue;
     for (const l of s.layers) {

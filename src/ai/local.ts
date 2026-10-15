@@ -131,8 +131,8 @@ export const localDirector = (tr: Transcript, o: { mode: 'content' | 'product' |
       const kept = lines.map((ln) => ln.filter((w) => w.at !== num.id)).filter((ln) => ln.length);
       if (kept.length) lines.splice(0, lines.length, ...kept);
       layers.push(...hero(0.5, 0.74, 0.72));
-      layers.push({ id: `c${i}`, type: 'counter', value: isFinite(v) ? v : 0, from: 0, prefix: '', suffix: num.text.includes('%') ? '%' : '', decimals: 0, size: 'mega', color: 'accent', role: 'impact', x: 0.5, y: 0.26, w: 0.8, rotate: 0, at: num.id, opacity: 1 });
-      layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.47, w: 0.86, rotate: 0, opacity: 1, role: 'display', size: 'l', color: 'ink', align: 'center', anim, tracking: 0, hier: true });
+      layers.push({ id: `c${i}`, type: 'counter', value: isFinite(v) ? v : 0, from: 0, prefix: '', suffix: num.text.includes('%') ? '%' : '', decimals: 0, size: 'mega', color: 'accent', role: 'impact', x: 0.5, y: 0.2, w: 0.8, rotate: 0, at: num.id, opacity: 1 });
+      layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.48, w: 0.86, rotate: 0, opacity: 1, role: 'display', size: 'l', color: 'ink', align: 'center', anim, tracking: 0, hier: true });
     } else if (layout === 'ghost') {
       layers.push({ id: `g${i}`, type: 'text', lines: [[{ t: key.text }]], x: 0.5, y: 0.6, w: 1.3, rotate: -6, opacity: 0.09, role: 'serif', size: 'mega', color: 'ink', align: 'center', anim: 'blur', tracking: 0, hier: false, at: b[0]!.id });
       layers.push(...hero(0.5, 0.65, 0.9));
