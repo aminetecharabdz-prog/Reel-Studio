@@ -1,0 +1,18 @@
+
+Running 7 tests using 2 workers
+
+  ✓  1 [local] › tests/smoke.spec.ts:5:1 › home: brand, hero reel, demos, no horizontal scroll @live (4.0s)
+  ✓  3 [local] › tests/smoke.spec.ts:18:3 › demo content opens in the studio and plays @live (1.7s)
+  ✓  4 [local] › tests/smoke.spec.ts:18:3 › demo product opens in the studio and plays @live (1.9s)
+  ✓  5 [local] › tests/smoke.spec.ts:18:3 › demo shorts opens in the studio and plays @live (1.8s)
+  ✓  6 [local] › tests/smoke.spec.ts:32:1 › create flow without keys: local director builds a video @live (1.9s)
+  ✓  7 [local] › tests/smoke.spec.ts:41:1 › settings: keys are stored locally @live (879ms)
+  ✓  2 [local] › tests/export.spec.ts:3:1 › demo export finishes in the browser and downloads a video @export (54.1s)
+
+  7 passed (55.2s)
+exit 0
+total 2244
+drwxr-xr-x  2 runner runner    4096 Oct 15 15:48 .
+drwxr-xr-x 14 runner runner    4096 Oct 15 15:47 ..
+-rw-r--r--  1 runner runner      45 Oct 15 15:48 .last-run.json
+-rw-r--r--  1 runner runner 2285114 Oct 15 15:48 export-product.webm
