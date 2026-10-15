@@ -3,6 +3,16 @@ import type { Scene } from '../schema';
 import { alpha, mixHex, useTheme } from './theme';
 
 const svgUrl = (svg: string) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+const spots = new Map<string, string>();
+const softSpot = (col: string, a: number) => {
+  const k = `${col}${a.toFixed(3)}`;
+  let v = spots.get(k);
+  if (!v) {
+    v = svgUrl(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g"><stop offset="0" stop-color="${col}" stop-opacity="${a}"/><stop offset=".35" stop-color="${col}" stop-opacity="${a * 0.62}"/><stop offset=".7" stop-color="${col}" stop-opacity="${a * 0.18}"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="50" r="50" fill="url(#g)"/></svg>`);
+    spots.set(k, v);
+  }
+  return v;
+};
 
 /** Scene background: base treatment + optional grid, light leak, glow, vignette. Linear gradients and blurred
  *  shapes only (the web renderer has no radial gradients / blend modes). `abs` keeps drift continuous. */
@@ -16,9 +26,11 @@ export const Background = ({ bg, base, url, abs, seed }: { bg: Scene['bg']; base
   const light = t.tone === 'light';
   const R = Math.max(W, H);
   // soft light pool (blurred circle; the web renderer has no radial gradients)
-  const pool = (key: string, cx: number, cy: number, r: number, col: string, a: number, blur = 140) => (
-    <div key={key} style={{ position: 'absolute', left: cx - r / 2, top: cy - r / 2, width: r, height: r, borderRadius: '50%', backgroundColor: alpha(col, a), filter: `blur(${blur * u}px)` }} />
-  );
+  const pool = (key: string, cx: number, cy: number, r: number, col: string, a: number, blur = 140) => {
+    // soft radial light as an SVG image (CSS blur filters are not supported by the in-browser exporter)
+    const R2 = r / 2 + blur * u * 0.8;
+    return <Img key={key} src={softSpot(col, Math.min(1, a))} style={{ position: 'absolute', left: cx - R2, top: cy - R2, width: R2 * 2, height: R2 * 2 }} />;
+  };
   const drift = Math.sin(time * 0.35) * 24 * u;
   switch (bg.kind) {
     case 'gradient':
@@ -37,7 +49,7 @@ export const Background = ({ bg, base, url, abs, seed }: { bg: Scene['bg']; base
     case 'rays':
       for (let k = 0; k < 5; k++) {
         const a = -24 + k * 12 + Math.sin(time * 0.3 + k) * 2;
-        layers.push(<div key={`r${k}`} style={{ position: 'absolute', left: W * 0.5 - 70 * u, top: -H * 0.15, width: 140 * u, height: H * 1.4, backgroundImage: `linear-gradient(180deg, ${alpha(light ? '#FFFFFF' : '#FFFFFF', light ? 0.5 : 0.07)}, rgba(0,0,0,0) 80%)`, transformOrigin: 'top center', transform: `rotate(${a}deg)`, filter: `blur(${26 * u}px)` }} />);
+        layers.push(<div key={`r${k}`} style={{ position: 'absolute', left: W * 0.5 - 70 * u, top: -H * 0.15, width: 220 * u, height: H * 1.4, backgroundImage: `linear-gradient(90deg, rgba(255,255,255,0), ${alpha('#FFFFFF', light ? 0.32 : 0.05)}, rgba(255,255,255,0))`, WebkitMaskImage: 'linear-gradient(180deg, #000, transparent 85%)', maskImage: 'linear-gradient(180deg, #000, transparent 85%)', transformOrigin: 'top center', transform: `rotate(${a}deg)` }} />);
       }
       break;
     case 'photo':
@@ -45,6 +57,7 @@ export const Background = ({ bg, base, url, abs, seed }: { bg: Scene['bg']; base
       if (url) {
         const z = 1.08 + 0.06 * Math.min(1, time / 6);
         layers.push(<Img key="ph" src={url} style={{ position: 'absolute', left: 0, top: 0, width: W, height: H, objectFit: 'cover', transform: `scale(${z})`, filter: bg.kind === 'blur-photo' ? `blur(${36 * u}px) brightness(0.55)` : light ? 'contrast(1.04)' : 'contrast(1.12) saturate(0.9) brightness(0.82)' }} />);
+        layers.push(<AbsoluteFill key="dim" style={{ backgroundColor: alpha('#000000', bg.kind === 'blur-photo' ? 0.5 : light ? 0 : 0.22) }} />);
         layers.push(<AbsoluteFill key="scrim" style={{ backgroundImage: `linear-gradient(180deg, ${alpha('#000000', 0.3)}, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 55%, ${alpha('#000000', 0.6)})` }} />);
       }
       break;
