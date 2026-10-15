@@ -134,7 +134,7 @@ export const HeroScene = () => {
   if (scene.heroImage && hero.cutout) {
     // product cut-out: an object on the backdrop, slow turntable sway
     main = (
-      <div style={{ ...heroStyle(1), transform: `${heroStyle(1).transform} rotate(${Math.sin((frame / fps) * 1.2) * 4}deg)` }}>
+      <div style={{ ...heroStyle(1), transform: `${heroStyle(1).transform} rotate(${hero.spin ? 360 * Math.min(1, Math.max(0, (frame / fps - 0.4) / 1.6)) ** 0.8 : Math.sin((frame / fps) * 1.2) * 4}deg)` }}>
         <Img src={scene.heroImage.src} style={{ width: S * 0.82, height: S * 0.82, objectFit: 'contain', display: 'block' }} />
       </div>
     );

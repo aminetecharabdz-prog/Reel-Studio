@@ -109,7 +109,7 @@ holder = [
       'la clim', 'تركيب سهل', 'w17', bg='spotlight', tr='push', emphasis=['w14']),
     S(3, 'w18', 'w24', {'note': 'holds firmly even on bad roads = bumpy road, phone stays put, green check', 'illus': 'car-dash', 'illusParams': {'phone': 'mounted', 'bumpy': True}, 'mark': 'check', 'markAt': 'w20', 'badge': {'art': 'magnet', 'at': 'w18'}},
       'يشد بقوة', None, 'w20', bg='split', tr='flash', variant=1, emphasis=['w20']),
-    S(4, 'w25', 'w27', {'note': 'rotates 360° = phone rotating on the holder with a rotation arrow', 'illus': 'car-dash', 'illusParams': {'phone': 'rotate'}},
+    S(4, 'w25', 'w27', {'note': 'rotates 360° = the real holder with a phone on it, rotation arrows orbiting', 'image': {'src': 'demo/phone-holder-in-use.svg'}, 'cutout': True, 'spin': True, 'backdrop': 'ring', 'props': ['counterclockwise-arrows-button', 'sparkles']},
       '360°', 'rotation', 'w26', bg='dna', tr='zoom', emphasis=['w26']),
     S(5, 'w28', 'w30', {'note': 'fits all phones = a row of phones', 'layout': 'count', 'art': 'mobile-phone', 'count': 4, 'backdrop': 'card'},
       'لكل الأنواع', None, 'w29', bg='duotone', tr='push'),

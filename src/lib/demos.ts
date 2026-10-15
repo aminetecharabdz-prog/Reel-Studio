@@ -3,7 +3,7 @@ import { ProjectSchema, StyleSettingsSchema } from './schema/project';
 import { CaptionSettingsSchema, EndCardSchema } from './schema/plan';
 
 /** Bump when the demo directions change: cached demo projects in the owner's browser are regenerated. */
-export const DEMO_REV = 2;
+export const DEMO_REV = 3;
 
 /** Built-in demo projects (SPEC §11 phase 1). Voices are generated demo voices — labelled in the UI. */
 export const DEMOS = [

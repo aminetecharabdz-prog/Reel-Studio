@@ -38,7 +38,8 @@ export const HeroSchema = z.object({
   illus: z.string().max(40).optional(), // vector illustration id (src/video/illustrations)
   illusParams: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])).optional(),
   image: ImageRefSchema.optional(), // user photo / generated image — wins over art when it resolves
-  cutout: z.boolean().optional(), // image is a product cut-out (transparent): show it as an object, not a framed photo
+  cutout: z.boolean().optional(),
+  spin: z.boolean().optional(), // cut-out turns 360° (rotation claims) // image is a product cut-out (transparent): show it as an object, not a framed photo
   mark: z.enum(['forbidden', 'check', 'warning', 'cross', 'circle']).optional(),
   markAt: z.string().optional(), // word id
   props: z.array(z.string().max(60)).max(5).optional(), // small floating 3D objects

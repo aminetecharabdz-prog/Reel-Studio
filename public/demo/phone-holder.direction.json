@@ -200,11 +200,17 @@
     "variant": 0,
     "content": {
      "hero": {
-      "note": "rotates 360° = phone rotating on the holder with a rotation arrow",
-      "illus": "car-dash",
-      "illusParams": {
-       "phone": "rotate"
-      }
+      "note": "rotates 360° = the real holder with a phone on it, rotation arrows orbiting",
+      "image": {
+       "src": "demo/phone-holder-in-use.svg"
+      },
+      "cutout": true,
+      "spin": true,
+      "backdrop": "ring",
+      "props": [
+       "counterclockwise-arrows-button",
+       "sparkles"
+      ]
      },
      "headline": "360°",
      "kicker": "rotation",
