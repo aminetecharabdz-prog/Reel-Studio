@@ -22,6 +22,7 @@ export type DirectorRequest = {
   avoid: Array<{ mood: string; easing: string; sequence: string[] }>;
   seed: number;
   projectId?: string;
+  referenceImage?: { base64: string; mime: string };
 };
 
 export interface Director {

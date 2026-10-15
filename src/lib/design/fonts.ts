@@ -97,8 +97,18 @@ export const fontStack = (arabicId: string | undefined, latinId?: string) => {
 const SAMPLE = 'نبرة أبجد هوز Nabra 0123456789%';
 
 /** Load the given fonts and wait until the browser can use them (always before render). */
+/** Loader for uploaded fonts ("upload:<assetId>"), set by the app (fonts live in IndexedDB). */
+let uploadLoader: ((assetId: string) => Promise<ArrayBuffer | null>) | null = null;
+export const setUploadedFontLoader = (fn: (assetId: string) => Promise<ArrayBuffer | null>) => {
+  uploadLoader = fn;
+};
+
 export const ensureFonts = async (refs: Array<{ id: string | undefined; weight: number }>) => {
   const jobs = refs.map(async ({ id, weight }) => {
+    if (id?.startsWith('upload:') && !uploaded.has(id) && uploadLoader) {
+      const data = await uploadLoader(id.slice(7));
+      if (data) await registerUploadedFont(id, `NabraUpload-${id.slice(7)}`, data);
+    }
     const def = id ? FONT_BY_ID.get(id) : undefined;
     if (def) await def.load(weight);
     const fam = familyOf(id);

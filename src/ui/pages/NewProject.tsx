@@ -241,6 +241,8 @@ export const NewProjectPage = () => {
               {Object.entries(VISUAL_STYLES).map(([k, v]) => <Chip key={k} active={p.style.visualStyle === k} onClick={() => up({ style: { ...p.style, visualStyle: k } })}>{v.label}</Chip>)}
             </div>
             <Textarea placeholder="وصف حر (اختياري): «داكن وسينمائي، لمسات ذهبية»" value={p.style.artDirection} onChange={(e) => up({ style: { ...p.style, artDirection: e.target.value } })} />
+            <FilePick accept="image/*" label="صورة مرجعية (اختياري)" hint="نأخذ منها الألوان والإحساس — لا ننسخها" onFile={async (f) => { const { id } = await saveUpload(f[0]!, 'image', p.id); await persist({ ...p, style: { ...p.style, referenceAssetId: id } }); }} />
+            {p.style.referenceAssetId && <div className="text-[14px] text-mint">تمت إضافة الصورة المرجعية ✓</div>}
           </Panel>
           <Panel className="space-y-3">
             <Label>الكابشن</Label>

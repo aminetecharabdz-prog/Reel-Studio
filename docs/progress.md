@@ -8,12 +8,12 @@ built by `.github/workflows/deploy.yml` on every push to any branch).
 ## Plan
 - [x] Phase 0 — scaffold, brand (name/logo/palette/type), i18n, IndexedDB repo, provider interfaces + mocks,
       BYOK settings, Pages deploy + live Playwright smoke test (runs in GitHub Actions, see below)
-- [ ] Phase 1 — Mode A end-to-end: upload → transcribe → review → DNA → plan → primitives → captions → preview → export;
+- [x] Phase 1 — Mode A end-to-end: upload → transcribe → review → DNA → plan → primitives → captions → preview → export;
       3 demo projects (dentist, car engine, phone-holder ad) with bundled voice + transcript
-- [ ] Phase 2 — ≥40 primitives, full customisation, music/SFX/ducking, end card, aspect ratios, anti-repetition,
+- [x] Phase 2 — ≥40 primitives, full customisation, music/SFX/ducking, end card, aspect ratios, anti-repetition,
       image generation + cache, QA (deterministic + vision) with auto-fix
-- [ ] Phase 3 — editor: timeline, per-scene edit/regenerate, global restyle, versions, MP4/SRT/thumbnail
-- [ ] Phase 4 — Mode B (product ad) + Mode C (talking head)
+- [x] Phase 3 — editor: timeline, per-scene edit/regenerate, global restyle, versions, MP4/SRT/thumbnail
+- [x] Phase 4 — Mode B (product ad) + Mode C (talking head)
 - [ ] Final QA on the live link + Arabic report to the owner
 
 ## Decisions (made autonomously)
@@ -45,6 +45,14 @@ built by `.github/workflows/deploy.yml` on every push to any branch).
 - Visual QA: `node scripts/contact-sheet.mjs [demo] [atSeconds]` → .qa/sheet-*.png (needs `npm run build` + `vite preview`).
 - Scaffold, brand config, logo geometry, schemas (transcript, DNA, plan, project), bidi utils + tests,
   timing compiler, captions grouping, cuts (mode C), local art director, font catalog, deploy workflow.
+
+## Acceptance evidence
+- Unit (vitest, 30): bidi runs, digits, timing/captions drift 0–1 f, re-alignment keeps timestamps, 10-video variety,
+  contrast ≥ 4.5 on 40 random palettes, QA catches + fixes seeded errors, Claude output mapping, mode C cuts.
+- E2E (Playwright 412×915, also run on the LIVE URL by CI): landing, full creation flow (upload → transcript → generate →
+  preview), all demos open, zero text overflow on every scene of every demo at 3 time points, export → download.
+- Visual: contact sheets reviewed for all 4 demos (hero frames + transition midpoints); fixed: tiny type, empty openings,
+  reversed French phrases, transition ghosting, overlay contrast on footage, PiP collisions, text overflowing stage height.
 
 ## Known issues
 - Headless Chromium (CI/sandbox) has no H.264 encoder → export falls back to WebM there; Chrome on Android exports MP4.

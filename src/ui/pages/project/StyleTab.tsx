@@ -9,6 +9,7 @@ import { MUSIC } from '@/lib/audio/library';
 import { Button, Chip, Input, Label, Panel, Segmented, Textarea, Toggle } from '../../components/ui';
 import { CaptionSample } from '../../components/CaptionSample';
 import { useReel } from '../../useProject';
+import { saveUpload } from '@/lib/media';
 
 export const CAPTION_AR: Record<CaptionStyleId, string> = { pill: 'كبسولة', block: 'كتلة', karaoke: 'كاريوكي', 'word-pop': 'كلمة تقفز', outline: 'محدّد', gradient: 'متدرّج', 'boxed-keyword': 'كلمة في صندوق', minimal: 'بسيط' };
 const EASING_AR: Record<string, string> = { snappy: 'حاد وسريع', smooth: 'ناعم', bouncy: 'مرن', mechanical: 'ميكانيكي', elastic: 'مطّاطي' };
@@ -67,6 +68,17 @@ export const StyleTab = ({ project, onChange, onReplan }: { project: Project; on
         <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4">
           {ARABIC_FONTS.map((f) => <FontOption key={f.id} id={f.id} sample={sample} active={dna.typography.display.family === f.id} onClick={() => setDNA((d) => { d.typography.display = { family: f.id, weight: f.weights[f.weights.length - 1]! }; return d; })} />)}
         </div>
+        <label className="inline-flex h-10 cursor-pointer items-center rounded-full px-4 text-sm font-bold ring-1 ring-line hover:bg-raised">
+          ارفع خطّك (.ttf / .otf / .woff2)
+          <input type="file" accept=".ttf,.otf,.woff,.woff2,font/*" className="hidden" onChange={async (e) => {
+            const f = e.target.files?.[0];
+            if (!f) return;
+            const { id } = await saveUpload(f, 'font', project.id);
+            const fid = `upload:${id}`;
+            await ensureFonts([{ id: fid, weight: 700 }]);
+            setDNA((d) => { d.typography.display = { family: fid, weight: 700 }; return d; });
+          }} />
+        </label>
         <Label>خط النصوص والكابشن</Label>
         <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4">
           {ARABIC_FONTS.map((f) => <FontOption key={f.id} id={f.id} sample={sample} active={dna.typography.captions.family === f.id} onClick={() => setDNA((d) => { d.typography.captions = { family: f.id, weight: f.weights[Math.max(0, f.weights.length - 2)]! }; d.typography.body = { family: f.id, weight: 500 }; return d; })} />)}
@@ -108,6 +120,8 @@ export const StyleTab = ({ project, onChange, onReplan }: { project: Project; on
       <Panel className="space-y-3">
         <Label hint="نفس الصوت ونفس المشاهد بمقاس آخر">المقاس</Label>
         <Segmented value={st.aspect} options={(['9:16', '4:5', '1:1', '16:9'] as const).map((a) => ({ value: a, label: a }))} onChange={(v) => setStyle({ aspect: v })} />
+        <Label>عدد الإطارات</Label>
+        <Segmented value={String(st.fps)} options={[{ value: '30', label: '30 fps' }, { value: '60', label: '60 fps (أنعم، تصدير أبطأ)' }]} onChange={(v) => setStyle({ fps: v === '60' ? 60 : 30 })} />
         <Label>الأرقام</Label>
         <Segmented value={st.digits} options={[{ value: 'western', label: '123' }, { value: 'eastern', label: '١٢٣' }]} onChange={(v) => setStyle({ digits: v })} />
         <Label>منطقة الأمان</Label>
@@ -120,6 +134,15 @@ export const StyleTab = ({ project, onChange, onReplan }: { project: Project; on
           <Chip active={st.music.trackId === 'auto'} onClick={() => setStyle({ music: { ...st.music, trackId: 'auto' } })}>تلقائي</Chip>
           {MUSIC.map((m) => <Chip key={m.id} active={st.music.trackId === m.id} onClick={() => setStyle({ music: { ...st.music, trackId: m.id } })}>{m.title}</Chip>)}
           <Chip active={st.music.trackId === 'none'} onClick={() => setStyle({ music: { ...st.music, trackId: 'none' } })}>بدون موسيقى</Chip>
+          <label className={`inline-flex h-10 flex-none cursor-pointer items-center rounded-full px-4 text-sm font-bold ring-1 ${st.music.trackId === 'upload' ? 'bg-ink text-night ring-ink' : 'ring-line'}`}>
+            ارفع موسيقى
+            <input type="file" accept="audio/*" className="hidden" onChange={async (e) => {
+              const f = e.target.files?.[0];
+              if (!f) return;
+              const { id } = await saveUpload(f, 'audio', project.id);
+              setStyle({ music: { ...st.music, trackId: 'upload', assetId: id } });
+            }} />
+          </label>
         </div>
         <div><Label hint="تنخفض تلقائيًا تحت صوتك">مستوى الموسيقى</Label><input type="range" min={0} max={1} step={0.05} value={st.music.volume} onChange={(e) => setStyle({ music: { ...st.music, volume: Number(e.target.value) } })} className="w-full accent-[#FF3E7A]" /></div>
         <Toggle checked={st.sfx.enabled} onChange={(v) => setStyle({ sfx: { ...st.sfx, enabled: v } })} label="مؤثرات صوتية" />

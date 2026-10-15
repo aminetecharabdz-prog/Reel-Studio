@@ -10,7 +10,8 @@ import { repo } from './repo/db';
 import { getKeys, type Keys } from './providers/keys';
 import { compileReel } from './timing/compiler';
 import type { CompiledReel } from './timing/types';
-import { designDNA } from './design/artDirector';
+import { designDNA, finalizeDNA } from './design/artDirector';
+import { paletteFromImage } from './media';
 import { detectTopic } from './design/topics';
 import { planLocally, replanScene } from './director/localDirector';
 import { pickMusic, publicUrl, sfxSrc } from './audio/library';
@@ -105,7 +106,15 @@ export const transcribeProject = async (p: Project, onMsg?: (m: string) => void)
   if (!asset) throw new Error('ارفع ملف الصوت أو الفيديو أولاً');
   const durationMs = Number(asset.meta?.durationMs ?? 0) || undefined;
   const opts = { vocabulary: p.media.vocabulary, durationMs, projectId: p.id };
-  if (keys.sttProvider !== 'openai' && keys.elevenlabs) return elevenScribe(keys.elevenlabs).transcribe(asset.blob, opts);
+  if (keys.sttProvider !== 'openai' && keys.elevenlabs) {
+    try {
+      return await elevenScribe(keys.elevenlabs).transcribe(asset.blob, opts);
+    } catch (e) {
+      // a blocked browser call (CORS/network) surfaces as TypeError: fall back instead of failing
+      if (!(e instanceof TypeError)) throw e;
+      onMsg?.('تعذّر الاتصال بـ ElevenLabs من المتصفح — نجرّب بديلًا…');
+    }
+  }
   if (keys.openai) return openaiWhisper(keys.openai).transcribe(asset.blob, opts);
   return browserWhisper(onMsg).transcribe(asset.blob, opts);
 };
@@ -121,6 +130,7 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
   const recent = await avoidFrom();
   const seed = opts.newLook || !p.demo ? Math.floor(Math.random() * 1e6) : demoSeed(p.demo);
   const imageRefs = projectImageRefs(p);
+  const refAsset = p.style.referenceAssetId ? await repo.getAsset(p.style.referenceAssetId) : undefined;
   let dna: DesignDNA;
   let plan: Plan;
   // mode C: plan on what remains after the cuts (fillers never become on-screen text); word ids are unchanged
@@ -143,6 +153,7 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
       avoid: recent.map(({ mood, easing, sequence }) => ({ mood, easing, sequence })),
       seed,
       projectId: p.id,
+      referenceImage: refAsset ? { base64: await blobToB64(refAsset.blob), mime: refAsset.mime || 'image/jpeg' } : undefined,
     });
     dna = res.dna;
     plan = res.plan;
@@ -155,6 +166,15 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
       brand: p.brand,
       avoid: recent.length && !p.demo ? { moods: recent.map((r) => r.mood), easings: recent.slice(0, 2).map((r) => r.easing), hues: recent.map((r) => r.hue) } : undefined,
     });
+    // reference image without AI: take its palette (brand colours still win)
+    if (refAsset && !p.brand.enabled) {
+      try {
+        const cols = await paletteFromImage(refAsset.blob);
+        if (cols.length >= 2) dna = finalizeDNA(dna, { enabled: true, colors: cols.slice(0, 2) });
+      } catch {
+        /* keep the topic palette */
+      }
+    }
     onStage('plan');
     plan = planLocally({ transcript: planTranscript, dna, mode: p.mode, pacing: p.style.pacing, seed, product: p.product, images: imageRefs, recentSequences: p.demo ? [] : recent.map((r) => r.sequence) });
   }
@@ -212,4 +232,11 @@ export const regenerateScene = async (p: Project, sceneId: string): Promise<Proj
   const next = { ...p, plan };
   await repo.saveProject(next);
   return next;
+};
+
+const blobToB64 = async (b: Blob) => {
+  const buf = new Uint8Array(await b.arrayBuffer());
+  let s = '';
+  for (let i = 0; i < buf.length; i += 0x8000) s += String.fromCharCode(...buf.subarray(i, i + 0x8000));
+  return btoa(s);
 };

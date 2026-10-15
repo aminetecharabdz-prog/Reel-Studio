@@ -200,7 +200,10 @@ export const claudeDirector = (apiKey: string, brand?: BrandKit, imageRefs: Arra
         { type: 'text', text: catalog(), cache_control: { type: 'ephemeral' } },
       ],
       tools: [{ name: 'submit_reel_plan', description: 'Submit the Design DNA and the word-anchored scene plan.', input_schema: TOOL_SCHEMA as Anthropic.Tool['input_schema'], strict: true } as Anthropic.Tool],
-      messages: [{ role: 'user', content: `${user}\n\nDesign this reel, then call submit_reel_plan.` }],
+      messages: [{ role: 'user', content: [
+        ...(req.referenceImage ? [{ type: 'text' as const, text: 'REFERENCE IMAGE from the user: extract palette, mood and composition ideas from it (do not copy it).' }, { type: 'image' as const, source: { type: 'base64' as const, media_type: req.referenceImage.mime as 'image/png', data: req.referenceImage.base64 } }] : []),
+        { type: 'text' as const, text: `${user}\n\nDesign this reel, then call submit_reel_plan.` },
+      ] }],
     } as Anthropic.MessageCreateParamsNonStreaming);
     await logCost({ projectId: req.projectId ?? null, provider: 'anthropic', model: MODELS.director, op: 'direct', units: (res.usage.input_tokens ?? 0) + (res.usage.output_tokens ?? 0), unitLabel: 'tokens', usd: claudeCost(MODELS.director, res.usage) });
     if (res.stop_reason === 'refusal') throw new Error('Claude declined this request.');
