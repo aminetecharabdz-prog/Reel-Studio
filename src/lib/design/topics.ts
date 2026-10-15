@@ -3,7 +3,7 @@ import { normalizeAr } from '../text/keywords';
 export type Topic = 'dental' | 'medical' | 'automotive' | 'product' | 'fashion' | 'food' | 'beauty' | 'education' | 'realestate' | 'tech' | 'sport' | 'finance' | 'kids' | 'general';
 
 const LEX: Record<Exclude<Topic, 'general'>, string[]> = {
-  dental: ['سنان', 'سن', 'اسنان', 'ضرس', 'لثة', 'فرشاة', 'معجون', 'تسوس', 'طبيب الاسنان', 'dentist', 'dent', 'dentaire', 'تقويم', 'تبييض', 'brosse'],
+  dental: ['سنان', 'اسنان', 'ضرس', 'لثة', 'فرشاة', 'معجون', 'تسوس', 'طبيب الاسنان', 'dentist', 'dent', 'dentaire', 'تقويم', 'تبييض', 'brosse'],
   medical: ['طبيب', 'دكتور', 'صحة', 'مرض', 'دواء', 'علاج', 'سكري', 'ضغط', 'medecin', 'santé', 'sante', 'health', 'clinic', 'عيادة', 'مستشفى'],
   automotive: ['محرك', 'موتور', 'طوموبيل', 'سيارة', 'لوطو', 'زيت', 'huile', 'moteur', 'piston', 'بيستون', 'فرامل', 'frein', 'vidange', 'فيدونج', 'km', 'كيلومتر', 'garage', 'ميكانيك', 'mecanique', 'بنزين', 'essence', 'diesel', 'مازوت', 'شمعة', 'bougie', 'radiateur', 'رادياتور', 'courroie', 'turbo'],
   product: ['اطلب', 'سعر', 'دج', 'da', 'livraison', 'ليفريزون', 'توصيل', 'ولاية', 'promo', 'تخفيض', 'عرض', 'منتوج', 'حامل', 'support', 'الدفع عند الاستلام', 'stock', 'commande', 'كوموند'],

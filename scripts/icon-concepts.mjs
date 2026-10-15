@@ -2,7 +2,7 @@
 // c(keywords, ph[], tabler[], solar[], fluent[])
 const c = (k, ph, tb, so, fl) => ({ k, ph, tb, so, fl });
 export const CONCEPTS = {
-  tooth: c('سن سنان اسنان ضرس dent dents tooth teeth dentaire', ['tooth'], ['dental', 'dental-broken'], ['tooth'], ['tooth']),
+  tooth: c('سنان اسنان ضرس dent dents tooth teeth dentaire', ['tooth'], ['dental', 'dental-broken'], ['tooth'], ['tooth']),
   toothbrush: c('فرشاة brosse toothbrush تفرشي', ['toothbrush', 'paint-brush'], ['brush'], ['brush'], ['toothbrush']),
   smile: c('ابتسامة تبسم smile sourire', ['smiley'], ['mood-smile'], ['smile-circle'], ['grinning-face-with-big-eyes', 'beaming-face-with-smiling-eyes']),
   sad: c('حزين وجع sad triste', ['smiley-sad'], ['mood-sad'], ['sad-circle'], ['worried-face', 'face-with-head-bandage']),
