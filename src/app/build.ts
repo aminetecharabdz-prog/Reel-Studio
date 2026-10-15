@@ -1,4 +1,5 @@
 /** Shared "compile a project/demo for the player" helper. */
+import { autofix } from '@/engine/qa';
 import { compile, type CompileOpts, type Compiled } from '@/engine/compile';
 import { makeResolver } from '@/engine/assets';
 import { musicUrl, sfxUrl } from '@/engine/audio';
@@ -24,8 +25,8 @@ export type BuildIn = {
   safe?: boolean;
 };
 
-export const build = (b: BuildIn): Compiled =>
-  compile({
+export const build = (b: BuildIn): Compiled => {
+  const c = compile({
     plan: b.plan,
     transcript: b.transcript,
     mode: b.mode,
@@ -43,3 +44,6 @@ export const build = (b: BuildIn): Compiled =>
     resolve: makeResolver(b.assets ?? (() => null), b.userMedia ?? []),
     showSafe: b.safe,
   });
+  autofix(c);
+  return c;
+};

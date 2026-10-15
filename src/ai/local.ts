@@ -125,7 +125,7 @@ export const localDirector = (tr: Transcript, o: { mode: 'content' | 'product' |
     } else if (layout === 'field') {
       layers.push({ id: `k${i}`, type: 'shape', kind: 'shard', x: 0.9, y: 0.12, w: 0.42, h: 0.2, rotate: 90, at: b[0]!.id, opacity: 1, color: 'white', fill: true, stroke: 8, anim: 'pop' });
       layers.push({ id: `k2${i}`, type: 'shape', kind: 'shard', x: 0.1, y: 0.9, w: 0.36, h: 0.18, rotate: -90, at: key.id, opacity: 0.9, color: 'white', fill: true, stroke: 8, anim: 'pop' });
-      layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.46, w: 0.84, rotate: 0, opacity: 1, role: 'serif', size, color: 'white', align: 'start', anim, tracking: 0, hier: true });
+      layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.46, w: 0.84, rotate: 0, opacity: 1, role: 'serif', size, color: 'ink', align: 'start', anim, tracking: 0, hier: true });
     } else {
       const side = layout === 'side';
       layers.push({ id: `t${i}`, type: 'text', lines, x: side ? 0.58 : 0.5, y: side ? 0.34 : 0.46, w: side ? 0.74 : 0.88, rotate: 0, opacity: 1, role: 'display', size, color: tone === 'accent' ? 'white' : 'ink', align: side ? 'start' : 'center', anim, tracking: 0, hier: true });

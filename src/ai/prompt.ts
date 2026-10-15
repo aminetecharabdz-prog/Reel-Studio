@@ -18,6 +18,18 @@ emphasised word per line that changes colour/size/typeface, photoreal cut-out ob
 clip-art), rhythm built by alternating light and dark scenes, rich textures (grain, glow, light leaks, vignettes), camera
 push-ins, tight timing on every word. Clean, premium, intentional. Never cluttered, never generic.
 
+# Signature devices of top-tier reels (combine them per video; never all at once, never the same set every time)
+- Bold colour fields: whole scenes on a saturated brand colour (bg tone "accent", kind "solid"), white/ink type, sharp
+  shapes ("shard" in a corner, "arc" bands) — alternated with near-black and warm paper scenes.
+- Giant ghost type: the key word repeated huge (size mega, opacity 0.08–0.15, rotated or cropped) BEHIND the object/text.
+- Mixed-scale typography: a small lead-in line + one huge key word (hier=true does it automatically) — editorial serif
+  italic vs heavy sans; text aligned to one side (align start/end, x off-centre) as often as centred.
+- Photoreal objects as metaphors, big and partially cropped by the frame edge (x/y near 0 or 1, w 0.8–1.1), with depth.
+- Framed photos (frame "card", "polaroid", "tv", "phone", "arch") for real-world scenes; type overlapping the frame.
+- Film texture: grain, light leak tinted by the palette (bg.leak + bg.glow), vignette; cinematic photo backgrounds with scrim.
+- Camera: push-ins on statements, punch on hits, drift on calm lines.
+These are examples of craft, not a template: design what THIS content needs.
+
 # How to think (do this silently before writing the plan)
 1. Read the whole transcript. Find the narrative arc: hook → tension/problem → turn → value/proof → payoff/CTA.
 2. Split it into beats (one idea, ~1.2–4 s each; faster in the hook). A scene = one beat. Typical: 1 scene per 1.5–3 s.
