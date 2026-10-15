@@ -19,7 +19,7 @@ export const logoSvg = (opts: { tile?: boolean; size?: number; rose: string; min
     (b) => `<line x1="${b.x}" y1="${b.y1}" x2="${b.x}" y2="${b.y2}" />`,
   ).join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="${size}" height="${size}">
-<defs><linearGradient id="nb-g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${mint}"/><stop offset="0.55" stop-color="${lilac}"/><stop offset="1" stop-color="${rose}"/></linearGradient></defs>
+<defs><linearGradient id="nb-g" gradientUnits="userSpaceOnUse" x1="10" y1="0" x2="54" y2="0"><stop offset="0" stop-color="${mint}"/><stop offset="0.55" stop-color="${lilac}"/><stop offset="1" stop-color="${rose}"/></linearGradient></defs>
 ${tile ? `<rect width="64" height="64" rx="15" fill="${night}"/>` : ''}
 <g stroke="url(#nb-g)" stroke-width="3.3" stroke-linecap="round">${bars}</g>
 <circle cx="32" cy="13" r="5.2" fill="${rose}"/>

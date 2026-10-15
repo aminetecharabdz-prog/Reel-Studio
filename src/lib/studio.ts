@@ -1,0 +1,203 @@
+/**
+ * Studio orchestration: media resolution, transcription, generation (DNA + plan + assets + QA),
+ * compile to a CompiledReel. Each stage saves its output so a reloaded tab resumes (SPEC §4).
+ */
+import type { Project } from './schema/project';
+import type { ImageRef, Plan } from './schema/plan';
+import type { DesignDNA } from './schema/dna';
+import { TranscriptSchema, type Transcript } from './schema/transcript';
+import { repo } from './repo/db';
+import { getKeys, type Keys } from './providers/keys';
+import { compileReel } from './timing/compiler';
+import type { CompiledReel } from './timing/types';
+import { designDNA } from './design/artDirector';
+import { detectTopic } from './design/topics';
+import { planLocally, replanScene } from './director/localDirector';
+import { pickMusic, publicUrl, sfxSrc } from './audio/library';
+import { checkPlan, checkReel, autoFixPlan } from './qa/checks';
+import { demoImages, demoSeed } from './demos';
+import { claudeDirector } from './providers/claude';
+import { cachedImage, imageGenerator } from './providers/images';
+import { elevenScribe } from './providers/elevenlabs';
+import { openaiWhisper } from './providers/openai';
+import { browserWhisper } from './providers/whisperBrowser';
+import { hexToRgb, rgbToHsl } from './color/contrast';
+import { uid } from './util/rng';
+
+const urlCache = new Map<string, string>();
+export const assetUrl = async (id: string | undefined): Promise<string | null> => {
+  if (!id) return null;
+  const hit = urlCache.get(id);
+  if (hit) return hit;
+  const a = await repo.getAsset(id);
+  if (!a) return null;
+  const u = URL.createObjectURL(a.blob);
+  urlCache.set(id, u);
+  return u;
+};
+
+export type MediaUrls = { voiceSrc: string | null; videoSrc: string | null; logoSrc: string | null; musicSrc: string | null; images: Map<string, string>; imageRefs: ImageRef[] };
+
+/** User images in order (product photos / extra media), as refs the director can point to. */
+export const projectImageRefs = (p: Project): ImageRef[] => {
+  if (p.demo) return demoImages(p.demo).map((src) => ({ src: publicUrl(src) }));
+  return p.media.extra.map((e) => ({ assetId: e.assetId }));
+};
+
+export const resolveMedia = async (p: Project): Promise<MediaUrls> => {
+  const images = new Map<string, string>();
+  const ids = new Set<string>();
+  for (const e of p.media.extra) ids.add(e.assetId);
+  for (const s of p.plan?.scenes ?? []) {
+    if (s.content.image?.assetId) ids.add(s.content.image.assetId);
+    for (const im of s.content.images ?? []) if (im.assetId) ids.add(im.assetId);
+  }
+  if (p.brand.logoAssetId) ids.add(p.brand.logoAssetId);
+  for (const id of ids) {
+    const u = await assetUrl(id);
+    if (u) images.set(id, u);
+  }
+  const musicUpload = p.style.music.trackId === 'upload' ? await assetUrl(p.style.music.assetId) : null;
+  return {
+    voiceSrc: p.media.publicAudio ? publicUrl(p.media.publicAudio) : await assetUrl(p.media.voiceAssetId),
+    videoSrc: p.media.publicVideo ? publicUrl(p.media.publicVideo) : await assetUrl(p.media.videoAssetId),
+    logoSrc: (await assetUrl(p.brand.logoAssetId)) ?? null,
+    musicSrc: musicUpload ?? (p.dna ? pickMusic(p.dna, p.style.music.trackId) : null),
+    images,
+    imageRefs: projectImageRefs(p),
+  };
+};
+
+export const loadDemoTranscript = async (demo: string): Promise<Transcript> => {
+  const res = await fetch(publicUrl(`demo/${demo}.transcript.json`));
+  return TranscriptSchema.parse(await res.json());
+};
+
+export const compileProject = (p: Project, m: MediaUrls, opts: { showSafeZone?: boolean; aspect?: Project['style']['aspect'] } = {}): CompiledReel | null => {
+  if (!p.transcript || !p.dna || !p.plan) return null;
+  const style = opts.aspect ? { ...p.style, aspect: opts.aspect } : p.style;
+  const reel = compileReel({
+    mode: p.mode,
+    transcript: p.transcript,
+    cuts: p.cuts,
+    dna: p.dna,
+    plan: p.plan,
+    style,
+    media: { voiceSrc: m.voiceSrc, videoSrc: m.videoSrc, musicSrc: m.musicSrc, logoSrc: m.logoSrc },
+    resolveImage: (r) => (r.src ? { src: r.src } : r.assetId && m.images.get(r.assetId) ? { src: m.images.get(r.assetId)! } : null),
+    sfxSrc,
+    showSafeZone: opts.showSafeZone,
+  });
+  // the end card shows the brand logo when there is one
+  if (m.logoSrc) for (const s of reel.scenes) if (s.isEndCard) s.images = [{ src: m.logoSrc }];
+  return reel;
+};
+
+export type Stage = 'transcribe' | 'plan' | 'design' | 'assets' | 'qa' | 'done';
+
+/** Transcribe the project's voice/video with the configured provider. */
+export const transcribeProject = async (p: Project, onMsg?: (m: string) => void): Promise<Transcript> => {
+  if (p.demo) return loadDemoTranscript(p.demo);
+  const keys = await getKeys();
+  const id = p.media.voiceAssetId ?? p.media.videoAssetId;
+  const asset = id ? await repo.getAsset(id) : undefined;
+  if (!asset) throw new Error('ارفع ملف الصوت أو الفيديو أولاً');
+  const durationMs = Number(asset.meta?.durationMs ?? 0) || undefined;
+  const opts = { vocabulary: p.media.vocabulary, durationMs, projectId: p.id };
+  if (keys.sttProvider !== 'openai' && keys.elevenlabs) return elevenScribe(keys.elevenlabs).transcribe(asset.blob, opts);
+  if (keys.openai) return openaiWhisper(keys.openai).transcribe(asset.blob, opts);
+  return browserWhisper(onMsg).transcribe(asset.blob, opts);
+};
+
+const avoidFrom = async () => (await repo.recentFingerprints(10)).map((f) => ({ mood: f.mood, easing: f.easing, sequence: f.sequence, hue: f.hue }));
+
+/** Generate Design DNA + scene plan (Claude when a key is present, else the local directors), resolve assets, run QA + auto-fix. */
+export const generateProject = async (p: Project, onStage: (s: Stage, note?: string) => void, opts: { newLook?: boolean } = {}): Promise<Project> => {
+  if (!p.transcript) throw new Error('no transcript');
+  const keys: Keys = await getKeys();
+  const text = `${p.media.idea} ${p.transcript.words.map((w) => w.text).join(' ')}`;
+  const { topic } = detectTopic(text, p.business);
+  const recent = await avoidFrom();
+  const seed = opts.newLook || !p.demo ? Math.floor(Math.random() * 1e6) : demoSeed(p.demo);
+  const imageRefs = projectImageRefs(p);
+  let dna: DesignDNA;
+  let plan: Plan;
+  onStage('design');
+  if (keys.anthropic) {
+    onStage('plan', 'Claude');
+    const res = await claudeDirector(keys.anthropic, p.brand, imageRefs).direct({
+      transcript: p.transcript,
+      mode: p.mode,
+      topicHint: topic,
+      idea: p.media.idea,
+      business: p.business,
+      visualStyle: p.style.visualStyle,
+      artDirection: p.style.artDirection,
+      pacing: p.style.pacing,
+      brandColors: p.brand.enabled ? p.brand.colors : [],
+      product: p.product ? { name: p.product.name, price: p.product.price, oldPrice: p.product.oldPrice, currency: p.product.currency, offer: p.product.offer, deliveryWilayas: p.product.deliveryWilayas, cod: p.product.cod, phone: p.product.phone } : undefined,
+      userImages: imageRefs.map((_, i) => ({ index: i, note: p.media.extra[i]?.note ?? '' })),
+      avoid: recent.map(({ mood, easing, sequence }) => ({ mood, easing, sequence })),
+      seed,
+      projectId: p.id,
+    });
+    dna = res.dna;
+    plan = res.plan;
+  } else {
+    dna = designDNA({
+      topic,
+      seed,
+      visualStyle: p.style.visualStyle === 'auto' ? undefined : p.style.visualStyle,
+      artDirection: p.style.artDirection,
+      brand: p.brand,
+      avoid: recent.length && !p.demo ? { moods: recent.map((r) => r.mood), easings: recent.slice(0, 2).map((r) => r.easing), hues: recent.map((r) => r.hue) } : undefined,
+    });
+    onStage('plan');
+    plan = planLocally({ transcript: p.transcript, dna, mode: p.mode, pacing: p.style.pacing, seed, product: p.product, images: imageRefs, recentSequences: p.demo ? [] : recent.map((r) => r.sequence) });
+  }
+  // assets: generate images the plan asked for (cached by prompt hash)
+  onStage('assets');
+  const gen = imageGenerator(keys);
+  for (const s of plan.scenes) {
+    const im = s.content.image;
+    if (im?.prompt && !im.assetId && !im.src) {
+      if (gen) {
+        try {
+          im.assetId = await cachedImage(gen, `${im.prompt}. Style: ${dna.illustrationStyle}`, p.style.aspect === '1:1' ? '1:1' : '4:5', p.id);
+        } catch (e) {
+          console.warn('image generation failed', e);
+        }
+      }
+    }
+  }
+  // QA: deterministic checks + auto-fix (max 2 passes)
+  onStage('qa');
+  let issues = checkPlan(plan, p.transcript, p.mode);
+  const fixedAll = [] as Project['qa'];
+  for (let pass = 0; pass < 2 && issues.some((i) => i.severity === 'error' || i.check === 'anchors' || i.check === 'repetition'); pass++) {
+    const r = autoFixPlan(plan, p.transcript, issues);
+    plan = r.plan;
+    fixedAll.push(...r.fixed);
+    issues = checkPlan(plan, p.transcript, p.mode);
+  }
+  const next: Project = { ...p, dna, plan, stage: 'ready' };
+  const media = await resolveMedia(next);
+  const reel = compileProject(next, media);
+  const reelIssues = reel ? checkReel(reel, p.transcript) : [];
+  next.qa = [...fixedAll, ...issues, ...reelIssues];
+  next.versions = [...p.versions, { id: uid('v_'), createdAt: Date.now(), label: keys.anthropic ? 'Claude' : 'محلي', dna, plan }].slice(-12);
+  await repo.saveProject(next);
+  const [h] = rgbToHsl(hexToRgb(dna.palette.primary));
+  await repo.addFingerprint({ id: uid('f_'), projectId: p.id, createdAt: Date.now(), mood: dna.mood, easing: dna.motionLanguage.easing, hue: Math.round(h), sequence: plan.scenes.map((s) => s.primitive) });
+  onStage('done');
+  return next;
+};
+
+/** Regenerate one scene only (local director; keeps all other scenes and timing). */
+export const regenerateScene = async (p: Project, sceneId: string): Promise<Project> => {
+  if (!p.transcript || !p.dna || !p.plan) return p;
+  const plan = replanScene({ transcript: p.transcript, dna: p.dna, mode: p.mode, pacing: p.style.pacing, seed: Date.now() % 1e6, product: p.product, images: projectImageRefs(p) }, p.plan, sceneId, Date.now() % 1e6);
+  const next = { ...p, plan };
+  await repo.saveProject(next);
+  return next;
+};

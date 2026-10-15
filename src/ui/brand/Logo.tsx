@@ -4,7 +4,7 @@ import { LOGO_BARS } from '@/config/logo';
 export const LogoMark = ({ size = 36, tile = false }: { size?: number; tile?: boolean }) => (
   <svg viewBox="0 0 64 64" width={size} height={size} aria-hidden="true">
     <defs>
-      <linearGradient id="nb-mark" x1="0" y1="0" x2="1" y2="0">
+      <linearGradient id="nb-mark" gradientUnits="userSpaceOnUse" x1="10" y1="0" x2="54" y2="0">
         <stop offset="0" stopColor={BRAND.colors.mint} />
         <stop offset="0.55" stopColor={BRAND.colors.lilac} />
         <stop offset="1" stopColor={BRAND.colors.rose} />

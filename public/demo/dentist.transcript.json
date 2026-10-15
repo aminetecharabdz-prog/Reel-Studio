@@ -1,0 +1,560 @@
+{
+"language": "mixed",
+"source": "demo",
+"durationMs": 51648,
+"words": [
+{
+"id": "w0",
+"text": "واش",
+"startMs": 250,
+"endMs": 578,
+"confidence": 1
+},
+{
+"id": "w1",
+"text": "تعرف",
+"startMs": 578,
+"endMs": 1222,
+"confidence": 1
+},
+{
+"id": "w2",
+"text": "بلي",
+"startMs": 1222,
+"endMs": 1600,
+"confidence": 1
+},
+{
+"id": "w3",
+"text": "70%",
+"startMs": 1600,
+"endMs": 3040,
+"confidence": 1
+},
+{
+"id": "w4",
+"text": "من",
+"startMs": 3040,
+"endMs": 3295,
+"confidence": 1
+},
+{
+"id": "w5",
+"text": "الناس",
+"startMs": 3295,
+"endMs": 3895,
+"confidence": 1
+},
+{
+"id": "w6",
+"text": "ما",
+"startMs": 3895,
+"endMs": 4229,
+"confidence": 1
+},
+{
+"id": "w7",
+"text": "يغسلوش",
+"startMs": 4229,
+"endMs": 4850,
+"confidence": 1
+},
+{
+"id": "w8",
+"text": "سنانهم",
+"startMs": 4850,
+"endMs": 5600,
+"confidence": 1
+},
+{
+"id": "w9",
+"text": "مليح؟",
+"startMs": 5600,
+"endMs": 6575,
+"confidence": 1
+},
+{
+"id": "w10",
+"text": "أنا",
+"startMs": 6575,
+"endMs": 6796,
+"confidence": 1
+},
+{
+"id": "w11",
+"text": "الدكتورة",
+"startMs": 6796,
+"endMs": 7811,
+"confidence": 1
+},
+{
+"id": "w12",
+"text": "سارة،",
+"startMs": 7811,
+"endMs": 8330,
+"confidence": 1
+},
+{
+"id": "w13",
+"text": "طبيبة",
+"startMs": 8502,
+"endMs": 9148,
+"confidence": 1
+},
+{
+"id": "w14",
+"text": "أسنان،",
+"startMs": 9148,
+"endMs": 10211,
+"confidence": 1
+},
+{
+"id": "w15",
+"text": "وراني",
+"startMs": 10211,
+"endMs": 10760,
+"confidence": 1
+},
+{
+"id": "w16",
+"text": "نعطيك",
+"startMs": 10760,
+"endMs": 11372,
+"confidence": 1
+},
+{
+"id": "w17",
+"text": "3",
+"startMs": 11372,
+"endMs": 12027,
+"confidence": 1
+},
+{
+"id": "w18",
+"text": "نصائح",
+"startMs": 12027,
+"endMs": 12807,
+"confidence": 1
+},
+{
+"id": "w19",
+"text": "بسيطة.",
+"startMs": 12807,
+"endMs": 13416,
+"confidence": 1
+},
+{
+"id": "w20",
+"text": "أولا،",
+"startMs": 13718,
+"endMs": 14144,
+"confidence": 1
+},
+{
+"id": "w21",
+"text": "اغسل",
+"startMs": 14144,
+"endMs": 14574,
+"confidence": 1
+},
+{
+"id": "w22",
+"text": "سنانك",
+"startMs": 14574,
+"endMs": 15240,
+"confidence": 1
+},
+{
+"id": "w23",
+"text": "2",
+"startMs": 15240,
+"endMs": 15735,
+"confidence": 1
+},
+{
+"id": "w24",
+"text": "مرات",
+"startMs": 15735,
+"endMs": 16228,
+"confidence": 1
+},
+{
+"id": "w25",
+"text": "في",
+"startMs": 16228,
+"endMs": 16579,
+"confidence": 1
+},
+{
+"id": "w26",
+"text": "النهار،",
+"startMs": 16579,
+"endMs": 17427,
+"confidence": 1
+},
+{
+"id": "w27",
+"text": "2",
+"startMs": 17598,
+"endMs": 18095,
+"confidence": 1
+},
+{
+"id": "w28",
+"text": "دقايق",
+"startMs": 18095,
+"endMs": 18623,
+"confidence": 1
+},
+{
+"id": "w29",
+"text": "كاملين.",
+"startMs": 18623,
+"endMs": 19441,
+"confidence": 1
+},
+{
+"id": "w30",
+"text": "ثانيا،",
+"startMs": 19794,
+"endMs": 20465,
+"confidence": 1
+},
+{
+"id": "w31",
+"text": "بدّل",
+"startMs": 20465,
+"endMs": 20676,
+"confidence": 1
+},
+{
+"id": "w32",
+"text": "la",
+"startMs": 20676,
+"endMs": 20915,
+"confidence": 1
+},
+{
+"id": "w33",
+"text": "brosse",
+"startMs": 20921,
+"endMs": 21236,
+"confidence": 1
+},
+{
+"id": "w34",
+"text": "تاعك",
+"startMs": 21236,
+"endMs": 21881,
+"confidence": 1
+},
+{
+"id": "w35",
+"text": "كل",
+"startMs": 21881,
+"endMs": 22256,
+"confidence": 1
+},
+{
+"id": "w36",
+"text": "3",
+"startMs": 22256,
+"endMs": 22914,
+"confidence": 1
+},
+{
+"id": "w37",
+"text": "شهور،",
+"startMs": 22914,
+"endMs": 23869,
+"confidence": 1
+},
+{
+"id": "w38",
+"text": "ماشي",
+"startMs": 23869,
+"endMs": 24438,
+"confidence": 1
+},
+{
+"id": "w39",
+"text": "كي",
+"startMs": 24438,
+"endMs": 24734,
+"confidence": 1
+},
+{
+"id": "w40",
+"text": "تتقطع.",
+"startMs": 24734,
+"endMs": 25283,
+"confidence": 1
+},
+{
+"id": "w41",
+"text": "ثالثا،",
+"startMs": 25600,
+"endMs": 26197,
+"confidence": 1
+},
+{
+"id": "w42",
+"text": "استعمل",
+"startMs": 26197,
+"endMs": 26903,
+"confidence": 1
+},
+{
+"id": "w43",
+"text": "le",
+"startMs": 26903,
+"endMs": 27059,
+"confidence": 1
+},
+{
+"id": "w44",
+"text": "fil",
+"startMs": 27059,
+"endMs": 27365,
+"confidence": 1
+},
+{
+"id": "w45",
+"text": "dentaire،",
+"startMs": 27365,
+"endMs": 27883,
+"confidence": 1
+},
+{
+"id": "w46",
+"text": "لخاطر",
+"startMs": 27883,
+"endMs": 28391,
+"confidence": 1
+},
+{
+"id": "w47",
+"text": "الفرشاة",
+"startMs": 28391,
+"endMs": 29192,
+"confidence": 1
+},
+{
+"id": "w48",
+"text": "ما",
+"startMs": 29192,
+"endMs": 29477,
+"confidence": 1
+},
+{
+"id": "w49",
+"text": "توصلش",
+"startMs": 29477,
+"endMs": 30195,
+"confidence": 1
+},
+{
+"id": "w50",
+"text": "بين",
+"startMs": 30195,
+"endMs": 30556,
+"confidence": 1
+},
+{
+"id": "w51",
+"text": "السنان.",
+"startMs": 30556,
+"endMs": 31424,
+"confidence": 1
+},
+{
+"id": "w52",
+"text": "وحذاري",
+"startMs": 31732,
+"endMs": 32493,
+"confidence": 1
+},
+{
+"id": "w53",
+"text": "من",
+"startMs": 32493,
+"endMs": 32758,
+"confidence": 1
+},
+{
+"id": "w54",
+"text": "السكر",
+"startMs": 32758,
+"endMs": 33497,
+"confidence": 1
+},
+{
+"id": "w55",
+"text": "والمشروبات",
+"startMs": 33497,
+"endMs": 34525,
+"confidence": 1
+},
+{
+"id": "w56",
+"text": "الغازية،",
+"startMs": 34525,
+"endMs": 35393,
+"confidence": 1
+},
+{
+"id": "w57",
+"text": "هوما",
+"startMs": 35638,
+"endMs": 36159,
+"confidence": 1
+},
+{
+"id": "w58",
+"text": "السبب",
+"startMs": 36159,
+"endMs": 36778,
+"confidence": 1
+},
+{
+"id": "w59",
+"text": "الأول",
+"startMs": 36791,
+"endMs": 37438,
+"confidence": 1
+},
+{
+"id": "w60",
+"text": "تاع",
+"startMs": 37438,
+"endMs": 37897,
+"confidence": 1
+},
+{
+"id": "w61",
+"text": "التسوس.",
+"startMs": 37916,
+"endMs": 39150,
+"confidence": 1
+},
+{
+"id": "w62",
+"text": "وإذا",
+"startMs": 39150,
+"endMs": 39559,
+"confidence": 1
+},
+{
+"id": "w63",
+"text": "حسيت",
+"startMs": 39559,
+"endMs": 40152,
+"confidence": 1
+},
+{
+"id": "w64",
+"text": "بوجع",
+"startMs": 40152,
+"endMs": 40703,
+"confidence": 1
+},
+{
+"id": "w65",
+"text": "كي",
+"startMs": 40703,
+"endMs": 40997,
+"confidence": 1
+},
+{
+"id": "w66",
+"text": "تشرب",
+"startMs": 40997,
+"endMs": 41665,
+"confidence": 1
+},
+{
+"id": "w67",
+"text": "البارد،",
+"startMs": 41685,
+"endMs": 42513,
+"confidence": 1
+},
+{
+"id": "w68",
+"text": "ما",
+"startMs": 42762,
+"endMs": 43066,
+"confidence": 1
+},
+{
+"id": "w69",
+"text": "تستناش،",
+"startMs": 43066,
+"endMs": 43924,
+"confidence": 1
+},
+{
+"id": "w70",
+"text": "زور",
+"startMs": 44136,
+"endMs": 44553,
+"confidence": 1
+},
+{
+"id": "w71",
+"text": "طبيب",
+"startMs": 44553,
+"endMs": 45072,
+"confidence": 1
+},
+{
+"id": "w72",
+"text": "الأسنان.",
+"startMs": 45083,
+"endMs": 46242,
+"confidence": 1
+},
+{
+"id": "w73",
+"text": "ابتسامتك",
+"startMs": 46242,
+"endMs": 47029,
+"confidence": 1
+},
+{
+"id": "w74",
+"text": "تستاهل.",
+"startMs": 47029,
+"endMs": 47787,
+"confidence": 1
+},
+{
+"id": "w75",
+"text": "تابعني",
+"startMs": 48151,
+"endMs": 48964,
+"confidence": 1
+},
+{
+"id": "w76",
+"text": "باش",
+"startMs": 48964,
+"endMs": 49504,
+"confidence": 1
+},
+{
+"id": "w77",
+"text": "تعرف",
+"startMs": 49504,
+"endMs": 50148,
+"confidence": 1
+},
+{
+"id": "w78",
+"text": "أكثر.",
+"startMs": 50148,
+"endMs": 50657,
+"confidence": 1
+}
+]
+}

@@ -20,7 +20,8 @@
   --font-body: "IBM Plex Sans Arabic", system-ui, sans-serif;
 }
 
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+body { overflow-x: clip; }
 body {
   background: var(--color-night);
   color: var(--color-ink);
@@ -30,3 +31,7 @@ body {
 }
 :focus-visible { outline: 2px solid var(--color-mint); outline-offset: 2px; border-radius: 6px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+@keyframes nb-bar { from { transform: scaleY(0.35); } to { transform: scaleY(1); } }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
