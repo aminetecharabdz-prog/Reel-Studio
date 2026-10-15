@@ -289,6 +289,8 @@ export const compileReel = (input: CompileInput): CompiledReel => {
         : [];
   const speakerFootage = video.length > 0;
   if (input.mode === 'A' && speakerFootage) for (const s of compiled) if (!s.isEndCard) s.speaker = s.speaker ?? 'split-top';
+  // the end card owns the whole frame (no speaker box, full graphics stage)
+  if (speakerFootage) for (const s of compiled) if (s.isEndCard) s.speaker = 'hidden';
 
   return {
     fps,
