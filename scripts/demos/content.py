@@ -68,7 +68,7 @@ v.scene(h, LIGHT,
 i = v.say('كل فيديو لازم يوقف السكرول في 3 ثواني', pause=500)
 v.scene(i, {'kind': 'blur-photo', 'tone': 'dark', 'image': bgp('phone-feed'), 'vignette': True},
   [U('notif', 'profile', title='motiq.studio', sub='1 250 متابع جديد هذا الأسبوع', x=0.5, y=0.2, w=0.84, at=i[0], anim='drop'),
-   C('three', 3, from_=0, suffix='', x=0.5, y=0.44, w=0.8, size='mega', color='accent', at=v.find(i, '3')),
+   C('three', 3, from_=0, suffix='', x=0.5, y=0.44, w=0.8, size='mega', color='accent', at=v.find(i, 'السكرول')),
    I('phone', obj('iphone'), x=0.86, y=0.9, w=0.5, rotate=-14, anim='slide-left', idle='float', at=v.find(i, 'السكرول'), depth=0.8),
    T('t9', [words(v, i[:4]), words(v, i[4:6], {'السكرول': 'accent'}), words(v, i[6:])], x=0.46, y=0.66, w=0.8, size='l', anim='rise', hier=False)],
   transition='whip', camera=('punch', 0.5), intent='hook rule: profile card, a giant red 3, the phone slides in on السكرول')

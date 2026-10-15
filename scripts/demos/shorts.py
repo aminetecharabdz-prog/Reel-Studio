@@ -60,13 +60,13 @@ v.scene(f, DARK,
 g = v.say('كل فيديو لازم يخدم هدف واحد', pause=420)
 v.scene(g, PAPER,
   [I('dart', sticker('bullseye'), x=0.5, y=0.66, w=0.86, anim='zoom', idle='float', at=v.find(g, 'هدف')),
-   T('t7', [words(v, g[:3]), words(v, g[3:5]), words(v, g[5:], {'هدف': 'highlight'})], x=0.5, y=0.24, w=0.86, size='xl', anim='mask', hier=False)],
+   T('t7', [words(v, g[:3]), words(v, g[3:5]), words(v, g[5:], {'هدف': 'accent'})], x=0.5, y=0.24, w=0.86, size='xl', anim='mask', hier=False)],
   transition='slide-up', camera=('push', 0.4), intent='one goal: a dart in the bullseye')
 
 h = v.say('تابع باش ما تفوتكش الحيلة الجاية', pause=900)
 v.scene(h, FIELD,
   [S('sh3', 'shard', x=0.1, y=0.9, w=0.5, h=0.22, rotate=-90, color='white', fill=True, anim='pop', at=h[0]),
-   I('bell', sticker('bell'), x=0.5, y=0.54, w=0.76, rotate=-10, anim='pop', idle='sway', at=h[0], glow='white'),
+   I('bell', sticker('bell'), x=0.5, y=0.58, w=0.73, rotate=-10, anim='pop', idle='sway', at=h[0], glow='white'),
    T('t8', [words(v, h[:1], {'تابع': 'big'}), words(v, h[1:4]), words(v, h[4:])], x=0.5, y=0.22, w=0.86, size='xl', anim='pop', color='white'),
    U('cta', 'button', title='اشترك', x=0.5, y=0.82, w=0.5, color='paper', at=h[-1])],
   transition='flash', camera=('push', 0.5), intent='CTA on the purple field: a ringing bell')

@@ -9,13 +9,16 @@ import { STICKERS } from './stickers';
 import { fallbackVisual, heroWidth, visualFor, visualSrc } from './concepts';
 import { makeResolver } from './assets';
 
-export type Issue = { scene: string; layer?: string; code: 'short-scene' | 'out-of-frame' | 'contrast' | 'static' | 'crowded' | 'missing-asset' | 'late-layer' | 'no-text' | 'no-hero' | 'bg-repeat' | 'bg-variety' | 'hero-reuse' | 'collision'; msg: string };
+export type Issue = { scene: string; layer?: string; code: 'short-scene' | 'out-of-frame' | 'contrast' | 'static' | 'crowded' | 'missing-asset' | 'late-layer' | 'no-text' | 'no-hero' | 'bg-repeat' | 'bg-variety' | 'hero-reuse' | 'collision' | 'counter-late'; msg: string };
 
 const SAFE = { x0: 0.07, x1: 0.9, y0: 0.1, y1: 0.8 };
 
 /** Minimum share of the frame covered by the scene's hero visual(s) — QUALITY_BAR MUST 1 ("no empty scenes").
  * Measured on the object's visible (alpha) bbox, which is stricter than the layer box: 0.2 ≈ a layer box of ~35 %. */
 export const HERO_MIN = 0.2;
+/** counter animation length (CounterLayer) and the minimum hold on the final value */
+const COUNT_F = (fps: number) => Math.round(0.85 * fps);
+const HOLD_F = (fps: number) => Math.round(0.5 * fps);
 
 const artKey = (l: CLayer) => {
   if (l.type !== 'image') return null;
@@ -133,6 +136,8 @@ export const checkReel = (c: Compiled): Issue[] => {
         if (k > 0.15) out.push({ scene: s.id, layer: tl.id, code: 'collision', msg: `${tl.id} overlaps ${ol.id} (${(k * 100).toFixed(0)} %)` });
       }
     }
+    // numbers must land on their final value and hold it ≥ 0.5 s before the cut (QUALITY_BAR MUST 7)
+    for (const l of s.layers) if (l.type === 'counter' && l.inF + COUNT_F(c.fps) > s.duration - HOLD_F(c.fps)) out.push({ scene: s.id, layer: l.id, code: 'counter-late', msg: `lands at f${l.inF + COUNT_F(c.fps)} of ${s.duration}` });
     const ha = heroArea(c, s);
     if (ha < HERO_MIN) out.push({ scene: s.id, code: 'no-hero', msg: `hero covers ${(ha * 100).toFixed(0)} % of the frame` });
     if (s.duration < 12) out.push({ scene: s.id, code: 'short-scene', msg: `${s.duration} frames` });
@@ -170,6 +175,7 @@ export const autofix = (c: Compiled): Issue[] => {
     // drop unresolved images (never show a broken frame)
     s.layers = s.layers.filter((l) => l.type !== 'image' || !!l.url);
     for (const l of s.layers) if (l.inF >= s.duration) l.inF = Math.max(0, s.duration - 8);
+    for (const l of s.layers) if (l.type === 'counter') l.inF = Math.max(0, Math.min(l.inF, s.duration - COUNT_F(c.fps) - HOLD_F(c.fps)));
     // white/black text on a background it can't be read on → switch to the auto-contrast ink
     const base = bgColorFor(c.plan.style, s.bg.tone, s.bg.color);
     for (const l of s.layers) if (l.type === 'text' && (l.color === 'white' || l.color === 'black') && contrast(l.color === 'white' ? '#FFFFFF' : '#0B0B0F', base) < 3 && !s.bgUrl) l.color = 'ink';

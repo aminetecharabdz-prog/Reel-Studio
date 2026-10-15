@@ -277,9 +277,9 @@
        "kind": "library",
        "name": "obj/magnifying-glass"
       },
-      "x": 0.56,
-      "y": 0.64,
-      "w": 1.1,
+      "x": 0.58,
+      "y": 0.7,
+      "w": 1.05,
       "rotate": -18,
       "anim": "slide-left",
       "idle": "sway",

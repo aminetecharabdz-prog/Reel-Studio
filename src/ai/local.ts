@@ -127,6 +127,9 @@ export const localDirector = (tr: Transcript, o: { mode: 'content' | 'product' |
       layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.25, w: 0.86, rotate: 0, opacity: 1, role: 'display', size: lines.length > 2 ? 'l' : 'xl', color: 'ink', align: 'start', anim, tracking: 0, hier: true });
     } else if (layout === 'number' && num) {
       const v = parseFloat(num.text.replace(/[^\d.]/g, ''));
+      // the counter shows the number — don't print it a second time in the text
+      const kept = lines.map((ln) => ln.filter((w) => w.at !== num.id)).filter((ln) => ln.length);
+      if (kept.length) lines.splice(0, lines.length, ...kept);
       layers.push(...hero(0.5, 0.74, 0.72));
       layers.push({ id: `c${i}`, type: 'counter', value: isFinite(v) ? v : 0, from: 0, prefix: '', suffix: num.text.includes('%') ? '%' : '', decimals: 0, size: 'mega', color: 'accent', role: 'impact', x: 0.5, y: 0.26, w: 0.8, rotate: 0, at: num.id, opacity: 1 });
       layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.47, w: 0.86, rotate: 0, opacity: 1, role: 'display', size: 'l', color: 'ink', align: 'center', anim, tracking: 0, hier: true });

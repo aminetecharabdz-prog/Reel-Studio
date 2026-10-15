@@ -14,7 +14,7 @@ DARK = {'kind': 'spotlight', 'tone': 'dark', 'vignette': True, 'leak': True, 'gl
 
 a = v.say('راك تحوس على هدية تبقى؟', pause=450)
 v.scene(a, DARK,
-  [I('lens', obj('magnifying-glass'), x=0.56, y=0.64, w=1.1, rotate=-18, anim='slide-left', idle='sway', at=a[1], depth=0.8, glow='accent'),
+  [I('lens', obj('magnifying-glass'), x=0.58, y=0.7, w=1.05, rotate=-18, anim='slide-left', idle='sway', at=a[1], depth=0.8, glow='accent'),
    T('t1', [words(v, a[:3]), words(v, a[3:4], {'هدية': 'serif'}), words(v, a[4:])], x=0.5, y=0.25, w=0.86, size='xxl', anim='rise')],
   camera=('push', 0.5), intent='hook: searching (تحوس) — a brass magnifying glass sweeps into a warm spotlight')
 

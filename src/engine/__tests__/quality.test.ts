@@ -65,6 +65,16 @@ describe('quality bar', () => {
     expect(autofix(c).map((i) => i.code)).not.toContain('collision');
   });
 
+  it('a counter that would still be counting at the cut is pulled earlier so it holds its final value', () => {
+    const hero: Layer = { id: 'h', type: 'image', src: { kind: 'sticker', name: 'trophy' }, x: 0.5, y: 0.66, w: 0.9, rotate: 0, opacity: 1, anim: 'pop', idle: 'float', shadow: true, frame: 'none', fit: 'contain', depth: 0.5, flipX: false };
+    const n: Layer = { id: 'n', type: 'counter', value: 4900, from: 0, prefix: '', suffix: '', decimals: 0, size: 'xl', color: 'accent', role: 'impact', x: 0.5, y: 0.2, w: 0.8, rotate: 0, opacity: 1, at: ids[3] };
+    const c = C(plan([scene('s0', 0, 4, DARK, [hero, n])]));
+    autofix(c);
+    const cl = c.scenes[0]!.layers.find((l) => l.id === 'n')!;
+    expect(cl.inF + Math.round(0.85 * 30) + Math.round(0.5 * 30)).toBeLessThanOrEqual(c.scenes[0]!.duration);
+    expect(checkReel(c).map((i) => i.code)).not.toContain('counter-late');
+  });
+
   it('concept lexicon maps Darija/Arabic/French words to literal visuals', () => {
     expect(conceptFor('السكرول')).toBe('obj/iphone');
     expect(conceptFor('التوصيل')).toBe('3d/delivery-truck');
@@ -73,6 +83,9 @@ describe('quality bar', () => {
     expect(conceptFor('livraison')).toBe('3d/delivery-truck');
     expect(conceptFor('سنين')).not.toBe('3d/tooth');
     expect(visualFor(['بدّل', 'la', 'brosse'])).toBe('obj/toothpaste');
+    expect(conceptFor('الأول')).not.toBe('obj/trophy'); // "the first (mistake)" is not a winner's cup
+    expect(conceptFor('منتوج')).toBe('obj/shopping-bag');
+    expect(conceptFor('الماء')).toBe('3d/water-wave');
   });
 
   it('local director (no key): every scene has a hero, backgrounds vary, no QA issue', () => {
