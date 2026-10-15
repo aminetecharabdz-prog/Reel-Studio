@@ -31,7 +31,7 @@ export const ImageCard = () => {
         <Pic src={src} w={size} h={v === 2 ? size * 1.2 : size} icon={c.icon} style={{ clipPath: clip, transform: `scale(${1.08 - 0.08 * clamp01(frame / P.dur)})` }} />
       </div>
       <div style={{ height: 36 * u }} />
-      <Headline text={c.headline} start={start} size={0.62} maxLines={2} />
+      <Headline text={c.headline} start={start} size={0.76} maxLines={2} />
       <Sub text={c.sub} start={start + 12} />
     </Stage>
   );
@@ -82,7 +82,7 @@ export const PhoneMockup = () => {
           </div>
         </div>
         <div style={{ maxWidth: t.orientation === 'landscape' ? stage.w * 0.45 : stage.w }}>
-          <Headline text={c.headline} start={at(c.headlineAt, 8)} size={0.55} maxLines={2} width={t.orientation === 'landscape' ? stage.w * 0.45 : stage.w} />
+          <Headline text={c.headline} start={at(c.headlineAt, 8)} size={0.76} maxLines={2} width={t.orientation === 'landscape' ? stage.w * 0.45 : stage.w} />
         </div>
       </div>
     </Stage>
@@ -98,7 +98,7 @@ export const LaptopMockup = () => {
   const open = clamp01(m.enter(frame, 0, m.base * 1.5));
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 4)} size={0.6} maxLines={2} align="center" />
+      <Headline text={c.headline} start={at(c.headlineAt, 4)} size={0.76} maxLines={2} align="center" />
       <div style={{ height: 40 * u }} />
       <div style={{ width: w * 0.86, height: h * 0.86, borderRadius: 24 * u, backgroundColor: '#111', padding: 18 * u, transform: `scaleY(${0.15 + 0.85 * open})`, transformOrigin: 'bottom' }}>
         <div style={{ width: '100%', height: '100%', borderRadius: 10 * u, overflow: 'hidden', backgroundImage: `linear-gradient(135deg, ${col.primary}, ${col.accent})`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -128,7 +128,7 @@ export const BeforeAfter = () => {
   );
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.58} maxLines={2} align="center" />
+      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} align="center" />
       <div style={{ height: 30 * u }} />
       <div style={{ position: 'relative', width: w, height: h, borderRadius: t.radius(1), overflow: 'hidden', boxShadow: t.shadow(1) }}>
         {side(a, items[0]?.text ?? 'قبل', col.bad, items[0]?.icon ?? 'sad')}
@@ -166,7 +166,7 @@ export const Collage = () => {
         })}
       </div>
       <div style={{ position: 'absolute', bottom: 0, width: stage.w }}>
-        <Headline text={c.headline} start={at(c.headlineAt, 10)} size={0.6} maxLines={2} align="center" color={col.text} />
+        <Headline text={c.headline} start={at(c.headlineAt, 10)} size={0.76} maxLines={2} align="center" color={col.text} />
       </div>
     </Stage>
   );

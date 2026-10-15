@@ -1,7 +1,7 @@
 import { createContext, useContext, type CSSProperties, type ReactNode } from 'react';
 import { useCurrentFrame } from 'remotion';
 import type { CompiledScene } from '@/lib/timing/types';
-import { normalizeAr } from '@/lib/text/keywords';
+import { isStopword, normalizeAr } from '@/lib/text/keywords';
 import { anticipationFrames } from '@/lib/timing/frames';
 import { withAlpha } from '@/lib/color/contrast';
 import { useTheme, type Box } from '../theme';
@@ -47,7 +47,9 @@ export const usePrim = () => {
   };
   const emphasis = scene.emphasis.reduce((p, e) => Math.max(p, m.pulse(frame, e)), 0);
   const align: 'center' | 'start' = ['asymmetric', 'editorial-grid'].includes(t.dna.layoutGrammar) && scene.variant !== 1 ? 'start' : 'center';
-  return { scene, frame, t, m, at, matchWord, itemStart, emphasis, stage: t.stage, u: t.u, c: t.c, align, content: scene.content, dur: scene.duration };
+  /** a text-led scene never starts empty: late anchors still show the scene's text from the start */
+  const leadIn = (s: number) => (s > Math.round(t.fps * 0.5) ? 3 : s);
+  return { scene, frame, t, m, at, lead: leadIn, matchWord, itemStart, emphasis, stage: t.stage, u: t.u, c: t.c, align, content: scene.content, dur: scene.duration };
 };
 
 /** Absolutely positioned stage with slow secondary motion so the frame is never static > 2 s. */
@@ -156,9 +158,23 @@ export const Headline = ({
   const P = usePrim();
   if (!text) return null;
   const { t, m, frame, stage, matchWord, at } = P;
-  const maxSize = 150 * t.u * t.dna.typography.scale * size;
+  const maxSize = 178 * t.u * t.dna.typography.scale * (0.3 + 0.7 * size);
   const al = align ?? P.align;
-  const dirSign = /[؀-ۿ]/.test(text) ? 1 : -1; // RTL text slides in from the right
+  const dirSign = /[\u0600-\u06FF]/.test(text) ? 1 : -1; // RTL text slides in from the right
+  // per-word start: on its spoken word when it matches (non-stopwords), else after the previous word
+  const ws = text.trim().split(/\s+/);
+  const starts: number[] = [];
+  ws.forEach((w, i) => {
+    const anchored = perWord && !isStopword(w) ? matchWord(w) : undefined;
+    const prev = i === 0 ? start : starts[i - 1]! + m.stagger;
+    starts.push(anchored ? Math.max(i === 0 ? 0 : starts[i - 1]!, Math.min(at(anchored, prev), start + 60)) : perWord ? prev : start);
+  });
+  // never leave the screen empty: if the first word is spoken late, it enters with the scene
+  if (starts[0]! > Math.round(t.fps * 0.5)) {
+    // show the opening words up to (and including) the first real content word
+    const k = ws.findIndex((w) => w.replace(/[^\p{L}]/gu, '').length >= 3 && !isStopword(w));
+    for (let i = 0; i <= Math.max(0, k); i++) starts[i] = Math.min(starts[i]!, 3 + i * m.stagger);
+  }
   return (
     <FitText
       text={text}
@@ -170,9 +186,7 @@ export const Headline = ({
       align={al}
       style={style}
       renderWord={(w, i) => {
-        const anchored = perWord ? matchWord(w) : undefined;
-        const s = anchored ? Math.max(start, Math.min(at(anchored, start), start + 40)) : start + (perWord ? i * m.stagger : 0);
-        const p = m.enter(frame, s);
+        const p = m.enter(frame, starts[i] ?? start);
         const v = P.scene.variant % 3;
         const tr = v === 0 ? `translateY(${(1 - p) * 60 * t.u}px)` : v === 1 ? `scale(${0.3 + 0.7 * p})` : `translateX(${(1 - p) * 90 * t.u * dirSign}px)`;
         return (

@@ -56,3 +56,19 @@ export const trimRun = (t: string) => {
   const m = /^(.*?)(\s*)$/s.exec(t);
   return { core: m?.[1] ?? t, space: m?.[2] ?? '' };
 };
+
+/**
+ * Group consecutive words of the same direction so a Latin phrase inside Arabic ("le fil dentaire")
+ * is ONE left-to-right isolate. Isolating each Latin word separately would reverse their order.
+ */
+export const groupWordRuns = (words: string[]): Array<{ dir: Dir; indices: number[] }> => {
+  const out: Array<{ dir: Dir; indices: number[] }> = [];
+  words.forEach((w0, i) => {
+    const w = w0.replace(/[\u060C\u061B\u061F\u06D4]/g, ''); // Arabic punctuation is direction-neutral here
+    const d: Dir | 'neutral' = RTL_RE.test(w) ? 'rtl' : LTR_RE.test(w) || /\d/.test(w) ? 'ltr' : 'neutral';
+    const last = out[out.length - 1];
+    if (last && (d === 'neutral' || d === last.dir)) last.indices.push(i);
+    else out.push({ dir: d === 'neutral' ? 'rtl' : d, indices: [i] });
+  });
+  return out;
+};

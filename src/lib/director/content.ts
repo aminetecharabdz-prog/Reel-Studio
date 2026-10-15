@@ -101,10 +101,20 @@ export const emphasisWords = (words: Word[], n = 2) =>
   [...words].map((w) => ({ w, s: salience(w.text) })).filter((x) => x.s >= 1.5).sort((a, b) => b.s - a.s).slice(0, n).map((x) => x.w.id);
 
 export const beatText = (words: Word[]) => words.map((w) => w.text).join(' ');
-export const iconFor = (words: Word[], fallback = 'sparkle') => findIconConcept(beatText(words)) ?? fallback;
+const NO_ICON = /^(اولا|ثانيا|ثالثا|رابعا|الاولي|الثانيه|الثالثه|الرابعه|واحد|زوج)$/;
+const iconWords = (words: Word[]) => words.filter((w) => !isStopword(w.text) && !NO_ICON.test(normalizeAr(w.text)) && !/^\d/.test(w.text));
+export const iconFor = (words: Word[], fallback = 'sparkle') => {
+  // prefer the most salient word that has an icon
+  const ranked = [...iconWords(words)].sort((a, b) => salience(b.text) - salience(a.text));
+  for (const w of ranked) {
+    const c = findIconConcept(w.text);
+    if (c) return c;
+  }
+  return fallback;
+};
 export const iconsFor = (words: Word[], max = 6) => {
   const out: string[] = [];
-  for (const w of words) {
+  for (const w of iconWords(words)) {
     const c = findIconConcept(w.text);
     if (c && !out.includes(c)) out.push(c);
     if (out.length >= max) break;

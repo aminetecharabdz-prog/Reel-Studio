@@ -91,7 +91,7 @@ const contentCandidates = (b: Beat, input: DirectorInput, _r: Rng, imgIdx: { i: 
       break;
     case 'list':
       if (ord) add('chapter-divider', 4, () => ({ value: ord, headline: distill(words.slice(1), 4).text || head.text, headlineAt: words[1]?.id ?? head.firstId }));
-      if (items.length >= 2) {
+      if (items.length >= 3) {
         add('checklist', 1.6, () => ({ headline: short.text, items: items.map((it) => ({ ...it, tone: 'good' as const })) }));
         add('stacked-list', 1.6, () => ({ items }));
         add('steps', 1.2, () => ({ items }));

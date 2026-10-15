@@ -20,7 +20,7 @@ export const PriceTag = () => {
   const shake = frame - start - 8 > 0 && frame - start - 8 < 10 ? Math.sin((frame - start) * 3) * 6 * u : 0;
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 0)} size={0.6} maxLines={2} align="center" />
+      {c.headline ? <Headline text={c.headline} start={at(c.headlineAt, 0)} size={0.76} maxLines={2} align="center" /> : <div style={{ opacity: m.enterC(frame, 2), transform: `rotate(-3deg) scale(${0.8 + 0.2 * m.enterC(frame, 2)})` }}><Chip text="السعر" size={64 * u} bg={col.text} color={col.bg[0]} /></div>}
       <div style={{ height: 30 * u }} />
       {c.oldPrice !== undefined && (
         <div style={{ position: 'relative', opacity: 0.75 }} dir="rtl">
@@ -177,7 +177,7 @@ export const FeatureCallouts = () => {
         );
       })}
       <div style={{ position: 'absolute', bottom: 0, left: 0, width: stage.w }}>
-        <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.5} maxLines={1} align="center" />
+        <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={1} align="center" />
       </div>
     </Stage>
   );

@@ -34,7 +34,7 @@ export const IconBurst = () => {
           <IconBadge id={c.icon ?? sats[0]} size={size} bg={col.primary} color={col.textOnPrimary} />
         </div>
       </div>
-      <Headline text={c.headline} start={start + 6} size={0.66} maxLines={2} align="center" />
+      <Headline text={c.headline} start={start + 6} size={0.76} maxLines={2} align="center" />
       <Sub text={c.sub} start={start + 16} />
     </Stage>
   );
@@ -49,7 +49,7 @@ export const IconGrid = () => {
   const cell = (stage.w * 0.96 - gap * (cols - 1)) / cols;
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.58} maxLines={2} align="center" />
+      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} align="center" />
       <div style={{ height: 34 * u }} />
       <div dir="rtl" style={{ display: 'flex', flexWrap: 'wrap', gap, width: stage.w * 0.96, justifyContent: 'center' }}>
         {items.map((it, i) => {
@@ -98,7 +98,7 @@ export const IllustrationScene = () => {
           );
         })}
       </div>
-      <Headline text={c.headline} start={start} size={0.66} maxLines={2} align="center" />
+      <Headline text={c.headline} start={start} size={0.76} maxLines={2} align="center" />
       <Sub text={c.sub} start={start + 12} />
     </Stage>
   );
@@ -166,7 +166,7 @@ export const CalloutArrows = () => {
         );
       })}
       <div style={{ position: 'absolute', bottom: 0, left: 0, width: stage.w }}>
-        <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.5} maxLines={2} align="center" />
+        <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} align="center" />
       </div>
     </Stage>
   );
@@ -179,7 +179,7 @@ export const HighlighterCircle = () => {
   const words = (c.headline ?? '').split(/\s+/).filter(Boolean);
   const kwIdx = Math.max(0, words.findIndex((w) => !isStopword(w) && w.length >= 3));
   const kwStart = at(matchWord(words[kwIdx] ?? '') ?? c.headlineAt, 10);
-  const start = at(c.headlineAt, 2);
+  const start = P.lead(at(c.headlineAt, 2));
   const d = clamp01((frame - kwStart) / 12);
   return (
     <Stage>
@@ -261,7 +261,7 @@ export const Gauge = () => {
         </svg>
       </div>
       <div dir="ltr" style={{ fontFamily: t.fonts.display, fontWeight: 900, fontSize: 120 * u, color: col.text, lineHeight: 1.1 }}>{formatNumber(val * e, c.decimals ?? 0, t.digits)}<span style={{ fontSize: 60 * u, color: col.muted }}> {c.unit ?? ''}</span></div>
-      <Headline text={c.headline} start={start + 8} size={0.55} maxLines={2} align="center" />
+      <Headline text={c.headline} start={start + 8} size={0.76} maxLines={2} align="center" />
     </Stage>
   );
 };
@@ -297,7 +297,7 @@ export const DoDont = () => {
   );
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.55} maxLines={2} align="center" />
+      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} align="center" />
       <div style={{ height: 28 * u }} />
       <div dir="rtl" style={{ display: 'flex', gap: stage.w * 0.06, alignItems: 'flex-start' }}>
         {column(goods, true)}

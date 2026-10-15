@@ -142,29 +142,43 @@ export const Reel: FC<ReelProps> = ({ reel }) => {
   return (
     <ThemeProvider value={theme}>
       <AbsoluteFill style={{ backgroundColor: theme.c.bg[0], overflow: 'hidden' }}>
-        {/* pass 1: backgrounds */}
-        {scenes.map((s, i) => (
-          <Sequence key={`bg-${s.id}`} from={s.from} durationInFrames={s.duration + hold(i)} layout="none">
-            <SceneProvider value={s}>
-              <TransitionIn id={s.transition}>
-                <SceneBackground scene={s} reel={reel} />
-              </TransitionIn>
-            </SceneProvider>
-          </Sequence>
-        ))}
-        {/* pass 2: speaker footage (mode C) */}
-        <SpeakerLayer reel={reel} />
-        {/* pass 3: scene graphics */}
-        {ready &&
+        {reel.mode !== 'C' ? (
+          // modes A/B: each scene is a self-contained unit (background + graphics) so transitions cover the previous scene
           scenes.map((s, i) => (
-            <Sequence key={`fx-${s.id}`} from={s.from} durationInFrames={s.duration + hold(i)} layout="none">
+            <Sequence key={`sc-${s.id}`} from={s.from} durationInFrames={s.duration + hold(i)} layout="none">
               <SceneProvider value={s}>
                 <TransitionIn id={s.transition}>
-                  <SceneGraphics scene={s} reel={reel} />
+                  <SceneBackground scene={s} reel={reel} />
+                  {ready && <SceneGraphics scene={s} reel={reel} />}
                 </TransitionIn>
               </SceneProvider>
             </Sequence>
-          ))}
+          ))
+        ) : (
+          <>
+            {/* mode C: backgrounds, then the continuous speaker footage, then overlays (cut at scene end, no ghosting) */}
+            {scenes.map((s, i) => (
+              <Sequence key={`bg-${s.id}`} from={s.from} durationInFrames={s.duration + hold(i)} layout="none">
+                <SceneProvider value={s}>
+                  <TransitionIn id={s.transition}>
+                    <SceneBackground scene={s} reel={reel} />
+                  </TransitionIn>
+                </SceneProvider>
+              </Sequence>
+            ))}
+            <SpeakerLayer reel={reel} />
+            {ready &&
+              scenes.map((s) => (
+                <Sequence key={`fx-${s.id}`} from={s.from} durationInFrames={s.duration} layout="none">
+                  <SceneProvider value={s}>
+                    <TransitionIn id={s.transition}>
+                      <SceneGraphics scene={s} reel={reel} />
+                    </TransitionIn>
+                  </SceneProvider>
+                </Sequence>
+              ))}
+          </>
+        )}
         <Grain amount={reel.dna.texture.grain} frame={frame} />
         {ready && <Captions lines={reel.captions} settings={reel.captionSettings} />}
         {reel.voice && <Audio src={reel.voice.src} volume={reel.voice.volume} />}

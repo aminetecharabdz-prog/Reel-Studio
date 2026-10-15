@@ -3,9 +3,9 @@ import type { CSSProperties } from 'react';
 import type { CaptionLine } from '@/lib/timing/types';
 import type { CaptionSettings } from '@/lib/schema/plan';
 import { layoutText } from '@/lib/text/layout';
-import { detectDir } from '@/lib/text/bidi';
+import { detectDir, groupWordRuns } from '@/lib/text/bidi';
 import { toDigits } from '@/lib/text/digits';
-import { contrast, mix, textOn, withAlpha } from '@/lib/color/contrast';
+import { contrast, ensureContrast, mix, textOn, withAlpha } from '@/lib/color/contrast';
 import { useTheme } from './theme';
 import { measureWidth } from './Text';
 import { clamp01 } from './motion';
@@ -41,7 +41,7 @@ const CaptionLineView = ({ line, s }: { line: CaptionLine; s: CaptionSettings })
   const active = s.activeColor ?? t.c.accent;
   const stroke = withAlpha(t.isDark ? '#000000' : '#000000', t.isDark ? 0.55 : 0.35);
   const shadow = `0 ${3 * u}px ${12 * u}px ${withAlpha('#000000', 0.45)}`;
-  const bgCol = s.background ?? (s.style === 'block' ? t.c.primary : withAlpha(t.isDark ? '#000000' : '#111111', 0.62));
+  const bgCol = s.background ?? (s.style === 'block' ? t.c.primary : withAlpha(t.isDark ? '#000000' : mix(t.c.text, '#000000', 0.3), t.isDark ? 0.62 : 0.9));
   const onBg = s.style === 'block' ? textOn(bgCol.startsWith('#') ? bgCol : t.c.primary) : '#FFFFFF';
 
   let idx = 0;
@@ -70,7 +70,7 @@ const CaptionLineView = ({ line, s }: { line: CaptionLine; s: CaptionSettings })
           ? { ...st, color: t.c.textOnAccent, backgroundColor: t.c.accent }
           : { ...st, color: on ? (contrast(active, '#000000') > 5 ? active : base) : base, textShadow: shadow };
       case 'pill':
-        return { ...st, color: on ? (contrast(active, '#111111') >= 4.5 ? active : mix(active, '#ffffff', 0.5)) : onBg };
+        return { ...st, color: on ? ensureContrast(active, t.isDark ? '#1a1a1a' : mix(t.c.text, '#000000', 0.3), 4.5) : onBg };
       case 'block':
         return { ...st, color: onBg, opacity: frame < w.start ? 0.6 : 1, textDecoration: on ? 'underline' : undefined, textDecorationThickness: on ? `${0.08 * fs}px` : undefined };
       default:
@@ -98,15 +98,20 @@ const CaptionLineView = ({ line, s }: { line: CaptionLine; s: CaptionSettings })
       >
         {lines.map((ln, li) => (
           <div key={li} style={{ whiteSpace: 'nowrap' }}>
-            {ln.map((w, k) => {
-              const txt = toDigits(w.text, t.digits);
-              const latin = /[A-Za-z0-9]/.test(txt) && !/[؀-ۿ]/.test(txt);
-              return (
-                <span key={w.id}>
-                  <span data-word-id={w.id} dir={latin ? 'ltr' : undefined} style={{ ...wordStyle(w), unicodeBidi: latin ? 'isolate' : undefined }}>
-                    {txt}
+            {groupWordRuns(ln.map((w) => toDigits(w.text, t.digits))).map((run, ri, runs) => {
+              const inner = run.indices.map((k, kk) => {
+                const w = ln[k]!;
+                return (
+                  <span key={w.id}>
+                    <span data-word-id={w.id} style={wordStyle(w)}>{toDigits(w.text, t.digits)}</span>
+                    {kk < run.indices.length - 1 ? ' ' : ''}
                   </span>
-                  {k < ln.length - 1 ? ' ' : ''}
+                );
+              });
+              return (
+                <span key={ri}>
+                  {run.dir !== dir ? <span dir={run.dir} style={{ unicodeBidi: 'isolate' }}>{inner}</span> : inner}
+                  {ri < runs.length - 1 ? ' ' : ''}
                 </span>
               );
             })}

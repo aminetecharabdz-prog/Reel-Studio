@@ -48,13 +48,13 @@ export const ChapterDivider = () => {
 export const CTA = () => {
   const P = usePrim();
   const { content: c, frame, m, u, c: col, stage, at, t } = P;
-  const start = at(c.headlineAt, 2);
+  const start = P.lead(at(c.headlineAt, 2));
   const p = m.enter(frame, start);
   const pulse = 1 + 0.04 * Math.sin(frame / 5);
   const arrow = Math.abs(Math.sin(frame / 7)) * 24 * u;
   return (
     <Stage>
-      <Headline text={c.sub ?? c.kicker} start={0} size={0.55} maxLines={2} align="center" color={col.muted} />
+      <Headline text={c.sub ?? c.kicker} start={0} size={0.76} maxLines={2} align="center" color={col.muted} />
       <div style={{ height: 30 * u }} />
       <div style={{ transform: `scale(${(0.6 + 0.4 * p) * pulse})`, opacity: clamp01(p * 2), backgroundColor: col.accent, color: col.textOnAccent, borderRadius: t.radius(0.8) + 30 * u, padding: `${34 * u}px ${70 * u}px`, boxShadow: `0 ${20 * u}px ${60 * u}px ${withAlpha(col.accent, 0.5)}`, display: 'flex', alignItems: 'center', gap: 24 * u, maxWidth: stage.w }}>
         <Icon id={c.icon ?? 'cart'} size={90 * u} color={col.textOnAccent} />

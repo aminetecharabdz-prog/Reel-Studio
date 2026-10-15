@@ -1,7 +1,7 @@
 import { Fragment, type CSSProperties, type ReactNode } from 'react';
 import { measureText } from '@remotion/layout-utils';
 import { layoutText } from '@/lib/text/layout';
-import { detectDir, splitRuns, trimRun } from '@/lib/text/bidi';
+import { detectDir, groupWordRuns, splitRuns, trimRun } from '@/lib/text/bidi';
 import { toDigits } from '@/lib/text/digits';
 import { useTheme } from './theme';
 
@@ -80,7 +80,8 @@ export const FitText = ({ text, role = 'display', maxWidth, maxSize, minSize, ma
   });
   const dir = detectDir(shown);
   const lh = lineHeight ?? (dir === 'rtl' ? 1.38 : 1.15);
-  let wi = 0;
+  const base: number[] = [];
+  res.lines.reduce((n, ln) => (base.push(n), n + ln.length), 0);
   return (
     <div
       dir={dir}
@@ -99,12 +100,20 @@ export const FitText = ({ text, role = 'display', maxWidth, maxSize, minSize, ma
       {res.lines.map((ln, li) => (
         <div key={li} style={{ whiteSpace: 'nowrap', paddingTop: dir === 'rtl' ? res.fontSize * 0.04 : 0 }}>
           {renderWord
-            ? ln.map((w, k) => {
-                const idx = wi++;
+            ? groupWordRuns(ln).map((run, ri, runs) => {
+                const inner = run.indices.map((k, kk) => {
+                  const idx = base[li]! + k;
+                  return (
+                    <Fragment key={k}>
+                      {renderWord(ln[k]!, idx, li)}
+                      {kk < run.indices.length - 1 ? ' ' : ''}
+                    </Fragment>
+                  );
+                });
                 return (
-                  <Fragment key={k}>
-                    {renderWord(w, idx, li)}
-                    {k < ln.length - 1 ? ' ' : ''}
+                  <Fragment key={ri}>
+                    {run.dir !== dir ? <span dir={run.dir} style={{ unicodeBidi: 'isolate' }}>{inner}</span> : inner}
+                    {ri < runs.length - 1 ? ' ' : ''}
                   </Fragment>
                 );
               })

@@ -32,3 +32,14 @@ describe('bidi runs (SPEC §7)', () => {
     expect(formatNumber(10000)).toBe('10 000');
   });
 });
+
+import { groupWordRuns } from './bidi';
+describe('word runs (regression: French phrase reversed in captions)', () => {
+  it('keeps consecutive Latin words in one LTR run', () => {
+    const r = groupWordRuns(['استعمل', 'le', 'fil', 'dentaire،', 'لخاطر']);
+    expect(r).toEqual([{ dir: 'rtl', indices: [0] }, { dir: 'ltr', indices: [1, 2, 3] }, { dir: 'rtl', indices: [4] }]);
+  });
+  it('keeps number + currency in one run', () => {
+    expect(groupWordRuns(['ب', '3500', 'DA', 'مع'])[1]).toEqual({ dir: 'ltr', indices: [1, 2] });
+  });
+});

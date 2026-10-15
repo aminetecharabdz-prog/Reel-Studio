@@ -1,5 +1,5 @@
 import { interpolate } from 'remotion';
-import { withAlpha, mix } from '@/lib/color/contrast';
+import { withAlpha } from '@/lib/color/contrast';
 import { formatNumber, toDigits } from '@/lib/text/digits';
 import { isStopword } from '@/lib/text/keywords';
 import { Card, Chip, Headline, IconBadge, Stage, Sub, usePrim } from './kit';
@@ -34,6 +34,7 @@ export const WordBuild = () => {
     last = Math.max(last, s);
     return last;
   });
+  if (starts[0]! > Math.round(P.t.fps * 0.5)) starts[0] = 3;
   const per = Math.min(1, 3 / Math.max(1, words.length));
   return (
     <Stage>
@@ -56,7 +57,7 @@ export const HighlightSweep = () => {
   const { content: c, frame, m, u, c: col, at, stage, t } = P;
   const words = (c.headline ?? '').split(/\s+/).filter(Boolean);
   const kwIdx = Math.max(0, words.findIndex((w) => !isStopword(w) && w.length >= 3));
-  const start = at(c.headlineAt, 4);
+  const start = P.lead(at(c.headlineAt, 4));
   const sweep = clamp01((frame - start - 6) / 12);
   const rtl = /[؀-ۿ]/.test(c.headline ?? '');
   return (
@@ -71,21 +72,20 @@ export const HighlightSweep = () => {
           const p = m.enterC(frame, start + i * m.stagger);
           const isKw = i === kwIdx;
           return (
-            <span style={{ display: 'inline-block', position: 'relative', opacity: p, transform: `translateY(${(1 - p) * 30 * u}px)` }}>
-              {isKw && (
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '55%',
-                    bottom: '6%',
-                    [rtl ? 'right' : 'left']: '-4%',
-                    width: `${108 * sweep}%`,
-                    backgroundColor: withAlpha(col.accent, 0.85),
-                    borderRadius: 8 * u,
-                  }}
-                />
-              )}
-              <Word text={w} style={{ position: 'relative', color: isKw && sweep > 0.5 ? mix(col.text, col.textOnAccent, 0.9) : col.text }} />
+            <span
+              style={{
+                display: 'inline-block',
+                opacity: p,
+                transform: `translateY(${(1 - p) * 30 * u}px)`,
+                padding: isKw ? `0 ${14 * u}px` : undefined,
+                borderRadius: 10 * u,
+                backgroundImage: isKw ? `linear-gradient(${col.accent}, ${col.accent})` : undefined,
+                backgroundSize: isKw ? `${sweep * 100}% 100%` : undefined,
+                backgroundPosition: rtl ? 'right center' : 'left center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
+              <Word text={w} style={{ color: isKw && sweep > 0.55 ? col.textOnAccent : col.text }} />
             </span>
           );
         }}
@@ -121,7 +121,7 @@ export const BigNumber = () => {
       </div>
       {v === 0 && <div style={{ width: 220 * u * clamp01((frame - start - 8) / 14), height: 12 * u, backgroundColor: col.accent, borderRadius: 6 * u, margin: `${26 * u}px 0` }} />}
       {v !== 0 && <div style={{ height: 40 * u }} />}
-      <Headline text={c.headline} start={start + 8} size={0.62} maxLines={2} align="center" />
+      <Headline text={c.headline} start={Math.min(start + 8, 4)} size={0.7} maxLines={2} align="center" />
       <div style={{ height: 18 * u }} />
       <Sub text={c.sub} start={start + 18} />
     </Stage>
@@ -152,11 +152,12 @@ export const Typewriter = () => {
   const { content: c, frame, m, u, c: col, matchWord, at, stage, t } = P;
   const words = (c.headline ?? '').split(/\s+/).filter(Boolean);
   let last = 2;
-  const starts = words.map((w) => {
+  const starts0 = words.map((w) => {
     const id = isStopword(w) ? undefined : matchWord(w);
     last = id ? Math.max(last, at(id, last)) : last + Math.max(3, m.stagger * 2);
     return last;
   });
+  const starts = starts0.map((s, i) => (i === 0 ? P.lead(s) : s));
   const shown = starts.filter((s) => s <= frame).length;
   const caretOn = Math.floor(frame / 8) % 2 === 0;
   return (
@@ -217,7 +218,7 @@ export const SplitFlap = () => {
         </div>
       )}
       <div style={{ height: 40 * u }} />
-      <Headline text={c.value !== undefined ? c.headline : c.sub} start={start + 10} size={0.6} maxLines={2} align="center" />
+      <Headline text={c.value !== undefined ? c.headline : c.sub} start={start + 10} size={0.76} maxLines={2} align="center" />
     </Stage>
   );
 };
@@ -232,7 +233,7 @@ export const StackedList = () => {
     <Stage>
       {c.headline && (
         <div style={{ marginBottom: 34 * u, width: rowW }}>
-          <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.62} maxLines={2} width={rowW} />
+          <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} width={rowW} />
         </div>
       )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 22 * u, width: rowW }}>

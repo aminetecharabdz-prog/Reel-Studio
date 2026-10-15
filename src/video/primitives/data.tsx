@@ -19,7 +19,7 @@ export const BarChart = () => {
   const top = items.reduce((b, it, i) => ((it.value ?? 0) > (items[b]?.value ?? 0) ? i : b), 0);
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.6} maxLines={2} align="center" />
+      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} align="center" />
       <div style={{ height: 40 * u }} />
       <div dir="rtl" style={{ display: 'flex', alignItems: 'flex-end', gap: 24 * u, height: chartH, borderBottom: `${4 * u}px solid ${col.line}` }}>
         {items.map((it, i) => {
@@ -60,7 +60,7 @@ export const LineChart = () => {
   const len = pts.reduce((s, q, i) => (i ? s + Math.hypot(q[0] - pts[i - 1]![0], q[1] - pts[i - 1]![1]) : 0), 0);
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.6} maxLines={2} align="center" />
+      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} align="center" />
       <div style={{ height: 40 * u }} />
       <svg width={W} height={H + 20 * u} style={{ overflow: 'visible' }}>
         {[0.25, 0.5, 0.75, 1].map((g) => <line key={g} x1={0} x2={W} y1={H * g} y2={H * g} stroke={col.line} strokeWidth={2 * u} />)}
@@ -112,7 +112,7 @@ export const DonutChart = () => {
         </div>
       </div>
       <div style={{ height: 40 * u }} />
-      <Headline text={c.headline} start={start + 6} size={0.6} maxLines={2} align="center" />
+      <Headline text={c.headline} start={Math.min(start + 6, 4)} size={0.7} maxLines={2} align="center" />
     </Stage>
   );
 };
@@ -128,7 +128,7 @@ export const ProgressRing = () => {
     const w = stage.w * 0.92;
     return (
       <Stage>
-        <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.68} maxLines={2} align="center" />
+        <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} align="center" />
         <div style={{ height: 50 * u }} />
         <div style={{ width: w, height: 70 * u, borderRadius: 35 * u, backgroundColor: withAlpha(col.text, 0.1), overflow: 'hidden', direction: 'rtl' }}>
           <div style={{ width: `${pct * e}%`, height: '100%', borderRadius: 35 * u, backgroundImage: `linear-gradient(270deg, ${col.primary}, ${col.accent})` }} />
@@ -148,7 +148,7 @@ export const ProgressRing = () => {
         </div>
       </div>
       <div style={{ height: 36 * u }} />
-      <Headline text={c.headline} start={start + 6} size={0.6} maxLines={2} align="center" />
+      <Headline text={c.headline} start={start + 6} size={0.76} maxLines={2} align="center" />
     </Stage>
   );
 };
@@ -175,7 +175,7 @@ export const Versus = () => {
   const vs = m.enter(frame, Math.min(sa, sb) + 4);
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.6} maxLines={2} align="center" />
+      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} align="center" />
       <div style={{ height: 36 * u }} />
       <div dir="rtl" style={{ display: 'flex', alignItems: 'center', gap: stage.w * 0.04, position: 'relative' }}>
         {side(a, sa, 'bad', 140)}
@@ -194,7 +194,7 @@ export const Timeline = () => {
   const lineP = clamp01((frame - 2) / Math.max(20, P.dur * 0.6));
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.58} maxLines={2} />
+      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} />
       <div style={{ height: 30 * u }} />
       <div dir="rtl" style={{ position: 'relative', width: stage.w * 0.94 }}>
         <div style={{ position: 'absolute', right: 34 * u, top: 20 * u, width: 6 * u, height: (items.length - 1) * rowH * lineP, backgroundColor: col.primary, borderRadius: 3 * u }} />
@@ -225,7 +225,7 @@ export const Steps = () => {
   const cardW = stage.w * 0.94;
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.58} maxLines={2} />
+      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} />
       <div style={{ height: 30 * u }} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 18 * u }}>
         {items.map((it, i) => {
@@ -252,7 +252,7 @@ export const Checklist = () => {
   const w = stage.w * 0.94;
   return (
     <Stage>
-      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.6} maxLines={2} />
+      <Headline text={c.headline} start={at(c.headlineAt, 2)} size={0.76} maxLines={2} />
       <div style={{ height: 30 * u }} />
       <Card style={{ width: w, display: 'flex', flexDirection: 'column', gap: 26 * u }}>
         {items.map((it, i) => {
@@ -303,7 +303,7 @@ export const Rating = () => {
         })}
       </div>
       <div dir="ltr" style={{ fontFamily: t.fonts.display, fontWeight: 900, fontSize: 120 * u, color: col.text, marginTop: 20 * u }}>{toDigits(r.toFixed(1), t.digits)}</div>
-      <Headline text={c.headline} start={start + 10} size={0.55} maxLines={2} align="center" />
+      <Headline text={c.headline} start={start + 10} size={0.76} maxLines={2} align="center" />
       <Sub text={c.sub} start={start + 18} />
     </Stage>
   );
@@ -355,13 +355,14 @@ export const IconArray = () => {
   const start = at(c.valueAt ?? c.headlineAt, 4);
   const pct = Math.max(0, Math.min(100, c.value ?? 70));
   const cols = 10, rows = P.scene.variant % 2 ? 5 : 10;
+  const shown = clamp01((frame - 1) / 8);
   const total = cols * rows;
   const on = Math.round((pct / 100) * total);
-  const cell = Math.min((stage.w * 0.9) / cols, (stage.h * 0.5) / rows);
+  const cell = Math.min((stage.w * 0.96) / cols, (stage.h * 0.62) / rows);
   return (
     <Stage>
       <div dir="ltr" style={{ display: 'flex', alignItems: 'baseline', gap: 10 * u }}>
-        <span style={{ fontFamily: t.fonts.display, fontWeight: 900, fontSize: 150 * u, color: col.accent, lineHeight: 1.05 }}>{toDigits(String(Math.round(pct * clamp01((frame - start) / 20))), t.digits)}%</span>
+        <span style={{ fontFamily: t.fonts.display, fontWeight: 900, fontSize: 190 * u, color: col.accent, lineHeight: 1.05, opacity: frame >= start ? 1 : 0 * shown }}>{toDigits(String(Math.round(pct * clamp01((frame - start) / 20))), t.digits)}%</span>
       </div>
       <div dir="rtl" style={{ display: 'flex', flexWrap: 'wrap', width: cell * cols, marginTop: 24 * u }}>
         {Array.from({ length: total }, (_, i) => {
@@ -375,7 +376,7 @@ export const IconArray = () => {
         })}
       </div>
       <div style={{ height: 26 * u }} />
-      <Headline text={c.headline} start={start + 6} size={0.55} maxLines={2} align="center" />
+      <Headline text={c.headline} start={Math.min(start + 6, 4)} size={0.7} maxLines={2} align="center" />
     </Stage>
   );
 };

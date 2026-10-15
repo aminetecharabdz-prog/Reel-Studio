@@ -8,6 +8,7 @@ import { ProjectPage } from './pages/Project';
 import { NewProjectPage } from './pages/NewProject';
 import { SettingsPage } from './pages/Settings';
 import { AdminPage } from './pages/Admin';
+import { QAPage } from './pages/QA';
 import { cx } from './components/ui';
 
 const useDemoMode = () => {
@@ -35,6 +36,7 @@ export const App = () => {
   else if (path === '/new') page = <NewProjectPage />;
   else if (path === '/settings') page = <SettingsPage />;
   else if (path === '/admin') page = <AdminPage />;
+  else if (path === '/qa') return <QAPage />;
   else page = <HomePage />;
   const tab = path.startsWith('/new') ? 'new' : path.startsWith('/settings') ? 'settings' : path === '/' ? 'home' : '';
   return (
