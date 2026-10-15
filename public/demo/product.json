@@ -348,7 +348,7 @@
       "type": "shape",
       "kind": "circle",
       "x": 0.56,
-      "y": 0.64,
+      "y": 0.67,
       "w": 0.9,
       "color": "accent2",
       "fill": true,
@@ -363,8 +363,8 @@
        "name": "obj/wristwatch"
       },
       "x": 0.58,
-      "y": 0.63,
-      "w": 1.05,
+      "y": 0.66,
+      "w": 1.02,
       "rotate": -14,
       "anim": "slide-left",
       "idle": "sway",
@@ -508,10 +508,10 @@
        "name": "obj/sunglasses"
       },
       "x": 0.76,
-      "y": 0.5,
+      "y": 0.52,
       "w": 0.52,
       "rotate": 18,
-      "anim": "drop",
+      "anim": "slide-left",
       "idle": "sway",
       "at": "w12",
       "depth": 0.6
@@ -741,8 +741,8 @@
        "name": "obj/wristwatch"
       },
       "x": 0.5,
-      "y": 0.44,
-      "w": 0.9,
+      "y": 0.5,
+      "w": 0.84,
       "anim": "zoom",
       "idle": "float",
       "at": "w26",
@@ -765,7 +765,7 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.17,
+      "y": 0.14,
       "w": 0.8,
       "size": "xxl",
       "anim": "stamp"

@@ -20,8 +20,8 @@ v.scene(a, DARK,
 
 b = v.say('ساعة كلاسيك، acier inoxydable', pause=350)
 v.scene(b, {'kind': 'solid', 'tone': 'light', 'vignette': True},
-  [S('disc', 'circle', x=0.56, y=0.64, w=0.9, color='accent2', fill=True, anim='pop', at=b[0]),
-   I('watch', obj('wristwatch'), x=0.58, y=0.63, w=1.05, rotate=-14, anim='slide-left', idle='sway', at=b[0], depth=0.8),
+  [S('disc', 'circle', x=0.56, y=0.67, w=0.9, color='accent2', fill=True, anim='pop', at=b[0]),
+   I('watch', obj('wristwatch'), x=0.58, y=0.66, w=1.02, rotate=-14, anim='slide-left', idle='sway', at=b[0], depth=0.8),
    T('t2', [words(v, b[:1], {'ساعة': 'big'}), words(v, b[1:], {'inoxydable': 'serif'})], x=0.5, y=0.22, w=0.86, size='xxl', anim='mask')],
   transition='fade', camera=('push', 0.4), intent='product reveal: the watch slides onto a champagne disc')
 
@@ -34,7 +34,7 @@ v.scene(c, {'kind': 'photo', 'tone': 'dark', 'image': bgp('water'), 'vignette': 
 d = v.say('وتليق مع كل لبسة', pause=400)
 v.scene(d, {'kind': 'paper', 'tone': 'light', 'vignette': True},
   [I('bagx', obj('leather-bag'), x=0.3, y=0.72, w=0.62, rotate=-8, anim='slide-right', idle='none', at=d[0], depth=0.5),
-   I('glasses', obj('sunglasses'), x=0.76, y=0.5, w=0.52, rotate=18, anim='drop', idle='sway', at=d[1], depth=0.6),
+   I('glasses', obj('sunglasses'), x=0.76, y=0.52, w=0.52, rotate=18, anim='slide-left', idle='sway', at=d[1], depth=0.6),
    I('w3', obj('wristwatch'), x=0.66, y=0.74, w=0.7, rotate=12, anim='pop', idle='float', at=v.find(d, 'لبسة'), depth=0.9),
    T('t4', [words(v, d[:2]), words(v, d[2:], {'لبسة': 'accent'})], x=0.5, y=0.24, w=0.86, size='xl', anim='rise')],
   transition='zoom', camera=('push', 0.4), intent='benefit 2: flat-lay with a leather bag and sunglasses — it fits every look')
@@ -55,8 +55,8 @@ v.scene(f, {'kind': 'split', 'tone': 'light', 'vignette': True},
 
 g = v.say('اطلب دروك', pause=900)
 v.scene(g, DARK,
-  [I('w5', obj('wristwatch'), x=0.5, y=0.44, w=0.9, anim='zoom', idle='float', at=g[0], glow='accent'),
-   T('t7', [words(v, g, {'دروك': 'accent'})], x=0.5, y=0.17, w=0.8, size='xxl', anim='stamp'),
+  [I('w5', obj('wristwatch'), x=0.5, y=0.5, w=0.84, anim='zoom', idle='float', at=g[0], glow='accent'),
+   T('t7', [words(v, g, {'دروك': 'accent'})], x=0.5, y=0.14, w=0.8, size='xxl', anim='stamp'),
    U('cta', 'button', title='اطلب الآن', x=0.5, y=0.82, w=0.6, at=g[-1])],
   transition='fade', camera=('push', 0.5), intent='CTA: the watch glowing in the spotlight')
 

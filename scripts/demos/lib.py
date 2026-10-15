@@ -83,10 +83,48 @@ def obj(name): return {'kind': 'library', 'name': f'obj/{name}'}
 def bgp(name): return {'kind': 'library', 'name': f'bg/{name}'}
 
 # --- quick mirror of src/engine/qa.ts heroArea / bg checks, so demos can be checked without node ---
-def _fill():
+def _meta(i):
     p = os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'engine', 'artMeta.ts')
-    s = open(p).read()
-    return json.loads(s.split('= ', 1)[1].rstrip(';\n'))
+    s = open(p).read().split('\n')
+    return json.loads(s[i].split('= ', 1)[1].rstrip(';'))
+def _fill(): return _meta(1)
+def _box(): return _meta(3)
+
+TEXT_PX = {'xs': 44, 's': 64, 'm': 92, 'l': 128, 'xl': 172, 'xxl': 230, 'mega': 310}
+COUNTER_PX = {'l': 150, 'xl': 210, 'xxl': 290, 'mega': 400}
+def _read_rect(l, W=1080, H=1920):
+    if l['type'] == 'text':
+        if l.get('opacity', 1) < 0.5 or l.get('exitAt'): return None
+        lines = l['lines']
+        any_em = any(w.get('em') and w['em'] != 'ghost' for ln in lines for w in ln)
+        ls = [0.5 if (l.get('hier', True) and any_em and len(lines) > 1 and not any(w.get('em') and w['em'] != 'ghost' for w in ln)) else 1 for ln in lines]
+        size = TEXT_PX[l.get('size', 'l')]
+        boxW = min(l.get('w', 0.8), 0.83) * W
+        tw = max([min(boxW, sum((len(w['t']) + 1) * size * k * (0.7 if w.get('em') == 'big' else 0.5) for w in ln)) for ln, k in zip(lines, ls)] + [0])
+        th = sum(k * size * 1.3 for k in ls)
+        cx = l.get('x', 0.5) * W; al = l.get('align', 'center')
+        right = cx + tw / 2 if al == 'center' else (cx + boxW / 2 if al == 'start' else cx - boxW / 2 + tw)
+        cy = min(max(l.get('y', 0.5) * H, 0.1 * H + th / 2), 0.8 * H - th / 2)
+        return (right - tw, cy - th / 2, right, cy + th / 2)
+    if l['type'] == 'counter':
+        h = COUNTER_PX[l.get('size', 'xxl')]
+        tw = (len(str(l['value'])) + len(l.get('prefix', '')) + len(l.get('suffix', ''))) * h * 0.62
+        x, y = l.get('x', 0.5) * W, l.get('y', 0.5) * H
+        return (x - tw / 2, y - h * 0.6, x + tw / 2, y + h * 0.5)
+    if l['type'] == 'ui' and l['kind'] == 'button':
+        h = 120; tw = min(l.get('w', 0.8) * W, (len(l.get('title', '')) + 3) * 32 + 90)
+        x, y = l.get('x', 0.5) * W, l.get('y', 0.5) * H
+        return (x - tw / 2, y - h / 2, x + tw / 2, y + h / 2)
+    return None
+def _img_rect(l, box, W=1080, H=1920):
+    if l['type'] != 'image' or l.get('opacity', 1) < 0.5: return None
+    w = l.get('w', 0.8); bw = w * W; bh = l['h'] * H if l.get('h') else w * W
+    x0 = l.get('x', 0.5) * W - bw / 2; y0 = l.get('y', 0.5) * H - bh / 2
+    src = l['src']; key = src.get('name', '') if src['kind'] == 'library' else '3d/' + src.get('name', '')
+    b = box.get(key) if l.get('frame', 'none') == 'none' and l.get('fit', 'contain') == 'contain' else None
+    return (x0 + b[0] * bw, y0 + b[1] * bh, x0 + b[2] * bw, y0 + b[3] * bh) if b else (x0, y0, x0 + bw, y0 + bh)
+def _ov(a, b): return max(0, min(a[2], b[2]) - max(a[0], b[0])) * max(0, min(a[3], b[3]) - max(a[1], b[1]))
+def _ar(a): return max(1, (a[2] - a[0]) * (a[3] - a[1]))
 
 def report(v, W=1080, H=1920):
     fill = _fill()
@@ -120,6 +158,17 @@ def report(v, W=1080, H=1920):
                 if k in ('price', 'stat', 'checklist', 'chat', 'timer'): a += max(0.16, l.get('w', 0.8) * 0.25)
                 elif k in ('profile', 'notification', 'rating', 'progress', 'search'): a += l.get('w', 0.8) * 0.12
         a = min(1, a)
+        box = _box()
+        reads = [(l['id'], _read_rect(l)) for l in s['layers'] if _read_rect(l)]
+        pics = [(l['id'], _img_rect(l, box)) for l in s['layers'] if _img_rect(l, box)]
+        for tid, tr in reads:
+            for iid, ir in pics:
+                k = _ov(tr, ir) / _ar(tr)
+                if k > 0.08: bad.append(f"{s['id']} collision {tid}/{iid} {k*100:.0f}%")
+            for oid, orr in reads:
+                if oid <= tid: continue
+                k = _ov(tr, orr) / min(_ar(tr), _ar(orr))
+                if k > 0.15: bad.append(f"{s['id']} collision {tid}/{oid} {k*100:.0f}%")
         flag = '' if a >= 0.2 else '  <-- NO HERO'
         if flag: bad.append(f"{s['id']} no-hero")
         print(f"  {s['id']} hero {a*100:4.0f}%  bg {sig[0]}/{sig[1]} {sig[2]}{flag}")

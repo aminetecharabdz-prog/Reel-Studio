@@ -58,6 +58,13 @@ describe('quality bar', () => {
     expect(checkReel(C(p, 'product')).map((i) => i.code)).not.toContain('hero-reuse');
   });
 
+  it('text covered by a picture is flagged, and autofix moves the picture out of the way', () => {
+    const big: Layer = { id: 'p', type: 'image', src: { kind: 'sticker', name: 'bell' }, x: 0.5, y: 0.3, w: 0.8, rotate: 0, opacity: 1, anim: 'pop', idle: 'float', shadow: true, frame: 'none', fit: 'contain', depth: 0.5, flipX: false };
+    const c = C(plan([scene('s0', 0, 4, DARK, [big, text('t', 0, 4, 0.28)])]));
+    expect(checkReel(c).map((i) => i.code)).toContain('collision');
+    expect(autofix(c).map((i) => i.code)).not.toContain('collision');
+  });
+
   it('concept lexicon maps Darija/Arabic/French words to literal visuals', () => {
     expect(conceptFor('السكرول')).toBe('obj/iphone');
     expect(conceptFor('التوصيل')).toBe('3d/delivery-truck');
@@ -74,7 +81,8 @@ describe('quality bar', () => {
       const p = localDirector(t, { mode: 'content', seed });
       const c = compile({ plan: p, transcript: t, mode: 'content', aspect: '9:16', fps: 30, resolve: () => 'x.webp' });
       c.scenes.filter((s) => !s.isEnd).forEach((s) => expect(heroArea(c, s), `${seed}/${s.id}`).toBeGreaterThanOrEqual(HERO_MIN));
-      expect(checkReel(c)).toEqual([]);
+      expect(autofix(c)).toEqual([]);
+      c.scenes.filter((s) => !s.isEnd).forEach((s) => expect(heroArea(c, s), `${seed}/${s.id} after autofix`).toBeGreaterThanOrEqual(HERO_MIN));
     }
   });
 

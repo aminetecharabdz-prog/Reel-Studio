@@ -17,7 +17,7 @@ DARK = {'kind': 'spotlight', 'tone': 'dark', 'vignette': True}
 a = v.say('3 أخطاء تقتل الشورتس تاعك')
 v.scene(a, FIELD,
   [S('sh1', 'shard', x=0.9, y=0.08, w=0.5, h=0.22, rotate=90, color='white', fill=True, anim='pop', at=a[0]),
-   C('n3', 3, x=0.26, y=0.24, w=0.5, size='mega', color='white', at=a[0], role='serif'),
+   C('n3', 3, x=0.18, y=0.22, w=0.5, size='mega', color='white', at=a[0], role='serif'),
    I('phone', obj('iphone'), x=0.66, y=0.7, w=0.98, rotate=-12, anim='slide-left', idle='sway', at=v.find(a, 'الشورتس'), depth=0.8),
    I('warn', sticker('prohibited'), x=0.3, y=0.72, w=0.4, anim='pop', idle='pulse', at=v.find(a, 'تقتل'), depth=0.9),
    T('t1', [words(v, a[1:2], {'أخطاء': 'serif'}), words(v, a[2:3]), words(v, a[3:])], x=0.62, y=0.27, w=0.62, size='xxl', align='start', anim='mask', color='white')],
@@ -32,9 +32,9 @@ v.scene(b, PAPER,
 
 c = v.say('عندك ثانيتين باش توقف السكرول', pause=420)
 v.scene(c, DARK,
-  [C('two', 2, x=0.5, y=0.2, w=0.6, size='mega', color='accent', at=v.find(c, 'ثانيتين')),
-   I('clock', obj('alarm-clock'), x=0.5, y=0.7, w=0.95, rotate=-8, anim='zoom', idle='pulse', at=c[1], glow='accent'),
-   T('t3', [words(v, c[:2], {'ثانيتين': 'accent'}), words(v, c[2:4]), words(v, c[4:], {'السكرول': 'serif'})], x=0.5, y=0.4, w=0.86, size='xl', anim='rise', hier=False)],
+  [C('two', 2, x=0.5, y=0.15, w=0.6, size='mega', color='accent', at=v.find(c, 'ثانيتين')),
+   I('clock', obj('alarm-clock'), x=0.5, y=0.77, w=0.88, rotate=-8, anim='zoom', idle='pulse', at=c[1], glow='accent'),
+   T('t3', [words(v, c[:2], {'ثانيتين': 'accent'}), words(v, c[2:4]), words(v, c[4:], {'السكرول': 'serif'})], x=0.5, y=0.44, w=0.86, size='xl', anim='rise', hier=False)],
   transition='cut', camera=('punch', 0.5), intent='two seconds: giant glowing 2, a ringing alarm clock')
 
 d = v.say('الخطأ الثاني: كلام بلا صورة', pause=420)
@@ -46,29 +46,29 @@ v.scene(d, {'kind': 'split', 'tone': 'light', 'grid': True, 'vignette': True},
 e = v.say('العين تشري قبل الودن', pause=420)
 v.scene(e, PAPER,
   [I('eye2', obj('eye'), x=0.4, y=0.36, w=1.5, anim='slide-right', idle='float', at=e[0], depth=0.9),
-   I('ear', obj('headphones-man'), x=0.74, y=0.78, w=0.52, anim='slide-left', idle='none', at=v.find(e, 'الودن'), depth=0.5),
+   I('ear', obj('headphones-man'), x=0.8, y=0.86, w=0.42, anim='slide-left', idle='none', at=v.find(e, 'الودن'), depth=0.5),
    T('t5', [words(v, e[:2], {'العين': 'accent'}), words(v, e[2:])], x=0.42, y=0.64, w=0.66, size='xxl', align='end', anim='rise')],
   transition='cut', camera=('drift', 0.5), intent='the eye buys before the ear: a giant eye bleeding from the left, the listener arrives late')
 
 f = v.say('الخطأ الثالث: ما كاش خطة', pause=420)
 v.scene(f, DARK,
   [T('ghost', [[{'t': 'خطة'}]], x=0.5, y=0.6, w=1.4, size='mega', role='serif', opacity=0.1, anim='blur', hier=False, at=f[0]),
-   I('king', obj('chess-pieces'), x=0.52, y=0.66, w=1.22, anim='float', idle='sway', at=v.find(f, 'خطة'), glow='accent'),
+   I('king', obj('chess-pieces'), x=0.52, y=0.7, w=1.22, anim='float', idle='sway', at=v.find(f, 'خطة'), glow='accent'),
    T('t6', [words(v, f[:2]), words(v, f[2:], {'خطة': 'serif'})], x=0.55, y=0.24, w=0.76, size='xxl', align='start', anim='rise')],
   transition='glitch', camera=('push', 0.5), intent='mistake 3: no strategy; chess pieces rise from the dark')
 
 g = v.say('كل فيديو لازم يخدم هدف واحد', pause=420)
 v.scene(g, PAPER,
-  [I('dart', obj('dart'), x=0.5, y=0.67, w=1.0, anim='drop', idle='float', at=v.find(g, 'هدف')),
+  [I('dart', sticker('bullseye'), x=0.5, y=0.66, w=0.86, anim='zoom', idle='float', at=v.find(g, 'هدف')),
    T('t7', [words(v, g[:3]), words(v, g[3:5]), words(v, g[5:], {'هدف': 'highlight'})], x=0.5, y=0.24, w=0.86, size='xl', anim='mask', hier=False)],
   transition='slide-up', camera=('push', 0.4), intent='one goal: a dart in the bullseye')
 
 h = v.say('تابع باش ما تفوتكش الحيلة الجاية', pause=900)
 v.scene(h, FIELD,
   [S('sh3', 'shard', x=0.1, y=0.9, w=0.5, h=0.22, rotate=-90, color='white', fill=True, anim='pop', at=h[0]),
-   I('bell', sticker('bell'), x=0.5, y=0.6, w=0.84, rotate=-10, anim='pop', idle='sway', at=h[0], glow='white'),
+   I('bell', sticker('bell'), x=0.5, y=0.54, w=0.76, rotate=-10, anim='pop', idle='sway', at=h[0], glow='white'),
    T('t8', [words(v, h[:1], {'تابع': 'big'}), words(v, h[1:4]), words(v, h[4:])], x=0.5, y=0.22, w=0.86, size='xl', anim='pop', color='white'),
-   U('cta', 'button', title='اشترك', x=0.5, y=0.86, w=0.5, color='paper', at=h[-1])],
+   U('cta', 'button', title='اشترك', x=0.5, y=0.82, w=0.5, color='paper', at=h[-1])],
   transition='flash', camera=('push', 0.5), intent='CTA on the purple field: a ringing bell')
 
 for s in v.scenes:

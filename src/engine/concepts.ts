@@ -59,7 +59,7 @@ const LEX: Array<[V, string[]]> = [
   ['obj/megaphone-man', ['اعلان', 'publicité', 'publicite', 'pub', 'ads', 'annonce', 'marketing', 'تسويق', 'ضجيج', 'bruit', 'noise']],
   ['obj/bullhorn', ['اشهار', 'promo', 'تخفيض', 'solde', 'remise', 'réduction']],
   ['obj/chess-king', ['استراتيجيه', 'الاستراتيجيه', 'strategie', 'stratégie', 'strategy', 'خطه', 'plan', 'تخطيط']],
-  ['obj/dart', ['هدف', 'objectif', 'goal', 'target', 'cible']],
+  ['3d/bullseye', ['هدف', 'objectif', 'goal', 'target', 'cible']],
   ['obj/trophy', ['احسن', 'الاول', 'meilleur', 'best', 'champion', 'نجاح', 'succès', 'succes', 'success', 'ربحت']],
   ['obj/light-bulb', ['فكره', 'فكرة', 'نصيحه', 'نصائح', 'نصايح', 'conseil', 'conseils', 'astuce', 'idée', 'idee', 'idea', 'tip', 'tips']],
   ['obj/rocket-toy', ['سريع', 'بسرعه', 'rapide', 'fast', 'boost', 'انطلق', 'lancer', 'launch']],

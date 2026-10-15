@@ -166,7 +166,7 @@ export const localDirector = (tr: Transcript, o: { mode: 'content' | 'product' |
   });
   if (o.cta && scenes.length) {
     const last = scenes[scenes.length - 1]!;
-    last.layers.push({ id: 'cta', type: 'ui', kind: 'button', title: o.cta, sub: '', items: [], x: 0.5, y: 0.86, w: 0.7, rotate: 0, opacity: 1, color: 'accent', anim: 'pop', at: tr.words[tr.words.length - 1]!.id });
+    last.layers.push({ id: 'cta', type: 'ui', kind: 'button', title: o.cta, sub: '', items: [], x: 0.5, y: 0.82, w: 0.7, rotate: 0, opacity: 1, color: 'accent', anim: 'pop', at: tr.words[tr.words.length - 1]!.id });
   }
   if (o.mode === 'talking') style.captions = 'pop';
   return { v: 1, style, scenes, hooks: [], author: 'local' };

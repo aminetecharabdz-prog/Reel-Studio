@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { DemoSchema } from '@/app/demos';
 import { compile } from '@/engine/compile';
-import { checkReel } from '@/engine/qa';
+import { autofix, checkReel } from '@/engine/qa';
 import { localDirector } from '@/ai/local';
 import { estimateTranscript } from '@/ai/speech';
 import { LEAD, msToFrame } from '@/engine/timing';
@@ -45,6 +45,6 @@ describe('video QA', () => {
     const t2 = estimateTranscript('هذا العطر يدوم معاك نهار كامل. ريحة فخمة بسعر معقول. اطلب دروك والتوصيل لكل الولايات.');
     const a = localDirector(t1, { mode: 'content', seed: 'a' }), b = localDirector(t2, { mode: 'product', seed: 'b' });
     expect(a.style.palette.accent).not.toBe(b.style.palette.accent);
-    for (const p of [a, b]) expect(checkReel(C(p, p === a ? t1 : t2))).toEqual([]);
+    for (const p of [a, b]) expect(autofix(C(p, p === a ? t1 : t2))).toEqual([]);
   });
 });
