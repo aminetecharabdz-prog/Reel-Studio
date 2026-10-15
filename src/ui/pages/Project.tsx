@@ -15,6 +15,7 @@ import { QATab } from './project/QATab';
 import { navigate } from '../router';
 import type { Project } from '@/lib/schema/project';
 import { repo } from '@/lib/repo/db';
+import { ImageKeyNotice } from '../components/ImageKeyNotice';
 
 const STAGES: Array<{ id: Stage; label: string }> = [
   { id: 'transcribe', label: 'التفريغ' },
@@ -171,6 +172,7 @@ export const ProjectPage = ({ id }: { id: string }) => {
                 <Button variant="soft" className="flex-1" onClick={() => regenerate(true)} data-testid="new-version">{t.regenerate}</Button>
               </div>
               <Toggle checked={safe} onChange={setSafe} label="أظهر مناطق الأمان (أزرار المنصات)" />
+              <ImageKeyNotice />
               {reel && <ExportPanel project={project} reel={reel} />}
             </>
           )}
