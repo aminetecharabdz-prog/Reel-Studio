@@ -1,3 +1,27 @@
+# REBUILD v2 — AI motion engine (owner request 2026-10-15, deadline: evening)
+
+Owner verdict on v1: everything bad, looked like a "Make it" copy, rule-based (a wall-decor ad showed a broken tooth).
+He sent 4 Pinterest reference reels (.qa/refs/*.png contact sheets; originals in /root/.claude/uploads/...) for the
+QUALITY LEVEL only — do NOT copy them, do NOT copy Make it. Wants: AI (Claude) directs everything, Gemini makes images,
+no templates, no keyword→image rules, only strong craft rules. New strong name + logo + very attractive UI. Sellable
+later (credits). Owner says: don't ask, just deliver the link. Auto-resume trigger: trig_01DsLxrv2WFQdrdHBPEt67KE (every 2h).
+
+What the references show (craft, not content): spoken words animate word-by-word as kinetic typography with ONE
+emphasised word (colour/size/serif italic contrast); photoreal cut-out objects as visual metaphors; rhythm by alternating
+light/dark scenes; grain, glow, light leaks, vignettes; camera push-ins; real photo backgrounds; B-roll inserts.
+
+Plan / status:
+- [ ] R1 new brand in src/config/brand.ts + logo (logo.ts) + docs/brand.md
+- [ ] R2 src/lib/schema/motion.ts (scene graph, DONE) + src/motion/compile.ts (word ids → frames)
+- [ ] R3 src/motion/* renderer: MotionReel (bg, camera, text runs, images, shapes, counters, UI, transitions, textures, captions, audio)
+- [ ] R4 Claude motion director (src/lib/providers/motionDirector.ts): craft rules prompt, JSON schema tool, Zod + repair retry;
+      Gemini images (model fallback list, configurable), client-side cut-out, cache by hash, cost ledger
+- [ ] R5 demos authored by Claude as fixtures (public/demo/*.motion.json): content-marketing explainer, wall-decor ad,
+      talking head, youtube short; contact sheets reviewed (node scripts/contact-sheet.mjs)
+- [ ] R6 UI rebuild: new identity, landing, use cases (e-commerce, content marketers, YouTubers), AI-first wizard,
+      complete settings (keys, models, image quality, brand kit, defaults, credits estimate)
+- [ ] R7 tests + live Playwright (CI) + final short Arabic report with link
+
 # التقرير النهائي (بالعربية البسيطة)
 
 **الرابط:** https://aminetecharabdz-prog.github.io/Reel-Studio/ — افتحه في كروم على هاتفك.
