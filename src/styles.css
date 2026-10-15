@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@import "@fontsource/reem-kufi/500.css";
+@import "@fontsource/reem-kufi/700.css";
+@import "@fontsource/ibm-plex-sans-arabic/400.css";
+@import "@fontsource/ibm-plex-sans-arabic/500.css";
+@import "@fontsource/ibm-plex-sans-arabic/700.css";
+
+@theme {
+  --color-night: #170E21;
+  --color-surface: #221630;
+  --color-raised: #2D1F3D;
+  --color-line: #3D2D50;
+  --color-ink: #F7F0FA;
+  --color-muted: #BBAACB;
+  --color-rose: #FF3E7A;
+  --color-rose-deep: #D61F5C;
+  --color-mint: #3CE3B4;
+  --color-lilac: #B49CFF;
+  --font-display: "Reem Kufi", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans Arabic", system-ui, sans-serif;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--color-night);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
+}
+:focus-visible { outline: 2px solid var(--color-mint); outline-offset: 2px; border-radius: 6px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }

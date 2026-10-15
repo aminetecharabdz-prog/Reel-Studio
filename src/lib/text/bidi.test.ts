@@ -1,0 +1,34 @@
+import { describe, expect, it } from 'vitest';
+import { detectDir, splitRuns } from './bidi';
+import { formatNumber, toDigits } from './digits';
+
+describe('bidi runs (SPEC §7)', () => {
+  it('keeps price and currency together in a Darija sentence', () => {
+    const runs = splitRuns('الجاكيت ب 3500 DA مع livraison لـ 58 ولاية');
+    expect(runs.map((r) => [r.dir, r.text.trim()])).toEqual([
+      ['rtl', 'الجاكيت ب'],
+      ['ltr', '3500 DA'],
+      ['rtl', 'مع'],
+      ['ltr', 'livraison'],
+      ['rtl', 'لـ'],
+      ['ltr', '58'],
+      ['rtl', 'ولاية'],
+    ]);
+  });
+  it('keeps percent and question mark with their runs', () => {
+    const runs = splitRuns('واش تعرف بلي 70% من الناس؟');
+    expect(runs.map((r) => r.text.trim())).toEqual(['واش تعرف بلي', '70%', 'من الناس؟']);
+  });
+  it('keeps grouped numbers with units', () => {
+    const runs = splitRuns("أولا: بدّل l'huile كل 10 000 km");
+    expect(runs.map((r) => r.text.trim())).toEqual(['أولا: بدّل', "l'huile", 'كل', '10 000 km']);
+  });
+  it('detects direction from first strong char', () => {
+    expect(detectDir('Make it مع Claude')).toBe('ltr');
+    expect(detectDir('70% من الناس')).toBe('rtl');
+  });
+  it('converts digits', () => {
+    expect(toDigits('58 ولاية', 'eastern')).toBe('٥٨ ولاية');
+    expect(formatNumber(10000)).toBe('10 000');
+  });
+});
