@@ -175,7 +175,7 @@ export const HeroScene = () => {
     main = (
       <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, ${cell}px)`, gridAutoRows: `${cell}px`, direction: 'rtl' }}>
         {Array.from({ length: nAll }, (_, i) => {
-          const q = m.enter(frame, 2 + i * Math.max(2, m.stagger + 2));
+          const q = m.enter(frame, 1 + i * Math.max(2, m.stagger + 1));
           const isHi = i < hi;
           return (
             <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `scale(${(0.3 + 0.7 * q) * (isHi ? pulse : 0.92)}) translateY(${Math.sin(frame / 12 + i) * 6 * u}px)`, opacity: clamp01(q * 2) * (isHi ? 1 : 0.55) }}>

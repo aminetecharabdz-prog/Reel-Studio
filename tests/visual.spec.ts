@@ -32,3 +32,19 @@ for (const demo of ['dentist', 'engine', 'phone-holder', 'talking']) {
     });
   }
 }
+
+/** QUALITY_BAR §MUST 1: every scene of the A/B demos has a hero visual covering ≥ 35 % of the frame (measured). */
+for (const demo of ['dentist', 'engine', 'phone-holder']) {
+  test(`hero ≥ 35 % of the frame in every scene — ${demo} @live`, async ({ page }) => {
+    test.setTimeout(150_000);
+    await page.setViewportSize({ width: 1400, height: 900 });
+    await page.goto(`./#/qa?demo=${demo}&at=1.2`);
+    await page.waitForSelector('[data-testid=qa-sheet]', { timeout: 90_000 });
+    await page.waitForFunction(() => Array.isArray((globalThis as unknown as { __qaMetrics?: unknown[] }).__qaMetrics), null, { timeout: 30_000 });
+    const metrics = await page.evaluate(() => (globalThis as unknown as { __qaMetrics: Array<{ scene: number; hero: number }> }).__qaMetrics);
+    const content = metrics.slice(0, -1); // the last tile is the end card
+    expect(content.length).toBeGreaterThan(5);
+    const small = content.filter((m) => m.hero < 35).map((m) => `scene ${m.scene}: ${m.hero}%`);
+    expect(small, 'scenes whose hero visual is under 35 % of the frame').toEqual([]);
+  });
+}
