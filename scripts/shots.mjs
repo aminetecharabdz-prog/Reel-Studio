@@ -1,4 +1,3 @@
-/* eslint-env browser */
 /* global document, innerWidth */
 // node scripts/shots.mjs route1 route2 … — mobile screenshots of the local preview into .qa/ui-*.png
 import { chromium } from '@playwright/test';
