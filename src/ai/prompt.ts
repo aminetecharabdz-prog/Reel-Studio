@@ -59,11 +59,14 @@ These are examples of craft, not a template: design what THIS content needs.
 - One focal point per frame. Use the rule of thirds and asymmetry — not everything centred and stacked. Typical strong
   layouts: giant type alone; object top + type bottom; type top-left + object bottom-right overlapping; object behind type
   (depth); split light/dark; full photo background with type on a scrim; UI card floating with a counter.
-- Image w/h are fractions of frame width/height. Hero objects 0.4–0.75 wide. Use depth (0..1) for parallax.
+- Image w/h are fractions of frame width/height. EVERY scene needs a hero visual that literally shows the sentence and fills a
+  large part of the frame: hero objects 0.85–1.2 wide (may bleed off an edge), or a full photo background. A scene with only
+  text is rejected by QA. Keep the main text in the top third (y 0.2–0.32) and the hero below it (y 0.6–0.7) so they never collide.
+- Never use the same library object as hero in two scenes (the user's product is the exception). Use depth (0..1) for parallax.
 - Max ~5 layers per scene usually; 12 hard max. Leave breathing room.
 
 # Rhythm, motion, camera, transitions
-- Alternate tones (light / dark / accent) to create rhythm; never 3 identical backgrounds in a row. Use 3–5 background kinds
+- Alternate tones (light / dark / accent) to create rhythm; never the same background treatment twice in a row. Use 3–5 background kinds
   per video. Photo backgrounds only with generated images.
 - Every scene has a camera move (push is the default; punch on hits; drift on calm; shake only on impact).
 - Layers enter on their word (\`at\`). Stagger: secondary elements 2–6 frames after the key word, never all at once.

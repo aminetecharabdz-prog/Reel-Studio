@@ -13,7 +13,7 @@ import { CounterLayerView } from './CounterLayer';
 import { UILayerView } from './UILayer';
 import { clamp01 } from './anim';
 import { clearMeasure } from './measure';
-import { detectDir, groupRuns, toDigits } from '../text';
+import { containerDir, groupRuns, toDigits } from '../text';
 
 export const fontsOf = (c: Compiled) => Object.values(c.plan.style.fonts);
 export const prepare = async (c: Compiled) => {
@@ -145,7 +145,7 @@ const Captions = ({ c }: { c: Compiled }) => {
   const st = c.plan.style;
   const f = st.fonts.display;
   const words = line.words.map((w) => toDigits(w.text, c.digits));
-  const dir = detectDir(words.join(' '));
+  const dir = containerDir(words.join(' '));
   const boxed = st.captions === 'boxed';
   return (
     <div dir={dir} style={{ position: 'absolute', left: c.width * 0.08, width: c.width * 0.84, top: c.height * 0.74, textAlign: 'center', fontFamily: `"${f.lat}", "${f.ar}", sans-serif`, fontWeight: 800, fontSize: 62 * u, lineHeight: 1.5 }}>

@@ -57,153 +57,153 @@
    },
    {
     "id": "w7",
-    "text": "معدن",
+    "text": "acier",
     "startMs": 3957,
-    "endMs": 4344,
+    "endMs": 4387,
     "confidence": 1
    },
    {
     "id": "w8",
-    "text": "صافي",
-    "startMs": 4387,
-    "endMs": 4774,
+    "text": "inoxydable",
+    "startMs": 4435,
+    "endMs": 5080,
     "confidence": 1
    },
    {
     "id": "w9",
     "text": "تقاوم",
-    "startMs": 5250,
-    "endMs": 5680,
+    "startMs": 5625,
+    "endMs": 6055,
     "confidence": 1
    },
    {
     "id": "w10",
     "text": "الماء",
-    "startMs": 5728,
-    "endMs": 6159,
+    "startMs": 6103,
+    "endMs": 6534,
     "confidence": 1
    },
    {
     "id": "w11",
     "text": "وتليق",
-    "startMs": 6750,
-    "endMs": 7180,
+    "startMs": 7125,
+    "endMs": 7555,
     "confidence": 1
    },
    {
     "id": "w12",
     "text": "مع",
-    "startMs": 7228,
-    "endMs": 7530,
+    "startMs": 7603,
+    "endMs": 7905,
     "confidence": 1
    },
    {
     "id": "w13",
     "text": "كل",
-    "startMs": 7563,
-    "endMs": 7864,
+    "startMs": 7938,
+    "endMs": 8239,
     "confidence": 1
    },
    {
     "id": "w14",
     "text": "لبسة",
-    "startMs": 7898,
-    "endMs": 8285,
+    "startMs": 8273,
+    "endMs": 8660,
     "confidence": 1
    },
    {
     "id": "w15",
     "text": "بـ",
-    "startMs": 8625,
-    "endMs": 8926,
+    "startMs": 9000,
+    "endMs": 9301,
     "confidence": 1
    },
    {
     "id": "w16",
     "text": "4900",
-    "startMs": 8960,
-    "endMs": 9347,
+    "startMs": 9335,
+    "endMs": 9722,
     "confidence": 1
    },
    {
     "id": "w17",
     "text": "دج",
-    "startMs": 9390,
-    "endMs": 9692,
+    "startMs": 9765,
+    "endMs": 10067,
     "confidence": 1
    },
    {
     "id": "w18",
     "text": "بدل",
-    "startMs": 9725,
-    "endMs": 10069,
+    "startMs": 10100,
+    "endMs": 10444,
     "confidence": 1
    },
    {
     "id": "w19",
     "text": "6500",
-    "startMs": 10108,
-    "endMs": 10495,
+    "startMs": 10483,
+    "endMs": 10870,
     "confidence": 1
    },
    {
     "id": "w20",
     "text": "توصيل",
-    "startMs": 10875,
-    "endMs": 11305,
+    "startMs": 11250,
+    "endMs": 11680,
     "confidence": 1
    },
    {
     "id": "w21",
     "text": "58",
-    "startMs": 11353,
-    "endMs": 11655,
+    "startMs": 11728,
+    "endMs": 12030,
     "confidence": 1
    },
    {
     "id": "w22",
     "text": "ولاية",
-    "startMs": 11688,
-    "endMs": 12118,
+    "startMs": 12063,
+    "endMs": 12493,
     "confidence": 1
    },
    {
     "id": "w23",
     "text": "والدفع",
-    "startMs": 12166,
-    "endMs": 12640,
+    "startMs": 12541,
+    "endMs": 13015,
     "confidence": 1
    },
    {
     "id": "w24",
     "text": "عند",
-    "startMs": 12692,
-    "endMs": 13037,
+    "startMs": 13067,
+    "endMs": 13412,
     "confidence": 1
    },
    {
     "id": "w25",
     "text": "الاستلام",
-    "startMs": 13075,
-    "endMs": 13635,
+    "startMs": 13450,
+    "endMs": 14010,
     "confidence": 1
    },
    {
     "id": "w26",
     "text": "اطلب",
-    "startMs": 14250,
-    "endMs": 14637,
+    "startMs": 14625,
+    "endMs": 15012,
     "confidence": 1
    },
    {
     "id": "w27",
     "text": "دروك",
-    "startMs": 14680,
-    "endMs": 15068,
+    "startMs": 15055,
+    "endMs": 15443,
     "confidence": 1
    }
   ],
-  "durationMs": 16611,
+  "durationMs": 16986,
   "language": "ar",
   "source": "demo"
  },
@@ -256,7 +256,7 @@
     "id": "s0",
     "from": "w0",
     "to": "w4",
-    "intent": "hook: a gift drops into a warm spotlight, ghost word behind",
+    "intent": "hook: searching (تحوس) — a brass magnifying glass sweeps into a warm spotlight",
     "bg": {
      "kind": "spotlight",
      "tone": "dark",
@@ -271,40 +271,21 @@
     "transition": "cut",
     "layers": [
      {
-      "id": "ghost",
-      "type": "text",
-      "lines": [
-       [
-        {
-         "t": "هدية"
-        }
-       ]
-      ],
-      "x": 0.5,
-      "y": 0.5,
-      "w": 1.4,
-      "size": "mega",
-      "role": "serif",
-      "opacity": 0.08,
-      "rotate": -8,
-      "anim": "blur",
-      "hier": false,
-      "at": "w0"
-     },
-     {
-      "id": "gift",
+      "id": "lens",
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/gift-box"
+       "name": "obj/magnifying-glass"
       },
-      "x": 0.5,
-      "y": 0.62,
-      "w": 0.7,
-      "anim": "drop",
-      "idle": "float",
-      "at": "w3",
-      "depth": 0.7
+      "x": 0.56,
+      "y": 0.64,
+      "w": 1.1,
+      "rotate": -18,
+      "anim": "slide-left",
+      "idle": "sway",
+      "at": "w1",
+      "depth": 0.8,
+      "glow": "accent"
      },
      {
       "id": "t1",
@@ -338,11 +319,10 @@
         }
        ]
       ],
-      "x": 0.62,
-      "y": 0.27,
-      "w": 0.72,
+      "x": 0.5,
+      "y": 0.25,
+      "w": 0.86,
       "size": "xxl",
-      "align": "start",
       "anim": "rise"
      }
     ]
@@ -351,7 +331,7 @@
     "id": "s1",
     "from": "w5",
     "to": "w8",
-    "intent": "product reveal: the watch slides in, cropped by the right edge, gold arc",
+    "intent": "product reveal: the watch slides onto a champagne disc",
     "bg": {
      "kind": "solid",
      "tone": "light",
@@ -364,16 +344,15 @@
     "transition": "fade",
     "layers": [
      {
-      "id": "arc",
+      "id": "disc",
       "type": "shape",
-      "kind": "arc",
-      "x": 0.55,
-      "y": 0.5,
-      "w": 1.2,
-      "h": 1.1,
-      "color": "accent",
-      "stroke": 12,
-      "anim": "draw",
+      "kind": "circle",
+      "x": 0.56,
+      "y": 0.64,
+      "w": 0.9,
+      "color": "accent2",
+      "fill": true,
+      "anim": "pop",
       "at": "w5"
      },
      {
@@ -383,9 +362,9 @@
        "kind": "library",
        "name": "obj/wristwatch"
       },
-      "x": 0.72,
-      "y": 0.58,
-      "w": 1.0,
+      "x": 0.58,
+      "y": 0.63,
+      "w": 1.05,
       "rotate": -14,
       "anim": "slide-left",
       "idle": "sway",
@@ -409,20 +388,20 @@
          "at": "w6"
         },
         {
-         "t": "معدن",
+         "t": "acier",
          "at": "w7"
         },
         {
-         "t": "صافي",
-         "at": "w8"
+         "t": "inoxydable",
+         "at": "w8",
+         "em": "serif"
         }
        ]
       ],
-      "x": 0.36,
-      "y": 0.26,
-      "w": 0.6,
+      "x": 0.5,
+      "y": 0.22,
+      "w": 0.86,
       "size": "xxl",
-      "align": "start",
       "anim": "mask"
      }
     ]
@@ -431,7 +410,7 @@
     "id": "s2",
     "from": "w9",
     "to": "w10",
-    "intent": "benefit 1: water resistant, real ocean photo behind",
+    "intent": "benefit 1: water resistant, real sea wave behind",
     "bg": {
      "kind": "photo",
      "tone": "dark",
@@ -466,7 +445,7 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.3,
+      "y": 0.27,
       "w": 0.86,
       "size": "xxl",
       "anim": "blur",
@@ -481,7 +460,7 @@
       },
       "x": 0.5,
       "y": 0.64,
-      "w": 0.6,
+      "w": 0.86,
       "anim": "zoom",
       "idle": "float",
       "at": "w10",
@@ -493,17 +472,11 @@
     "id": "s3",
     "from": "w11",
     "to": "w14",
-    "intent": "benefit 2: lifestyle framed photo, city at night",
+    "intent": "benefit 2: flat-lay with a leather bag and sunglasses — it fits every look",
     "bg": {
-     "kind": "photo",
-     "tone": "dark",
-     "image": {
-      "kind": "library",
-      "name": "bg/city-night"
-     },
-     "vignette": true,
-     "leak": true,
-     "glow": "accent"
+     "kind": "paper",
+     "tone": "light",
+     "vignette": true
     },
     "camera": {
      "move": "push",
@@ -512,22 +485,52 @@
     "transition": "zoom",
     "layers": [
      {
-      "id": "frame",
+      "id": "bagx",
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "bg/boutique"
+       "name": "obj/leather-bag"
       },
-      "x": 0.5,
-      "y": 0.56,
-      "w": 0.66,
-      "h": 0.46,
-      "frame": "card",
-      "anim": "reveal",
+      "x": 0.3,
+      "y": 0.72,
+      "w": 0.62,
+      "rotate": -8,
+      "anim": "slide-right",
       "idle": "none",
       "at": "w11",
-      "shadow": true,
-      "fit": "cover"
+      "depth": 0.5
+     },
+     {
+      "id": "glasses",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/sunglasses"
+      },
+      "x": 0.76,
+      "y": 0.5,
+      "w": 0.52,
+      "rotate": 18,
+      "anim": "drop",
+      "idle": "sway",
+      "at": "w12",
+      "depth": 0.6
+     },
+     {
+      "id": "w3",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/wristwatch"
+      },
+      "x": 0.66,
+      "y": 0.74,
+      "w": 0.7,
+      "rotate": 12,
+      "anim": "pop",
+      "idle": "float",
+      "at": "w14",
+      "depth": 0.9
      },
      {
       "id": "t4",
@@ -556,11 +559,10 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.22,
+      "y": 0.24,
       "w": 0.86,
       "size": "xl",
-      "anim": "rise",
-      "color": "white"
+      "anim": "rise"
      }
     ]
    },
@@ -568,7 +570,7 @@
     "id": "s4",
     "from": "w15",
     "to": "w19",
-    "intent": "offer: price slam on a gold field",
+    "intent": "offer: price slam on a gold field, the watch below",
     "bg": {
      "kind": "solid",
      "tone": "accent",
@@ -616,21 +618,21 @@
       "value": 4900,
       "oldValue": 6500,
       "x": 0.5,
-      "y": 0.44,
+      "y": 0.3,
       "w": 0.8,
       "at": "w16",
       "anim": "pop"
      },
      {
-      "id": "w3",
+      "id": "w4",
       "type": "image",
       "src": {
        "kind": "library",
        "name": "obj/wristwatch"
       },
       "x": 0.5,
-      "y": 0.72,
-      "w": 0.5,
+      "y": 0.68,
+      "w": 0.74,
       "anim": "float",
       "idle": "bob",
       "at": "w17",
@@ -642,9 +644,9 @@
     "id": "s5",
     "from": "w20",
     "to": "w25",
-    "intent": "trust: delivery to 58 wilayas, cash on delivery",
+    "intent": "trust: the delivery truck drives in — 58 wilayas, cash on delivery",
     "bg": {
-     "kind": "paper",
+     "kind": "split",
      "tone": "light",
      "vignette": true
     },
@@ -655,15 +657,19 @@
     "transition": "whip",
     "layers": [
      {
-      "id": "n58",
-      "type": "counter",
-      "value": 58,
+      "id": "truck",
+      "type": "image",
+      "src": {
+       "kind": "sticker",
+       "name": "delivery-truck"
+      },
       "x": 0.5,
-      "y": 0.3,
-      "w": 0.8,
-      "size": "mega",
-      "color": "accent",
-      "at": "w21"
+      "y": 0.66,
+      "w": 0.92,
+      "anim": "slide-left",
+      "idle": "bob",
+      "at": "w20",
+      "depth": 0.7
      },
      {
       "id": "t6",
@@ -673,9 +679,12 @@
         {
          "t": "توصيل",
          "at": "w20"
-        }
-       ],
-       [
+        },
+        {
+         "t": "58",
+         "at": "w21",
+         "em": "big"
+        },
         {
          "t": "ولاية",
          "at": "w22"
@@ -698,8 +707,8 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.6,
-      "w": 0.86,
+      "y": 0.25,
+      "w": 0.88,
       "size": "xl",
       "anim": "rise",
       "hier": false
@@ -710,7 +719,7 @@
     "id": "s6",
     "from": "w26",
     "to": "w27",
-    "intent": "CTA",
+    "intent": "CTA: the watch glowing in the spotlight",
     "bg": {
      "kind": "spotlight",
      "tone": "dark",
@@ -725,15 +734,15 @@
     "transition": "fade",
     "layers": [
      {
-      "id": "w4",
+      "id": "w5",
       "type": "image",
       "src": {
        "kind": "library",
        "name": "obj/wristwatch"
       },
       "x": 0.5,
-      "y": 0.36,
-      "w": 0.62,
+      "y": 0.44,
+      "w": 0.9,
       "anim": "zoom",
       "idle": "float",
       "at": "w26",
@@ -756,7 +765,7 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.66,
+      "y": 0.17,
       "w": 0.8,
       "size": "xxl",
       "anim": "stamp"
@@ -767,7 +776,7 @@
       "kind": "button",
       "title": "اطلب الآن",
       "x": 0.5,
-      "y": 0.79,
+      "y": 0.82,
       "w": 0.6,
       "at": "w27"
      }

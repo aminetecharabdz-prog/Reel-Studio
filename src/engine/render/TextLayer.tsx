@@ -2,7 +2,7 @@ import { Fragment, type CSSProperties } from 'react';
 import { useCurrentFrame } from 'remotion';
 import type { CLayer } from '../compile';
 import type { TextL } from '../schema';
-import { detectDir, groupRuns, toDigits } from '../text';
+import { containerDir, groupRuns, toDigits } from '../text';
 import { alpha, onColor, useTheme } from './theme';
 import { clamp01, enter, exitP, popSpring } from './anim';
 import { measure } from './measure';
@@ -21,6 +21,7 @@ export const TextLayerView = ({ l }: { l: CLayer & TextL }) => {
   const accent = t.color('accent');
   const words = l.words ?? [];
   const lines = words.map((ln) => ln.map((w) => ({ ...w, t: toDigits(w.t, t.digits) })));
+  const layerDir = containerDir(...lines.flat().map((w) => w.t));
 
   // box (clamped to the safe area)
   const sx0 = t.safe.x0 * W, sx1 = t.safe.x1 * W;
@@ -118,7 +119,8 @@ export const TextLayerView = ({ l }: { l: CLayer & TextL }) => {
       }}
     >
       {lines.map((ln, li) => {
-        const dir = detectDir(ln.map((w) => w.t).join(' '));
+        // the whole layer decides the direction: a wrapped line starting with French ("la brosse تاعك") stays RTL
+        const dir = layerDir;
         const align = l.align === 'center' ? 'center' : (l.align === 'start') === (dir === 'rtl') ? 'right' : 'left';
         return (
           <div key={li} dir={dir} style={{ whiteSpace: 'nowrap', textAlign: align, fontFamily: base.family, fontWeight: base.weight, fontSize: size * ls[li]!, lineHeight: lh, height: lineH(li) }}>

@@ -38,10 +38,14 @@ export const ensureDemoProject = async (demoId: string) => {
   const id = `demo-${demoId}`;
   const ex = await getProject(id);
   const d = await loadDemo(demoId);
-  if (ex && ex.demo === `${demoId}@${d.plan.scenes.length}:${d.transcript.durationMs}`) return id;
+  // content hash of the fixture: any re-authored demo replaces the copy cached in the owner's browser
+  let h = 2166136261;
+  for (const ch of JSON.stringify([d.plan, d.transcript])) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  const rev = `${demoId}@${(h >>> 0).toString(36)}`;
+  if (ex && ex.demo === rev) return id;
   const now = Date.now();
   const p: Project = {
-    id, demo: `${demoId}@${d.plan.scenes.length}:${d.transcript.durationMs}`, title: d.title, mode: d.mode, createdAt: now, updatedAt: now, status: 'ready', script: d.transcript.words.map((w) => w.text).join(' '), notes: '', media: [], history: [], images: {}, cost: 0,
+    id, demo: rev, title: d.title, mode: d.mode, createdAt: now, updatedAt: now, status: 'ready', script: d.transcript.words.map((w) => w.text).join(' '), notes: '', media: [], history: [], images: {}, cost: 0,
     transcript: d.transcript, plan: d.plan,
     options: { aspect: '9:16', captions: d.mode === 'talking', music: d.music, musicVolume: 0.5, sfx: true, digits: 'western', endCard: false, cta: '', handle: '', phone: '' },
   };

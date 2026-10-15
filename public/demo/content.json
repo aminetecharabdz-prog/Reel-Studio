@@ -326,7 +326,7 @@
     "id": "s0",
     "from": "w0",
     "to": "w2",
-    "intent": "bulb bleeds in from the edge; small lead-in, huge red key word",
+    "intent": "idea = a real light bulb drops onto a red disc; small lead-in, huge red key word",
     "bg": {
      "kind": "paper",
      "tone": "light",
@@ -349,7 +349,7 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.66,
+      "y": 0.7,
       "w": 1.5,
       "size": "mega",
       "role": "serif",
@@ -360,17 +360,29 @@
       "at": "w0"
      },
      {
-      "id": "pen",
+      "id": "disc",
+      "type": "shape",
+      "kind": "circle",
+      "x": 0.5,
+      "y": 0.66,
+      "w": 0.86,
+      "color": "accent",
+      "fill": true,
+      "anim": "pop",
+      "at": "w1"
+     },
+     {
+      "id": "bulb",
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/fountain-pen"
+       "name": "obj/light-bulb"
       },
-      "x": 0.3,
-      "y": 0.66,
-      "w": 1.1,
-      "rotate": -28,
-      "anim": "slide-right",
+      "x": 0.5,
+      "y": 0.65,
+      "w": 1.0,
+      "rotate": -8,
+      "anim": "drop",
       "idle": "sway",
       "at": "w1",
       "depth": 0.8
@@ -397,12 +409,11 @@
         }
        ]
       ],
-      "x": 0.66,
-      "y": 0.36,
-      "w": 0.56,
+      "x": 0.5,
+      "y": 0.26,
+      "w": 0.86,
       "size": "xxl",
-      "anim": "rise",
-      "align": "end"
+      "anim": "rise"
      }
     ]
    },
@@ -410,9 +421,9 @@
     "id": "s1",
     "from": "w3",
     "to": "w5",
-    "intent": "grey band sweeps, product drops; serif contrast on مليح",
+    "intent": "the product: a premium shopping bag drops on a split stage; serif contrast on مليح",
     "bg": {
-     "kind": "paper",
+     "kind": "split",
      "tone": "light",
      "vignette": true
     },
@@ -423,31 +434,19 @@
     "transition": "whip",
     "layers": [
      {
-      "id": "arc",
-      "type": "shape",
-      "kind": "arc",
-      "x": 0.62,
-      "y": 0.5,
-      "w": 1.1,
-      "h": 1.1,
-      "color": "muted",
-      "stroke": 14,
-      "anim": "draw",
-      "at": "w3"
-     },
-     {
-      "id": "box",
+      "id": "bag",
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/gift-box"
+       "name": "obj/shopping-bag"
       },
-      "x": 0.5,
-      "y": 0.62,
-      "w": 0.72,
+      "x": 0.52,
+      "y": 0.65,
+      "w": 1.02,
       "anim": "drop",
       "idle": "float",
-      "at": "w4"
+      "at": "w3",
+      "depth": 0.7
      },
      {
       "id": "t2",
@@ -472,7 +471,7 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.27,
+      "y": 0.25,
       "w": 0.86,
       "size": "xxl",
       "anim": "mask"
@@ -483,7 +482,7 @@
     "id": "s2",
     "from": "w6",
     "to": "w9",
-    "intent": "hard cut to black: nobody sees you, red glow",
+    "intent": "hard cut to black: a bronze bust in a red rim light, nobody looks at you",
     "bg": {
      "kind": "spotlight",
      "tone": "dark",
@@ -508,26 +507,27 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.3,
+      "y": 0.28,
       "w": 0.8,
       "size": "mega",
       "anim": "blur",
       "exitAt": "w7"
      },
      {
-      "id": "eye",
+      "id": "bust",
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/eye"
+       "name": "obj/bronze-bust"
       },
       "x": 0.5,
-      "y": 0.6,
-      "w": 1.0,
+      "y": 0.66,
+      "w": 1.05,
       "anim": "zoom",
       "idle": "float",
       "at": "w7",
-      "depth": 0.7
+      "depth": 0.7,
+      "glow": "accent"
      },
      {
       "id": "t3",
@@ -552,7 +552,7 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.3,
+      "y": 0.26,
       "w": 0.86,
       "size": "xxl",
       "anim": "rise",
@@ -564,10 +564,14 @@
     "id": "s3",
     "from": "w10",
     "to": "w12",
-    "intent": "pure black, type only: small lead-in, huge glowing red جمهور",
+    "intent": "content without an audience = an empty stadium; huge red جمهور",
     "bg": {
-     "kind": "noise-dark",
+     "kind": "photo",
      "tone": "dark",
+     "image": {
+      "kind": "library",
+      "name": "bg/stadium"
+     },
      "vignette": true
     },
     "camera": {
@@ -599,10 +603,11 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.46,
+      "y": 0.3,
       "w": 0.86,
       "size": "xxl",
-      "anim": "blur"
+      "anim": "blur",
+      "color": "white"
      }
     ]
    },
@@ -610,7 +615,7 @@
     "id": "s4",
     "from": "w13",
     "to": "w14",
-    "intent": "just noise: loudspeakers cropped at the corners",
+    "intent": "just noise: a man shouting into a megaphone, red burst",
     "bg": {
      "kind": "paper",
      "tone": "light",
@@ -629,9 +634,9 @@
        "kind": "library",
        "name": "obj/megaphone-man"
       },
-      "x": 0.62,
+      "x": 0.6,
       "y": 0.64,
-      "w": 0.95,
+      "w": 1.12,
       "anim": "slide-left",
       "idle": "none",
       "at": "w13",
@@ -656,7 +661,7 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.27,
+      "y": 0.25,
       "w": 0.86,
       "size": "xxl",
       "anim": "stamp",
@@ -666,9 +671,9 @@
       "id": "burst",
       "type": "shape",
       "kind": "burst",
-      "x": 0.3,
-      "y": 0.52,
-      "w": 0.5,
+      "x": 0.24,
+      "y": 0.54,
+      "w": 0.46,
       "color": "accent",
       "stroke": 10,
       "anim": "pop",
@@ -680,7 +685,7 @@
     "id": "s5",
     "from": "w15",
     "to": "w19",
-    "intent": "audience = real capital: money bag drops on الرأس مال",
+    "intent": "audience = real capital: houses on coin stacks drop on الرأس مال",
     "bg": {
      "kind": "spotlight",
      "tone": "dark",
@@ -700,8 +705,8 @@
        "name": "obj/property-coins"
       },
       "x": 0.5,
-      "y": 0.64,
-      "w": 0.86,
+      "y": 0.66,
+      "w": 0.98,
       "anim": "drop",
       "idle": "float",
       "at": "w17",
@@ -740,7 +745,7 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.28,
+      "y": 0.26,
       "w": 0.88,
       "size": "xxl",
       "anim": "rise",
@@ -752,7 +757,7 @@
     "id": "s6",
     "from": "w20",
     "to": "w23",
-    "intent": "type only on paper: effort struck out",
+    "intent": "effort alone: a tired creator at her laptop on a red field; التعب struck out",
     "bg": {
      "kind": "solid",
      "tone": "accent",
@@ -772,8 +777,8 @@
        "name": "obj/stressed-laptop"
       },
       "x": 0.5,
-      "y": 0.7,
-      "w": 0.8,
+      "y": 0.68,
+      "w": 1.0,
       "anim": "float",
       "idle": "none",
       "at": "w21",
@@ -809,7 +814,7 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.3,
+      "y": 0.27,
       "w": 0.88,
       "size": "xl",
       "anim": "mask",
@@ -822,7 +827,7 @@
     "id": "s7",
     "from": "w24",
     "to": "w25",
-    "intent": "strategy in red, bullseye bleeding off the right edge",
+    "intent": "strategy: a tall chess king inside a red ring",
     "bg": {
      "kind": "paper",
      "tone": "light",
@@ -834,6 +839,18 @@
     },
     "transition": "cut",
     "layers": [
+     {
+      "id": "ring",
+      "type": "shape",
+      "kind": "ring",
+      "x": 0.62,
+      "y": 0.66,
+      "w": 0.9,
+      "color": "accent",
+      "stroke": 12,
+      "anim": "draw",
+      "at": "w25"
+     },
      {
       "id": "t8",
       "type": "text",
@@ -853,22 +870,22 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.3,
+      "y": 0.25,
       "w": 0.9,
       "size": "xxl",
       "anim": "pop",
       "at": "w24"
      },
      {
-      "id": "target",
+      "id": "king",
       "type": "image",
       "src": {
        "kind": "library",
        "name": "obj/chess-king"
       },
-      "x": 0.74,
-      "y": 0.66,
-      "w": 0.62,
+      "x": 0.62,
+      "y": 0.65,
+      "w": 1.15,
       "anim": "slide-left",
       "idle": "float",
       "at": "w25",
@@ -880,7 +897,7 @@
     "id": "s8",
     "from": "w26",
     "to": "w33",
-    "intent": "hook rule: profile card, a giant red 3",
+    "intent": "hook rule: profile card, a giant red 3, the phone slides in on السكرول",
     "bg": {
      "kind": "blur-photo",
      "tone": "dark",
@@ -903,7 +920,7 @@
       "title": "motiq.studio",
       "sub": "+1 250 متابع جديد هذا الأسبوع",
       "x": 0.5,
-      "y": 0.24,
+      "y": 0.2,
       "w": 0.84,
       "at": "w26",
       "anim": "drop"
@@ -914,12 +931,28 @@
       "value": 3,
       "suffix": "",
       "x": 0.5,
-      "y": 0.5,
+      "y": 0.44,
       "w": 0.8,
       "size": "mega",
       "color": "accent",
       "at": "w32",
       "from": 0
+     },
+     {
+      "id": "phone",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/iphone"
+      },
+      "x": 0.8,
+      "y": 0.84,
+      "w": 0.62,
+      "rotate": -14,
+      "anim": "slide-left",
+      "idle": "float",
+      "at": "w30",
+      "depth": 0.8
      },
      {
       "id": "t9",
@@ -965,9 +998,9 @@
         }
        ]
       ],
-      "x": 0.5,
-      "y": 0.72,
-      "w": 0.9,
+      "x": 0.46,
+      "y": 0.66,
+      "w": 0.8,
       "size": "l",
       "anim": "rise",
       "hier": false
@@ -978,9 +1011,9 @@
     "id": "s9",
     "from": "w34",
     "to": "w37",
-    "intent": "call to action",
+    "intent": "call to action: a tin rocket launches on red rays",
     "bg": {
-     "kind": "spotlight",
+     "kind": "rays",
      "tone": "dark",
      "glow": "accent",
      "vignette": true
@@ -991,6 +1024,22 @@
     },
     "transition": "flash",
     "layers": [
+     {
+      "id": "rocket",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/rocket-toy"
+      },
+      "x": 0.5,
+      "y": 0.6,
+      "w": 1.0,
+      "rotate": -20,
+      "anim": "zoom",
+      "idle": "float",
+      "at": "w34",
+      "glow": "accent"
+     },
      {
       "id": "t10",
       "type": "text",
@@ -1018,7 +1067,7 @@
        ]
       ],
       "x": 0.5,
-      "y": 0.42,
+      "y": 0.25,
       "w": 0.86,
       "size": "xxl",
       "anim": "blur"
@@ -1029,7 +1078,7 @@
       "kind": "button",
       "title": "اصنع الريلز تاعك",
       "x": 0.5,
-      "y": 0.68,
+      "y": 0.86,
       "w": 0.66,
       "at": "w37"
      }

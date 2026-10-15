@@ -1,10 +1,12 @@
 /**
- * No-key fallback director: kinetic typography only (plus the user's own product photos).
- * It never maps keywords to pictures — with Claude connected, the AI decides the visuals.
+ * No-key fallback director: kinetic typography + a topic-literal hero visual in every scene (QUALITY_BAR MUST 1–2):
+ * the user's own photos first, otherwise the bundled photo/3D library chosen from the words (engine/concepts.ts).
+ * With Claude connected, the AI director decides the visuals instead.
  */
 import type { Layer, MWord, Plan, Scene, Style, Transcript, Word } from '@/engine/schema';
 import { phrases } from '@/engine/timing';
 import { salience } from '@/engine/text';
+import { fallbackVisual, heroWidth, visualFor, visualSrc } from '@/engine/concepts';
 
 const rng = (seedStr: string) => {
   let a = 2166136261;
@@ -81,6 +83,7 @@ export const localDirector = (tr: Transcript, o: { mode: 'content' | 'product' |
   const trans: Scene['transition'][] = ['cut', 'cut', 'whip', 'cut', 'zoom', 'cut', 'flash'];
   const cams: Scene['camera']['move'][] = ['push', 'drift', 'push', 'punch', 'rise', 'pan-left'];
   let mediaUse = 0;
+  const used = new Set<string>();
   const scenes: Scene[] = merged.map((b, i) => {
     const tone = i === 0 ? 'dark' : tones[(i + Math.floor(r() * 2)) % tones.length]!;
     const kind = kinds[(i * 3 + Math.floor(r() * 3)) % kinds.length]!;
@@ -111,25 +114,36 @@ export const localDirector = (tr: Transcript, o: { mode: 'content' | 'product' |
     const size = lines.length >= 4 ? 'l' : lines.length === 3 ? 'xl' : 'xxl';
     const anim = anims[Math.floor(r() * anims.length)]!;
     const key = b[best]!;
+    const role = i === 0 ? 'hook' : i === merged.length - 1 ? 'cta' : 'body';
+    const vis = o.mode === 'talking' ? null : (visualFor([key.text, ...b.map((w) => w.text)], used) ?? fallbackVisual(b.map((w) => w.text), role, used));
+    if (vis) used.add(vis);
+    // the hero lands with the word that names it (or right after the first word)
+    const visAt = (vis && b.find((w) => visualFor([w.text]) === vis)?.id) ?? b[Math.min(1, b.length - 1)]!.id;
+    const hero = (x: number, y: number, w: number, extra: Partial<Extract<Layer, { type: 'image' }>> = {}): Layer[] =>
+      vis ? [{ id: `h${i}`, type: 'image', src: visualSrc(vis), x, y, w: heroWidth(vis, w), rotate: 0, at: visAt, opacity: 1, anim: (['pop', 'drop', 'zoom', 'slide-left'] as const)[Math.floor(r() * 4)]!, idle: 'float', shadow: true, frame: 'none', fit: 'contain', depth: 0.7, flipX: false, ...extra }] : [];
     if (layout === 'media') {
       const idx = mediaUse++ % (o.media ?? 1);
       layers.push({ id: `m${i}`, type: 'image', src: { kind: 'user', index: idx, cutout: true }, x: 0.5, y: 0.6, w: 0.78, rotate: 0, at: b[0]!.id, opacity: 1, anim: 'pop', idle: 'float', shadow: true, frame: 'none', fit: 'contain', depth: 0.6, flipX: false });
       layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.25, w: 0.86, rotate: 0, opacity: 1, role: 'display', size: lines.length > 2 ? 'l' : 'xl', color: 'ink', align: 'start', anim, tracking: 0, hier: true });
     } else if (layout === 'number' && num) {
       const v = parseFloat(num.text.replace(/[^\d.]/g, ''));
-      layers.push({ id: `c${i}`, type: 'counter', value: isFinite(v) ? v : 0, from: 0, prefix: '', suffix: num.text.includes('%') ? '%' : '', decimals: 0, size: 'mega', color: 'accent', role: 'impact', x: 0.5, y: 0.38, w: 0.8, rotate: 0, at: num.id, opacity: 1 });
-      layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.64, w: 0.86, rotate: 0, opacity: 1, role: 'display', size: 'l', color: 'ink', align: 'center', anim, tracking: 0, hier: true });
+      layers.push(...hero(0.5, 0.74, 0.72));
+      layers.push({ id: `c${i}`, type: 'counter', value: isFinite(v) ? v : 0, from: 0, prefix: '', suffix: num.text.includes('%') ? '%' : '', decimals: 0, size: 'mega', color: 'accent', role: 'impact', x: 0.5, y: 0.26, w: 0.8, rotate: 0, at: num.id, opacity: 1 });
+      layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.47, w: 0.86, rotate: 0, opacity: 1, role: 'display', size: 'l', color: 'ink', align: 'center', anim, tracking: 0, hier: true });
     } else if (layout === 'ghost') {
-      layers.push({ id: `g${i}`, type: 'text', lines: [[{ t: key.text }]], x: 0.5, y: 0.5, w: 1.3, rotate: -6, opacity: 0.09, role: 'serif', size: 'mega', color: 'ink', align: 'center', anim: 'blur', tracking: 0, hier: false, at: b[0]!.id });
-      layers.push({ id: `t${i}`, type: 'text', lines, x: 0.56, y: 0.42, w: 0.78, rotate: 0, opacity: 1, role: 'display', size, color: 'ink', align: 'start', anim, tracking: 0, hier: true });
+      layers.push({ id: `g${i}`, type: 'text', lines: [[{ t: key.text }]], x: 0.5, y: 0.6, w: 1.3, rotate: -6, opacity: 0.09, role: 'serif', size: 'mega', color: 'ink', align: 'center', anim: 'blur', tracking: 0, hier: false, at: b[0]!.id });
+      layers.push(...hero(0.5, 0.65, 0.9));
+      layers.push({ id: `t${i}`, type: 'text', lines, x: 0.56, y: 0.28, w: 0.78, rotate: 0, opacity: 1, role: 'display', size, color: 'ink', align: 'start', anim, tracking: 0, hier: true });
     } else if (layout === 'field') {
       layers.push({ id: `k${i}`, type: 'shape', kind: 'shard', x: 0.9, y: 0.12, w: 0.42, h: 0.2, rotate: 90, at: b[0]!.id, opacity: 1, color: 'white', fill: true, stroke: 8, anim: 'pop' });
       layers.push({ id: `k2${i}`, type: 'shape', kind: 'shard', x: 0.1, y: 0.9, w: 0.36, h: 0.18, rotate: -90, at: key.id, opacity: 0.9, color: 'white', fill: true, stroke: 8, anim: 'pop' });
-      layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.46, w: 0.84, rotate: 0, opacity: 1, role: 'serif', size, color: 'ink', align: 'start', anim, tracking: 0, hier: true });
+      layers.push(...hero(0.5, 0.66, 0.88, { glow: 'white' }));
+      layers.push({ id: `t${i}`, type: 'text', lines, x: 0.5, y: 0.28, w: 0.84, rotate: 0, opacity: 1, role: 'serif', size, color: 'ink', align: 'start', anim, tracking: 0, hier: true });
     } else {
       const side = layout === 'side';
-      layers.push({ id: `t${i}`, type: 'text', lines, x: side ? 0.58 : 0.5, y: side ? 0.34 : 0.46, w: side ? 0.74 : 0.88, rotate: 0, opacity: 1, role: 'display', size, color: tone === 'accent' ? 'white' : 'ink', align: side ? 'start' : 'center', anim, tracking: 0, hier: true });
-      if (r() > 0.5) layers.push({ id: `a${i}`, type: 'shape', kind: side ? 'arc' : 'underline', x: side ? 0.3 : 0.5, y: side ? 0.62 : 0.6, w: side ? 0.9 : 0.4, h: side ? 0.7 : undefined, rotate: 0, at: key.id, opacity: 1, color: side ? 'muted' : 'accent', fill: false, stroke: 10, anim: 'draw' });
+      layers.push(...(side ? hero(0.56, 0.66, 0.95, { rotate: -6 }) : hero(0.5, 0.65, 0.9)));
+      layers.push({ id: `t${i}`, type: 'text', lines, x: side ? 0.58 : 0.5, y: side ? 0.28 : 0.27, w: side ? 0.74 : 0.88, rotate: 0, opacity: 1, role: 'display', size, color: tone === 'accent' ? 'white' : 'ink', align: side ? 'start' : 'center', anim, tracking: 0, hier: true });
+      if (!side && r() > 0.5) layers.unshift({ id: `a${i}`, type: 'shape', kind: 'circle', x: 0.5, y: 0.65, w: 0.82, rotate: 0, at: b[0]!.id, opacity: 0.9, color: 'accent', fill: true, stroke: 10, anim: 'pop' });
     }
     const tone2: Scene['bg']['tone'] = layout === 'field' ? 'accent' : tone === 'accent' ? 'dark' : tone;
     const kind2: Scene['bg']['kind'] = layout === 'field' ? 'solid' : tone2 === 'light' ? (kind === 'split' ? 'split' : 'paper') : kind === 'gradient' || kind === 'paper' ? 'spotlight' : kind;
@@ -142,9 +156,17 @@ export const localDirector = (tr: Transcript, o: { mode: 'content' | 'product' |
       layers: o.mode === 'talking' && i % 5 === 0 ? layers.map((l) => (l.type === 'text' ? { ...l, y: 0.72, size: 'l' as const } : l)) : layers,
     };
   });
+  // never the same background treatment twice in a row (QUALITY_BAR MUST 4)
+  const ALT: Record<Scene['bg']['tone'], Scene['bg']['kind'][]> = { light: ['paper', 'split', 'rays'], dark: ['spotlight', 'rays', 'noise-dark', 'split'], accent: ['solid', 'gradient', 'rays'] };
+  const sig = (s: Scene) => `${s.bg.kind}|${s.bg.tone}`;
+  scenes.forEach((s, i) => {
+    if (i === 0 || sig(s) !== sig(scenes[i - 1]!)) return;
+    const alts = ALT[s.bg.tone].filter((k) => k !== s.bg.kind);
+    s.bg = { ...s.bg, kind: alts[i % alts.length]! };
+  });
   if (o.cta && scenes.length) {
     const last = scenes[scenes.length - 1]!;
-    last.layers.push({ id: 'cta', type: 'ui', kind: 'button', title: o.cta, sub: '', items: [], x: 0.5, y: 0.8, w: 0.7, rotate: 0, opacity: 1, color: 'accent', anim: 'pop', at: tr.words[tr.words.length - 1]!.id });
+    last.layers.push({ id: 'cta', type: 'ui', kind: 'button', title: o.cta, sub: '', items: [], x: 0.5, y: 0.86, w: 0.7, rotate: 0, opacity: 1, color: 'accent', anim: 'pop', at: tr.words[tr.words.length - 1]!.id });
   }
   if (o.mode === 'talking') style.captions = 'pop';
   return { v: 1, style, scenes, hooks: [], author: 'local' };

@@ -46,6 +46,7 @@ class Video:
         with open(os.path.join(OUT, f'{self.vid}.json'), 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=1)
         print(self.vid, f'{dur/1000:.1f}s', len(self.scenes), 'scenes')
+        report(self)
 
 def words(v, ids, em=None, at=True):
     """text line from word ids; em: dict text->emphasis"""
@@ -80,3 +81,55 @@ def sticker(name): return {'kind': 'sticker', 'name': name}
 def url(u): return {'kind': 'url', 'url': u}
 def obj(name): return {'kind': 'library', 'name': f'obj/{name}'}
 def bgp(name): return {'kind': 'library', 'name': f'bg/{name}'}
+
+# --- quick mirror of src/engine/qa.ts heroArea / bg checks, so demos can be checked without node ---
+def _fill():
+    p = os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'engine', 'artMeta.ts')
+    s = open(p).read()
+    return json.loads(s.split('= ', 1)[1].rstrip(';\n'))
+
+def report(v, W=1080, H=1920):
+    fill = _fill()
+    bad = []
+    prev = None
+    sigs = set()
+    for s in v.scenes:
+        bg = s['bg']
+        sig = (bg['kind'], bg.get('tone', 'dark'), (bg.get('image') or {}).get('name', ''), bg.get('color', ''))
+        sigs.add(sig)
+        if sig == prev: bad.append(f"{s['id']} bg-repeat")
+        prev = sig
+        a = 0.0
+        if bg['kind'] == 'photo' and bg.get('image'): a = 1
+        for l in s['layers']:
+            if l.get('opacity', 1) < 0.5: continue
+            if l['type'] == 'image':
+                src = l['src']; n = src.get('name', '')
+                key = n if src['kind'] == 'library' else '3d/' + n
+                framed = l.get('frame', 'none') != 'none' or l.get('fit') == 'cover'
+                f = 1 if framed else fill.get(key, 0.6)
+                w = l.get('w', 0.8); bw = w * W
+                bh = l['h'] * H if l.get('h') else w * W
+                x, y = l.get('x', 0.5) * W, l.get('y', 0.5) * H
+                iw = max(0, min(W, x + bw / 2) - max(0, x - bw / 2)); ih = max(0, min(H, y + bh / 2) - max(0, y - bh / 2))
+                a += iw * ih / (W * H) * f
+            elif l['type'] == 'counter':
+                a += {'mega': 0.14, 'xxl': 0.08}.get(l.get('size', 'xxl'), 0.04)
+            elif l['type'] == 'ui':
+                k = l['kind']
+                if k in ('price', 'stat', 'checklist', 'chat', 'timer'): a += max(0.16, l.get('w', 0.8) * 0.25)
+                elif k in ('profile', 'notification', 'rating', 'progress', 'search'): a += l.get('w', 0.8) * 0.12
+        a = min(1, a)
+        flag = '' if a >= 0.2 else '  <-- NO HERO'
+        if flag: bad.append(f"{s['id']} no-hero")
+        print(f"  {s['id']} hero {a*100:4.0f}%  bg {sig[0]}/{sig[1]} {sig[2]}{flag}")
+    if len(sigs) < 3: bad.append('bg-variety')
+    if v.mode != 'product':
+        uses = {}
+        for s in v.scenes:
+            for l in s['layers']:
+                if l['type'] == 'image' and l['src'].get('name') and l['src']['kind'] in ('library', 'sticker'):
+                    uses.setdefault(l['src']['name'], set()).add(s['id'])
+        bad += [f'hero-reuse {k}' for k, ids in uses.items() if len(ids) > 1]
+    print('  ISSUES:', bad or 'none')
+    return bad

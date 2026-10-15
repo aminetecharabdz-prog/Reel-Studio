@@ -10,6 +10,11 @@ export const detectDir = (s: string, fb: Dir = 'rtl'): Dir => {
   }
   return fb;
 };
+/** Direction of a block holding several texts: RTL as soon as any of them is Arabic (the video language wins). */
+export const containerDir = (...texts: Array<string | undefined>): Dir => {
+  const all = texts.filter(Boolean).join(' ');
+  return RTL.test(all) ? 'rtl' : detectDir(all, 'ltr');
+};
 export const wordDir = (w: string): Dir | 'neutral' => {
   const x = w.replace(/[،؛؟۔]/g, '');
   return RTL.test(x) ? 'rtl' : LTR.test(x) || /\d/.test(x) ? 'ltr' : 'neutral';

@@ -1,7 +1,7 @@
 import { useCurrentFrame } from 'remotion';
 import type { CLayer } from '../compile';
 import type { UIL } from '../schema';
-import { detectDir, fmtNum, toDigits } from '../text';
+import { containerDir, detectDir, fmtNum, toDigits } from '../text';
 import { alpha, mixHex, onColor, useTheme } from './theme';
 import { clamp01, enter, exitP, popSpring } from './anim';
 
@@ -24,16 +24,19 @@ export const UILayerView = ({ l }: { l: CLayer & UIL }) => {
   const card = t.tone === 'light' ? '#FFFFFF' : mixHex(t.style.palette.dark, '#FFFFFF', 0.08);
   const onCard = onColor(card);
   const w = l.w * W;
-  const dir = detectDir(`${l.title} ${l.sub}`);
+  // container follows the video language (a Latin handle like "motiq.studio" must not flip an Arabic card);
+  // every text run keeps its own direction as an isolate
+  const dir = containerDir(l.title, l.sub, ...l.items.map((i) => i.t));
+  const iso = (s: string) => <span dir={detectDir(s, dir)} style={{ unicodeBidi: 'isolate' }}>{s}</span>;
   const shadow = `0 ${24 * u}px ${60 * u}px ${alpha('#000000', t.tone === 'light' ? 0.18 : 0.5)}`;
   let el: React.ReactNode = null;
   const num = (v: number) => toDigits(fmtNum(v), t.digits);
   switch (l.kind) {
     case 'badge':
-      el = <div dir={dir} style={{ display: 'inline-block', backgroundColor: acc, color: onAcc, fontFamily: disp.family, fontWeight: disp.weight, fontSize: 54 * u, padding: `${14 * u}px ${38 * u}px`, borderRadius: 999, boxShadow: shadow }}>{l.title}</div>;
+      el = <div dir={dir} style={{ display: 'inline-block', backgroundColor: acc, color: onAcc, fontFamily: disp.family, fontWeight: disp.weight, fontSize: 54 * u, padding: `${14 * u}px ${38 * u}px`, borderRadius: 999, boxShadow: shadow }}>{iso(l.title)}</div>;
       break;
     case 'button':
-      el = <div dir={dir} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20 * u, backgroundColor: acc, color: onAcc, fontFamily: disp.family, fontWeight: disp.weight, fontSize: 58 * u, padding: `${26 * u}px ${44 * u}px`, borderRadius: 999, boxShadow: `0 ${18 * u}px ${50 * u}px ${alpha(acc, 0.45)}`, transform: `scale(${1 + Math.sin((frame - l.inF) / 6) * 0.025})` }}>{l.title}<span style={{ fontFamily: 'sans-serif' }}>{dir === 'rtl' ? '←' : '→'}</span></div>;
+      el = <div dir={dir} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20 * u, backgroundColor: acc, color: onAcc, fontFamily: disp.family, fontWeight: disp.weight, fontSize: 58 * u, padding: `${26 * u}px ${44 * u}px`, borderRadius: 999, boxShadow: `0 ${18 * u}px ${50 * u}px ${alpha(acc, 0.45)}`, transform: `scale(${1 + Math.sin((frame - l.inF) / 6) * 0.025})` }}>{iso(l.title)}<span style={{ fontFamily: 'sans-serif' }}>{dir === 'rtl' ? '←' : '→'}</span></div>;
       break;
     case 'price': {
       const strike = clamp01((frame - l.inF - 6) / 8);
@@ -58,8 +61,8 @@ export const UILayerView = ({ l }: { l: CLayer & UIL }) => {
         <div dir={dir} style={{ display: 'flex', gap: 22 * u, alignItems: 'center', backgroundColor: alpha(card, 0.94), color: onCard, borderRadius: 34 * u, padding: `${24 * u}px ${28 * u}px`, boxShadow: shadow, width: w }}>
           <div style={{ width: 116 * u, height: 116 * u, flex: 'none', borderRadius: 24 * u, backgroundImage: `linear-gradient(135deg, ${t.style.palette.accent}, ${t.style.palette.accent2})` }} />
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontFamily: body.family, fontWeight: 700, fontSize: 50 * u }}>{l.title}</div>
-            <div style={{ fontFamily: body.family, fontWeight: 400, fontSize: 40 * u, opacity: 0.75 }}>{l.sub}</div>
+            <div style={{ fontFamily: body.family, fontWeight: 700, fontSize: 50 * u }}>{iso(l.title)}</div>
+            <div style={{ fontFamily: body.family, fontWeight: 400, fontSize: 40 * u, opacity: 0.75 }}>{iso(l.sub)}</div>
           </div>
         </div>
       );
@@ -72,7 +75,7 @@ export const UILayerView = ({ l }: { l: CLayer & UIL }) => {
             if (frame < f0) return null;
             const q = popSpring(frame, f0, fps);
             const me = k % 2 === 1;
-            return <div key={k} style={{ alignSelf: me ? 'flex-start' : 'flex-end', maxWidth: '82%', backgroundColor: me ? acc : card, color: me ? onAcc : onCard, fontFamily: body.family, fontWeight: 600, fontSize: 42 * u, padding: `${18 * u}px ${28 * u}px`, borderRadius: 36 * u, transform: `scale(${q})`, transformOrigin: me ? 'left bottom' : 'right bottom', boxShadow: shadow }}>{m}</div>;
+            return <div key={k} style={{ alignSelf: me ? 'flex-start' : 'flex-end', maxWidth: '82%', backgroundColor: me ? acc : card, color: me ? onAcc : onCard, fontFamily: body.family, fontWeight: 600, fontSize: 42 * u, padding: `${18 * u}px ${28 * u}px`, borderRadius: 36 * u, transform: `scale(${q})`, transformOrigin: me ? 'left bottom' : 'right bottom', boxShadow: shadow }}>{iso(m)}</div>;
           })}
         </div>
       );
@@ -80,7 +83,7 @@ export const UILayerView = ({ l }: { l: CLayer & UIL }) => {
     case 'checklist':
       el = (
         <div dir={dir} style={{ display: 'flex', flexDirection: 'column', gap: 22 * u, width: w, backgroundColor: card, color: onCard, borderRadius: 36 * u, padding: 36 * u, boxShadow: shadow }}>
-          {l.title && <div style={{ fontFamily: disp.family, fontWeight: disp.weight, fontSize: 54 * u }}>{l.title}</div>}
+          {l.title && <div style={{ fontFamily: disp.family, fontWeight: disp.weight, fontSize: 54 * u }}>{iso(l.title)}</div>}
           {l.items.map((it, k) => {
             const f0 = l.itemF?.[k] ?? l.inF + k * 8;
             const on = clamp01((frame - f0) / 8);
@@ -89,7 +92,7 @@ export const UILayerView = ({ l }: { l: CLayer & UIL }) => {
             return (
               <div key={k} style={{ display: 'flex', alignItems: 'center', gap: 20 * u, opacity: 0.35 + 0.65 * on }}>
                 <div style={{ width: 64 * u, height: 64 * u, flex: 'none', borderRadius: 18 * u, border: `${5 * u}px solid ${col}`, backgroundColor: on > 0 ? col : 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 40 * u, fontWeight: 900 }}>{on > 0 ? (good ? '✓' : '✕') : ''}</div>
-                <div style={{ fontFamily: body.family, fontWeight: 700, fontSize: 44 * u, textDecoration: !good && on >= 1 ? 'line-through' : undefined }}>{it.t}</div>
+                <div style={{ fontFamily: body.family, fontWeight: 700, fontSize: 44 * u, textDecoration: !good && on >= 1 ? 'line-through' : undefined }}>{iso(it.t)}</div>
               </div>
             );
           })}
@@ -101,7 +104,7 @@ export const UILayerView = ({ l }: { l: CLayer & UIL }) => {
       const q = clamp01((frame - l.inF) / Math.round(0.9 * fps));
       el = (
         <div dir={dir} style={{ width: w }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: disp.family, fontWeight: disp.weight, fontSize: 48 * u, color: ink, marginBottom: 14 * u }}><span>{l.title}</span><span dir="ltr">{toDigits(String(Math.round(v * (1 - Math.pow(1 - q, 3)))), t.digits)}%</span></div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: disp.family, fontWeight: disp.weight, fontSize: 48 * u, color: ink, marginBottom: 14 * u }}><span>{iso(l.title)}</span><span dir="ltr">{toDigits(String(Math.round(v * (1 - Math.pow(1 - q, 3)))), t.digits)}%</span></div>
           <div style={{ height: 40 * u, borderRadius: 999, backgroundColor: alpha(ink.length === 7 ? ink : '#FFFFFF', 0.14), overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${v * (1 - Math.pow(1 - q, 3))}%`, borderRadius: 999, backgroundImage: `linear-gradient(90deg, ${t.style.palette.accent2}, ${t.style.palette.accent})`, marginInlineStart: dir === 'rtl' ? 'auto' : 0 }} />
           </div>
@@ -123,8 +126,8 @@ export const UILayerView = ({ l }: { l: CLayer & UIL }) => {
         <div dir={dir} style={{ width: w, backgroundColor: card, color: onCard, borderRadius: 40 * u, padding: 34 * u, boxShadow: shadow, display: 'flex', gap: 26 * u, alignItems: 'center' }}>
           <div style={{ width: 130 * u, height: 130 * u, flex: 'none', borderRadius: '50%', backgroundImage: `linear-gradient(135deg, ${t.style.palette.accent}, ${t.style.palette.accent2})`, border: `${6 * u}px solid ${card}`, boxShadow: `0 0 0 ${5 * u}px ${t.style.palette.accent}` }} />
           <div>
-            <div style={{ fontFamily: disp.family, fontWeight: disp.weight, fontSize: 50 * u }}>{l.title}</div>
-            <div style={{ fontFamily: body.family, fontSize: 36 * u, opacity: 0.7 }}>{l.sub}</div>
+            <div style={{ fontFamily: disp.family, fontWeight: disp.weight, fontSize: 50 * u }}>{iso(l.title)}</div>
+            <div style={{ fontFamily: body.family, fontSize: 36 * u, opacity: 0.7 }}>{iso(l.sub)}</div>
           </div>
         </div>
       );
@@ -143,7 +146,7 @@ export const UILayerView = ({ l }: { l: CLayer & UIL }) => {
       el = (
         <div dir={dir} style={{ textAlign: 'center' }}>
           <div dir="ltr" style={{ fontFamily: imp.family, fontWeight: imp.weight, fontSize: 200 * u, color: acc, lineHeight: 1 }}>{toDigits(fmtNum((l.value ?? 0) * clamp01((frame - l.inF) / 20)), t.digits)}{l.sub}</div>
-          <div style={{ fontFamily: body.family, fontWeight: 700, fontSize: 48 * u, color: ink }}>{l.title}</div>
+          <div style={{ fontFamily: body.family, fontWeight: 700, fontSize: 48 * u, color: ink }}>{iso(l.title)}</div>
         </div>
       );
       break;
