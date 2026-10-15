@@ -117,6 +117,7 @@ SCENES — read the speech, split it into beats (one idea each). Suggested beats
 - icons: use concept names from the icon list only.
 - imagePrompt (English, no text in the image): only when IMAGE GENERATION is available. Then use it for the hero of up to 6 scenes where a rich illustration or lifestyle photo beats 3D objects (a consistent character acting out the sentence, the product in a real situation, a topic illustration); every prompt repeats the same character/product description and the illustrationStyle so the video stays consistent. Without image generation: null. userImage = index of a user-provided image to show (product photos), else null.
 - Mode C (talking head): speaker = full | split-top | split-bottom | pip | hidden per scene; full-frame speaker scenes use light overlays (kinetic-headline, sticker-pop, big-number, highlight-sweep, word-build, icon-burst, warning-alert, cta); richer graphics with split-top. zoomOn = 0–1 emphasis word ids for punch-in zooms.
+- Mode A with SPEAKER FOOTAGE: yes: speaker = split-top for most scenes (face on top, hero graphic panel below), full only for a short hook.
 - Mode B (product ad): map the direct-response arc onto what was said: hook → problem → product reveal (product-hero with userImage) → benefits (feature-callouts / icon-grid) → offer (price-tag, delivery-badge, cod-badge — only if said) → CTA. hookVariants: 3 alternative hook lines in the same dialect.
 - Use null for fields a primitive doesn't need. bgIndex 0–2 (subtle background shifts).
 Always finish by calling submit_reel_plan exactly once.`;
@@ -254,6 +255,7 @@ export const claudeDirector = (apiKey: string, brand?: BrandKit, imageRefs: Arra
       req.userImages.length && `USER IMAGES: ${req.userImages.map((i) => `#${i.index}${i.note ? ` (${i.note})` : ''}`).join(', ')}`,
       req.avoid.length && `AVOID (recent videos): ${req.avoid.map((a) => `${a.mood}/${a.easing}/[${a.sequence.join(',')}]`).join(' ; ')}`,
       `IMAGE GENERATION: ${req.imageGen ? 'available' : 'not available'}`,
+      req.speakerFootage && 'SPEAKER FOOTAGE: yes',
       `SEED: ${req.seed}`,
       `SUGGESTED BEATS: ${beats.map((b) => `[${b.words[0]!.id}-${b.words[b.words.length - 1]!.id} ${b.type}]`).join(' ')}`,
       `WORDS (id:text@seconds): ${wordList(req.transcript)}`,

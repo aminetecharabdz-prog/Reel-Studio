@@ -5,6 +5,7 @@ import { Chip, Headline, Stage, Sub, usePrim } from './kit';
 import { FitText } from '../Text';
 import { Icon } from '../Icon';
 import { clamp01 } from '../motion';
+import { Art } from './compose';
 
 export const TitleCard = () => {
   const P = usePrim();
@@ -83,7 +84,18 @@ export const EndCard = () => {
   ].filter(Boolean) as Array<{ icon: string; text: string }>;
   return (
     <Stage drift={false}>
-      {logo && <Img src={logo} style={{ width: 220 * u, height: 220 * u, objectFit: 'contain', marginBottom: 30 * u, transform: `scale(${m.enter(frame, 0)})` }} />}
+      {logo ? (
+        <Img src={logo} style={{ width: 220 * u, height: 220 * u, objectFit: 'contain', marginBottom: 30 * u, transform: `scale(${m.enter(frame, 0)})` }} />
+      ) : (c.hero?.art || P.scene.heroImage) ? (
+        <div data-hero="1" style={{ position: 'relative', width: Math.min(stage.w, stage.h * 0.42), height: Math.min(stage.w, stage.h * 0.42), marginBottom: 20 * u, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {[1, 0.78].map((k, i) => (
+            <div key={i} style={{ position: 'absolute', left: `${(1 - k) * 50}%`, top: `${(1 - k) * 50}%`, width: `${k * 100}%`, height: `${k * 100}%`, borderRadius: '50%', backgroundColor: withAlpha(i ? col.accent : col.primary, t.isDark ? 0.22 : 0.16), transform: `scale(${0.6 + 0.4 * clamp01(m.enter(frame, i * 3))})` }} />
+          ))}
+          <div style={{ transform: `scale(${m.enter(frame, 2)}) translateY(${Math.sin(frame / 12) * 10 * u}px)` }}>
+            {P.scene.heroImage ? <Img src={P.scene.heroImage.src} style={{ width: Math.min(stage.w, stage.h * 0.42) * 0.8, height: Math.min(stage.w, stage.h * 0.42) * 0.8, objectFit: 'contain' }} /> : <Art id={c.hero!.art} size={Math.min(stage.w, stage.h * 0.42) * 0.72} />}
+          </div>
+        </div>
+      ) : null}
       {c.headline && <Headline text={c.headline} start={2} size={0.85} maxLines={2} align="center" />}
       <div style={{ height: 40 * u }} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 22 * u, width: stage.w * 0.86 }}>

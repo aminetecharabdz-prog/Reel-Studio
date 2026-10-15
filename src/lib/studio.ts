@@ -180,6 +180,7 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
       projectId: p.id,
       referenceImage: refAsset ? { base64: await blobToB64(refAsset.blob), mime: refAsset.mime || 'image/jpeg' } : undefined,
       imageGen: !!imageGenerator(keys),
+      speakerFootage: p.mode === 'A' && !!p.media.videoAssetId,
     });
     dna = res.dna;
     plan = res.plan;
@@ -202,7 +203,7 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
       }
     }
     onStage('plan');
-    plan = planLocally({ transcript: planTranscript, dna, mode: p.mode, pacing: p.style.pacing, seed, product: p.product, images: imageRefs, recentSequences: p.demo ? [] : recent.map((r) => r.sequence) });
+    plan = planLocally({ transcript: planTranscript, dna, mode: p.mode, pacing: p.style.pacing, seed, product: p.product, images: imageRefs, speakerFootage: p.mode === 'A' && !!p.media.videoAssetId, recentSequences: p.demo ? [] : recent.map((r) => r.sequence) });
   }
   // keep scenes the user locked: they replace whatever the new plan put over the same words
   const locked = (p.plan?.scenes ?? []).filter((s) => s.locked);

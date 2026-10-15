@@ -119,7 +119,8 @@ export const HeroScene = () => {
   const tilt = Math.sin((frame / fps) * Math.PI * 0.6) * 2;
   const pulse = 1 + 0.07 * emphasis;
   const markP = hero.mark ? m.enter(frame, at(hero.markAt, Math.round(fps * 0.6))) : 0;
-  const backdrop = hero.backdrop ?? (hero.illus ? 'card' : (['disc', 'blob', 'ring', 'arch'] as const)[(scene.index + t.dna.seed) % 4]!);
+  const framedIllus = !!(hero.illus && ILLUSTRATIONS[hero.illus]?.framed);
+  const backdrop = framedIllus ? 'none' : hero.backdrop ?? (hero.illus ? 'card' : (['disc', 'blob', 'ring', 'arch'] as const)[(scene.index + t.dna.seed) % 4]!);
   const props = (hero.props ?? []).slice(0, 4);
   // the label lands early as one unit (never a half-built phrase) and pulses when its word is spoken
   const labelAnchor = at(c.headlineAt, 4);
@@ -295,7 +296,7 @@ const PriceSticker = ({ boxW, boxH }: { boxW: number; boxH: number }) => {
   }
   const fmt = (v: number) => formatNumber(v, 0, t.digits);
   return (
-    <div style={{ position: 'absolute', right: boxW * 0.0, bottom: boxH * 0.02, width: s, height: s, transform: `scale(${showNew ? 0.6 + 0.4 * qNew : 0.5 + 0.5 * qOld}) rotate(${-8 + Math.sin(frame / 14) * 3}deg)`, opacity: clamp01(qOld * 2) }}>
+    <div style={{ position: 'absolute', right: boxW * 0.07, bottom: boxH * 0.02, width: s, height: s, transform: `scale(${showNew ? 0.6 + 0.4 * qNew : 0.5 + 0.5 * qOld}) rotate(${-8 + Math.sin(frame / 14) * 3}deg)`, opacity: clamp01(qOld * 2) }}>
       <svg width={s} height={s} style={{ position: 'absolute', left: 0, top: 0 }}>
         <path d={d + 'Z'} fill={showNew ? t.c.primary : t.c.accent} stroke="#FFFFFF" strokeWidth={8 * u} strokeLinejoin="round" />
       </svg>

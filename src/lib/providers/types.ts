@@ -25,6 +25,8 @@ export type DirectorRequest = {
   referenceImage?: { base64: string; mime: string };
   /** an image-generation key is configured: the director may ask for generated hero images */
   imageGen?: boolean;
+  /** mode A with a face video: use the speaker-top layout */
+  speakerFootage?: boolean;
 };
 
 export interface Director {

@@ -26,6 +26,7 @@ export type DirectorInput = {
   product?: ProductInfo;
   images?: ImageRef[]; // user media (product photos etc.)
   recentSequences?: string[][]; // primitive sequences of the user's last videos
+  speakerFootage?: boolean; // mode A with a face video: speaker-top + graphic panel
 };
 
 type Cand = { id: PrimitiveId; w: number; make: () => SceneContent | null };
@@ -200,6 +201,7 @@ const planOnce = (input: DirectorInput): Plan => {
     const prev = scenes[scenes.length - 1];
     const prevSpeaker = prev?.speaker;
     let speaker: Scene['speaker'];
+    if (input.mode === 'A' && input.speakerFootage) speaker = 'split-top';
     if (input.mode === 'C') {
       const rich = ['list', 'process', 'comparison', 'fact', 'product'].includes(b.type);
       speaker = rich && prevSpeaker !== 'split-top' ? 'split-top' : b.type === 'cta' ? 'full' : r.chance(0.15) && prevSpeaker !== 'pip' ? 'pip' : 'full';

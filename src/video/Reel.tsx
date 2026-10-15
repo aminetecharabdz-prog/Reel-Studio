@@ -36,7 +36,7 @@ const speakerBox = (mode: CompiledScene['speaker'], t: Theme): Box & { radius: n
   const { W, H, u } = t;
   switch (mode) {
     case 'split-top':
-      return { x: 0, y: 0, w: W, h: H * 0.5, radius: 0 };
+      return { x: 0, y: 0, w: W, h: H * 0.45, radius: 0 };
     case 'split-bottom':
       return { x: 0, y: H * 0.5, w: W, h: H * 0.5, radius: 0 };
     case 'pip':
@@ -55,7 +55,7 @@ const stageFor = (mode: CompiledScene['speaker'], t: Theme): Box => {
     case 'full':
       return { x: s.x, y: s.y, w: s.w, h: Math.min(s.h, t.H * 0.3) }; // compact overlay at the top
     case 'split-top':
-      return { x: s.x, y: t.H * 0.5 + 30 * t.u, w: s.w, h: Math.max(200 * t.u, (t.captionBand ? t.captionBand.y : t.H * 0.8) - t.H * 0.5 - 50 * t.u) };
+      return { x: s.x, y: t.H * 0.45 + 30 * t.u, w: s.w, h: Math.max(200 * t.u, (t.captionBand ? t.captionBand.y : t.H * 0.8) - t.H * 0.45 - 50 * t.u) };
     case 'split-bottom':
       return { x: s.x, y: s.y, w: s.w, h: t.H * 0.5 - s.y - 30 * t.u };
     case 'pip': {
@@ -106,12 +106,13 @@ const SpeakerLayer = ({ reel }: { reel: CompiledReel }) => {
 const SceneGraphics = ({ scene, reel }: { scene: CompiledScene; reel: CompiledReel }) => {
   const base = useTheme();
   // mode C: graphics sit on a scrim and turn light when they overlay full-frame footage
-  const scrim = reel.mode === 'C' && !scene.isEndCard && (scene.speaker ?? 'full') === 'full';
+  const footage = reel.video.length > 0; // mode C, or mode A with speaker footage (speaker-top + graphic panel)
+  const scrim = footage && !scene.isEndCard && (scene.speaker ?? 'full') === 'full';
   const theme = useMemo(() => {
-    if (reel.mode !== 'C') return base;
+    if (!footage) return base;
     const stage = stageFor(scene.speaker ?? 'full', base);
     return scrim ? { ...base, stage, isDark: true, c: { ...base.c, text: '#FFFFFF', muted: '#E8E8EC', surface: 'rgba(0,0,0,0.55)' } } : { ...base, stage };
-  }, [base, reel.mode, scene.speaker, scrim]);
+  }, [base, footage, scene.speaker, scrim]);
   const Comp: FC = PRIMITIVE_COMPONENTS[scene.primitive];
   return (
     <ThemeProvider value={theme}>
@@ -156,7 +157,7 @@ export const Reel: FC<ReelProps> = ({ reel }) => {
   return (
     <ThemeProvider value={theme}>
       <AbsoluteFill style={{ backgroundColor: theme.c.bg[0], overflow: 'hidden' }}>
-        {reel.mode !== 'C' ? (
+        {reel.video.length === 0 ? (
           // modes A/B: each scene is a self-contained unit (background + graphics) so transitions cover the previous scene
           scenes.map((s, i) => (
             <Sequence key={`sc-${s.id}`} from={s.from} durationInFrames={s.duration + hold(i)} layout="none">

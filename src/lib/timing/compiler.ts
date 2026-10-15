@@ -128,6 +128,15 @@ export const compileReel = (input: CompileInput): CompiledReel => {
     }
   }
 
+  // end card hero: the product photo when there is one, else the video's most used 3D object (never an empty card)
+  const endHero = (() => {
+    const withImage = scenes.find((s) => s.content.hero?.image && s.content.hero.cutout);
+    if (withImage) return { image: withImage.content.hero!.image, cutout: true };
+    const counts = new Map<string, number>();
+    for (const s of scenes) for (const a of [s.content.hero?.art, s.content.hero?.badge?.art]) if (a) counts.set(a, (counts.get(a) ?? 0) + 1);
+    const best = [...counts.entries()].sort((x, y) => y[1] - x[1])[0]?.[0];
+    return best ? { art: best } : undefined;
+  })();
   if (endCardOn) {
     compiled.push({
       id: 'end-card',
@@ -136,14 +145,14 @@ export const compileReel = (input: CompileInput): CompiledReel => {
       duration: endCardFrames,
       primitive: 'end-card',
       variant: dna.seed % 3,
-      content: { headline: style.endCard.cta, handle: style.endCard.handle, phone: style.endCard.phone, url: style.endCard.website },
+      content: { headline: style.endCard.cta, handle: style.endCard.handle, phone: style.endCard.phone, url: style.endCard.website, hero: endHero },
       anchors: {},
       words: [],
       emphasis: [],
       transition: dna.motionLanguage.transitionFamily[0] ?? 'fade',
       bgIndex: 0,
-      bg: 'dna',
-      heroImage: null,
+      bg: 'spotlight',
+      heroImage: endHero?.image ? resolveImage(endHero.image) : null,
       images: [],
       zooms: [],
       isHook: false,
@@ -275,7 +284,11 @@ export const compileReel = (input: CompileInput): CompiledReel => {
   const video: VideoSegment[] =
     input.mode === 'C' && input.media.videoSrc && segments
       ? segments.map((s) => ({ src: input.media.videoSrc!, from: f(s.outStartMs), duration: Math.max(1, f(s.outStartMs + (s.srcEndMs - s.srcStartMs)) - f(s.outStartMs)), trimBefore: f(s.srcStartMs) }))
-      : [];
+      : input.mode === 'A' && input.media.videoSrc
+        ? [{ src: input.media.videoSrc, from: 0, duration: speechEndFrame + tail, trimBefore: 0 }] // speaker-top layout: the footage plays continuously
+        : [];
+  const speakerFootage = video.length > 0;
+  if (input.mode === 'A' && speakerFootage) for (const s of compiled) if (!s.isEndCard) s.speaker = s.speaker ?? 'split-top';
 
   return {
     fps,
@@ -288,7 +301,7 @@ export const compileReel = (input: CompileInput): CompiledReel => {
     captions,
     captionSettings: cs,
     digits: style.digits,
-    voice: input.mode !== 'C' && input.media.voiceSrc ? { src: input.media.voiceSrc, volume: 1 } : null,
+    voice: input.mode !== 'C' && !speakerFootage && input.media.voiceSrc ? { src: input.media.voiceSrc, volume: 1 } : null,
     video,
     music,
     sfx,
