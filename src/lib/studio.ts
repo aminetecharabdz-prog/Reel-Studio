@@ -53,6 +53,7 @@ export const resolveMedia = async (p: Project): Promise<MediaUrls> => {
   for (const e of p.media.extra) ids.add(e.assetId);
   for (const s of p.plan?.scenes ?? []) {
     if (s.content.image?.assetId) ids.add(s.content.image.assetId);
+    if (s.content.hero?.image?.assetId) ids.add(s.content.hero.image.assetId);
     for (const im of s.content.images ?? []) if (im.assetId) ids.add(im.assetId);
   }
   if (p.brand.logoAssetId) ids.add(p.brand.logoAssetId);
@@ -178,6 +179,7 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
       seed,
       projectId: p.id,
       referenceImage: refAsset ? { base64: await blobToB64(refAsset.blob), mime: refAsset.mime || 'image/jpeg' } : undefined,
+      imageGen: !!imageGenerator(keys),
     });
     dna = res.dna;
     plan = res.plan;
@@ -214,16 +216,34 @@ export const generateProject = async (p: Project, onStage: (s: Stage, note?: str
   // assets: generate images the plan asked for (cached by prompt hash)
   onStage('assets');
   const gen = imageGenerator(keys);
+  // consistency (QUALITY_BAR): every generated image gets the same references — the user's product photos,
+  // else a style sheet generated once per video (character + palette + illustration style)
+  let refs: Blob[] = [];
+  const wanted = plan.scenes.some((s) => [s.content.image, s.content.hero?.image].some((im) => im?.prompt && !im.assetId && !im.src));
+  if (gen && wanted) {
+    const userBlobs = (await Promise.all(p.media.extra.slice(0, 3).map((e) => repo.getAsset(e.assetId)))).filter(Boolean).map((a) => a!.blob);
+    refs = userBlobs;
+    if (!refs.length) {
+      try {
+        const sheetId = await cachedImage(gen, `Style reference sheet for a short vertical video about: ${p.media.idea || topic}. ${dna.illustrationStyle}. Colour palette ${[...dna.palette.bg, dna.palette.primary, dna.palette.accent].join(', ')}. If people appear: one consistent friendly Algerian character, front and three-quarter views. Clean background.`, '1:1', p.id);
+        const sheet = await repo.getAsset(sheetId);
+        if (sheet) refs = [sheet.blob];
+      } catch (e) {
+        console.warn('style sheet failed', e);
+      }
+    }
+  }
   for (const s of plan.scenes) {
-    const im = s.content.image;
+    for (const im of [s.content.image, s.content.hero?.image]) {
     if (im?.prompt && !im.assetId && !im.src) {
       if (gen) {
         try {
-          im.assetId = await cachedImage(gen, `${im.prompt}. Style: ${dna.illustrationStyle}`, p.style.aspect === '1:1' ? '1:1' : '4:5', p.id);
+          im.assetId = await cachedImage(gen, `${im.prompt}. Style: ${dna.illustrationStyle}. Keep the same character / product and style as the reference images.`, p.style.aspect === '1:1' ? '1:1' : '4:5', p.id, refs);
         } catch (e) {
           console.warn('image generation failed', e);
         }
       }
+    }
     }
   }
   // QA: deterministic checks + auto-fix (max 2 passes)

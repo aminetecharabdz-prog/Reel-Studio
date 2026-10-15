@@ -2,7 +2,7 @@ import { useCurrentFrame } from 'remotion';
 import type { CSSProperties } from 'react';
 import type { CaptionLine } from '@/lib/timing/types';
 import type { CaptionSettings } from '@/lib/schema/plan';
-import { layoutText } from '@/lib/text/layout';
+import { captionLayoutText, layoutText } from '@/lib/text/layout';
 import { detectDir, groupWordRuns } from '@/lib/text/bidi';
 import { toDigits } from '@/lib/text/digits';
 import { contrast, ensureContrast, mix, textOn, withAlpha } from '@/lib/color/contrast';
@@ -21,7 +21,8 @@ const CaptionLineView = ({ line, s, reelMode }: { line: CaptionLine; s: CaptionS
   const family = t.fonts.captions;
   const weight = t.fonts.captionWeight;
   const size = s.sizePx * u;
-  const text = line.words.map((w) => toDigits(w.text, t.digits)).join(' ');
+  // one layout token per spoken word, even when a word contains a space ("10 000")
+  const text = captionLayoutText(line.words.map((w) => toDigits(w.text, t.digits)));
   const padX = ['pill', 'block', 'gradient'].includes(s.style) ? 36 * u : 0;
   const lay = layoutText(text, { maxWidth: band.w - padX * 2, maxSize: size, minSize: 42 * u, maxLines: 2, measure: (x, sz) => measureWidth(x, family, weight, sz) });
   const fs = lay.fontSize;

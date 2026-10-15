@@ -48,7 +48,7 @@ export const shortLabel = (words: Word[], max = 3) => {
   return { text: ws.slice(0, max).join(' '), firstId: d.firstId };
 };
 
-export type HeroInput = { words: Word[]; type: BeatType; index: number; seed: number; mode: 'A' | 'B' | 'C'; product?: ProductInfo; image?: ImageRef; overused?: (art: string) => boolean };
+export type HeroInput = { words: Word[]; type: BeatType; index: number; seed: number; mode: 'A' | 'B' | 'C'; product?: ProductInfo; image?: ImageRef; overused?: (art: string) => boolean; overusedKey?: (key: string) => boolean };
 
 /** Build hero-scene content for a beat. */
 export const heroContent = (x: HeroInput): SceneContent => {
@@ -68,7 +68,7 @@ export const heroContent = (x: HeroInput): SceneContent => {
   const content: SceneContent = { headline: label.text, headlineAt: label.firstId, hero };
   const neg = words.some((w) => NEG.test(normalizeAr(w.text)) || /^ما.+ش[؟?!.،]*$/.test(w.text));
   const pos = words.some((w) => POS.test(normalizeAr(w.text)));
-  const rule = ILLUS_RULES.find((r) => r.re.test(norm) || r.re.test(raw));
+  const rule = ILLUS_RULES.find((r) => (r.re.test(norm) || r.re.test(raw)) && !x.overusedKey?.(`hero:center:${r.illus}${JSON.stringify(r.params ?? {})}`));
 
   // product ads: the real product is the hero for product / offer beats
   if (x.mode === 'B' && x.image && (type === 'product' || (type === 'offer' && prices.length))) {

@@ -23,6 +23,8 @@ export type DirectorRequest = {
   seed: number;
   projectId?: string;
   referenceImage?: { base64: string; mime: string };
+  /** an image-generation key is configured: the director may ask for generated hero images */
+  imageGen?: boolean;
 };
 
 export interface Director {
@@ -32,7 +34,8 @@ export interface Director {
 
 export interface ImageGenerator {
   id: string;
-  generate(prompt: string, opts: { aspect: '1:1' | '9:16' | '4:5'; projectId?: string }): Promise<Blob>;
+  /** refs: reference images (style sheet / character / product photo) for a consistent look across scenes */
+  generate(prompt: string, opts: { aspect: '1:1' | '9:16' | '4:5'; projectId?: string; refs?: Blob[] }): Promise<Blob>;
 }
 
 export interface TTS {

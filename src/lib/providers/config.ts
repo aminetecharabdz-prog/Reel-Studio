@@ -5,7 +5,8 @@ export const MODELS = {
   elevenStt: 'scribe_v1',
   elevenTts: 'eleven_multilingual_v2',
   openaiStt: 'whisper-1',
-  geminiImage: 'gemini-2.5-flash-image',
+  geminiImage: 'gemini-nano-banana-2.1', // Google docs (Oct 2026): primary image model, supports reference images
+  geminiImageLegacy: 'gemini-2.5-flash-image', // generateContent fallback
   openaiImage: 'gpt-image-1',
   falImage: 'fal-ai/flux/schnell',
 } as const;

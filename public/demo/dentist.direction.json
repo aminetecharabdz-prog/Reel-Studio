@@ -275,7 +275,7 @@
     "from": "w38",
     "to": "w40",
     "primitive": "hero-scene",
-    "variant": 0,
+    "variant": 1,
     "content": {
      "hero": {
       "note": "don't wait until it's worn out = old toothbrush crossed out",

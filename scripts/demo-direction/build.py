@@ -41,7 +41,7 @@ dentist = [
     S(6, 'w30', 'w37', {'note': 'tip 2: change the toothbrush every 3 months = toothbrush + calendar badge', 'art': 'toothbrush', 'backdrop': 'blob', 'badge': {'art': 'spiral-calendar', 'text': '3 شهور', 'at': 'w36'}, 'props': ['counterclockwise-arrows-button']},
       'بدّل la brosse', 'نصيحة 2', 'w31', bg='duotone', tr='slide', emphasis=['w33']),
     S(7, 'w38', 'w40', {'note': "don't wait until it's worn out = old toothbrush crossed out", 'art': 'toothbrush', 'mark': 'cross', 'markAt': 'w40', 'backdrop': 'disc'},
-      'فرشاة مهترئة', None, 'w40', bg='dna', tr='zoom'),
+      'فرشاة مهترئة', None, 'w40', bg='dna', tr='zoom', variant=1),
     S(8, 'w41', 'w45', {'note': 'tip 3: floss = thread sliding between the teeth, cleaning the plaque', 'illus': 'teeth-row', 'illusParams': {'plaque': True, 'floss': True}, 'badge': {'art': 'thread', 'text': 'نصيحة 3', 'at': 'w44'}},
       'le fil dentaire', None, 'w44', bg='grid', tr='iris', variant=1, emphasis=['w44']),
     S(9, 'w46', 'w51', {'note': "the brush can't reach between teeth = magnifier on the gaps with germs", 'art': 'magnifying-glass-tilted-left', 'backdrop': 'disc', 'props': ['microbe', 'tooth', 'microbe']},

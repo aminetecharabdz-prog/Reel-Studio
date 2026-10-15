@@ -64,3 +64,6 @@ const balance = (lines: string[][], ww: number[], words: string[], space: number
   }
   return out;
 };
+
+/** Join words for layout so each word stays ONE token (inner spaces → word joiner U+2060, measured ~0 wide). */
+export const captionLayoutText = (words: string[]) => words.map((w) => w.trim().replace(/\s+/g, '\u2060')).join(' ');

@@ -104,10 +104,12 @@ export const HeroScene = () => {
   const art = hero.art ?? (hero.illus || scene.heroImage ? undefined : findArt(spoken) ?? c.icon ?? 'sparkles');
   const hasLabel = !!(c.headline || c.kicker);
   const labelTop = scene.variant % 2 === 1; // label above the hero on odd variants
-  const labelH = hasLabel ? Math.min(stage.h * 0.27, 330 * u) : 0;
-  const boxW = stage.w;
+  const labelH = hasLabel ? Math.min(stage.h * 0.23, 280 * u) : 0;
+  // the hero box spans the full frame width (QUALITY_BAR: hero ≥ 35 % of the frame)
+  const boxW = t.W;
+  const boxLeft = -stage.x;
   const boxH = stage.h - labelH;
-  const S = Math.min(boxW, boxH);
+  const S = Math.min(boxW * 0.9, boxH);
   const boxTop = labelTop ? labelH : 0;
   // motion
   const pIn = m.enter(frame, 0, Math.max(8, m.base));
@@ -119,7 +121,10 @@ export const HeroScene = () => {
   const markP = hero.mark ? m.enter(frame, at(hero.markAt, Math.round(fps * 0.6))) : 0;
   const backdrop = hero.backdrop ?? (hero.illus ? 'card' : (['disc', 'blob', 'ring', 'arch'] as const)[(scene.index + t.dna.seed) % 4]!);
   const props = (hero.props ?? []).slice(0, 4);
-  const labelStart = at(c.headlineAt, 4);
+  // the label lands early as one unit (never a half-built phrase) and pulses when its word is spoken
+  const labelAnchor = at(c.headlineAt, 4);
+  const labelStart = Math.min(labelAnchor, Math.round(fps * 0.4));
+  const labelPulse = 1 + 0.08 * m.pulse(frame, labelAnchor);
 
   let main: ReactNode;
   const heroStyle = (s: number): CSSProperties => ({ transform: `translateY(${(1 - clamp01(heroP)) * 140 * u + bob}px) scale(${(0.4 + 0.6 * heroP) * pulse * s}) rotate(${tilt}deg)`, opacity: clamp01(heroP * 2) });
@@ -139,9 +144,11 @@ export const HeroScene = () => {
       </div>
     );
   } else if (hero.illus && ILLUSTRATIONS[hero.illus]) {
+    const framed = ILLUSTRATIONS[hero.illus]!.framed;
+    const isz = framed ? Math.min(boxW * 0.84, boxH * 0.96) : S * 0.98;
     main = (
-      <div style={heroStyle(1)}>
-        <Illustration id={hero.illus} params={hero.illusParams} size={S * 0.98} uid={`${scene.id}i`} frame={frame} fps={fps} dur={dur} t={t} />
+      <div style={{ ...heroStyle(1), ...(framed ? { width: isz, height: isz, borderRadius: t.radius(1.2) + 34 * u, overflow: 'hidden', boxShadow: t.shadow(1.6), border: `${9 * u}px solid ${t.isDark ? '#2A2F38' : '#FFFFFF'}` } : {}) }}>
+        <Illustration id={hero.illus} params={hero.illusParams} size={isz} uid={`${scene.id}i`} frame={frame} fps={fps} dur={dur} t={t} />
       </div>
     );
   } else if (layout === 'pair') {
@@ -209,7 +216,7 @@ export const HeroScene = () => {
   return (
     <div style={{ position: 'absolute', left: stage.x, top: stage.y, width: stage.w, height: stage.h, transform: `scale(${push})` }}>
       {/* hero box: backdrop + hero + mark + props (measured by QA as the hero area) */}
-      <div data-hero="1" style={{ position: 'absolute', left: 0, top: boxTop, width: boxW, height: boxH }}>
+      <div data-hero="1" style={{ position: 'absolute', left: boxLeft, top: boxTop, width: boxW, height: boxH }}>
         <Backdrop kind={backdrop} w={boxW} h={boxH} p={pIn} frame={frame} t={t} />
         {/* floor shadow */}
         {!scene.heroImage && layout !== 'count' && (
@@ -238,11 +245,13 @@ export const HeroScene = () => {
       {hasLabel && (
         <div style={{ position: 'absolute', left: 0, top: labelTop ? 0 : boxH, width: stage.w, height: labelH, display: 'flex', flexDirection: labelTop ? 'column-reverse' : 'column', alignItems: 'center', justifyContent: 'center', gap: 14 * u }}>
           {c.kicker && (
-            <div style={{ transform: `scale(${m.enter(frame, labelStart + 4)})` }}>
+            <div style={{ transform: `scale(${m.enter(frame, labelStart + 6)})` }}>
               <Chip text={c.kicker} size={46 * u} bg={col.accent} color={col.textOnAccent} />
             </div>
           )}
-          <Headline text={c.headline} start={labelStart} size={0.72} maxLines={2} align="center" width={stage.w * 0.96} maxHeight={labelH - (c.kicker ? 90 * u : 10 * u)} />
+          <div style={{ transform: `scale(${labelPulse})` }}>
+            <Headline text={c.headline} start={labelStart} size={0.78} maxLines={2} align="center" width={stage.w * 0.96} maxHeight={labelH - (c.kicker ? 86 * u : 10 * u)} perWord={false} />
+          </div>
         </div>
       )}
     </div>

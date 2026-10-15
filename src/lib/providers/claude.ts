@@ -8,7 +8,9 @@ import { z } from 'zod';
 import type { Director, DirectorRequest } from './types';
 import { MODELS } from './config';
 import { claudeCost, logCost } from '../cost/ledger';
-import { PRIMITIVE_IDS, PlanSchema, type Plan } from '../schema/plan';
+import { BG_TREATMENTS, HERO_LAYOUTS, PRIMITIVE_IDS, PlanSchema, type Hero, type Plan } from '../schema/plan';
+import { ART3D } from '../design/art3d';
+import { ILLUSTRATIONS, ILLUSTRATION_IDS } from '../../video/illustrations';
 import { BACKGROUND_KINDS, EASINGS, LAYOUT_GRAMMARS, TRANSITIONS, type DesignDNA } from '../schema/dna';
 import { ARABIC_FONTS, LATIN_FONTS, FONT_BY_ID } from '../design/fonts';
 import { ICON_CONCEPTS } from '../design/icons';
@@ -25,10 +27,31 @@ const nullable = (t: string) => S([t, 'null']);
 
 const ITEM = { type: 'object', additionalProperties: false, required: ['text', 'at', 'icon', 'value', 'tone'], properties: { text: S('string'), at: nullable('string'), icon: nullable('string'), value: nullable('number'), tone: S(['string', 'null'], { enum: ['good', 'bad', 'neutral', null] }) } };
 
+const ART_ENUM = [...ART3D];
+const nullEnum = (vals: readonly string[]) => S(['string', 'null'], { enum: [...vals, null] });
+const HERO = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['note', 'layout', 'art', 'art2', 'illus', 'illusParams', 'mark', 'markAt', 'props', 'count', 'highlight', 'badgeArt', 'badgeText', 'badgeAt', 'backdrop'],
+  properties: {
+    note: S('string'),
+    layout: nullEnum(HERO_LAYOUTS),
+    art: nullEnum(ART_ENUM), art2: nullEnum(ART_ENUM),
+    illus: nullEnum(ILLUSTRATION_IDS),
+    illusParams: nullable('string'),
+    mark: nullEnum(['forbidden', 'check', 'warning', 'cross', 'circle']),
+    markAt: nullable('string'),
+    props: S('array', { items: S('string', { enum: ART_ENUM }) }),
+    count: nullable('integer'), highlight: nullable('integer'),
+    badgeArt: nullEnum(ART_ENUM), badgeText: nullable('string'), badgeAt: nullable('string'),
+    backdrop: nullEnum(['disc', 'blob', 'arch', 'ring', 'card', 'none']),
+  },
+};
+
 const SCENE = {
   type: 'object',
   additionalProperties: false,
-  required: ['from', 'to', 'primitive', 'variant', 'transition', 'emphasis', 'headline', 'headlineAt', 'sub', 'kicker', 'items', 'value', 'valueFrom', 'valueAt', 'unit', 'prefix', 'icon', 'icons', 'price', 'oldPrice', 'wilayas', 'rating', 'imagePrompt', 'userImage', 'speaker', 'zoomOn', 'bgIndex'],
+  required: ['from', 'to', 'primitive', 'variant', 'transition', 'emphasis', 'headline', 'headlineAt', 'sub', 'kicker', 'items', 'value', 'valueFrom', 'valueAt', 'unit', 'prefix', 'icon', 'icons', 'price', 'oldPrice', 'wilayas', 'rating', 'imagePrompt', 'userImage', 'speaker', 'zoomOn', 'bgIndex', 'bg', 'hero'],
   properties: {
     from: S('string'), to: S('string'),
     primitive: S('string', { enum: PRIMITIVE_IDS }),
@@ -44,6 +67,8 @@ const SCENE = {
     speaker: S(['string', 'null'], { enum: ['full', 'split-top', 'split-bottom', 'pip', 'hidden', null] }),
     zoomOn: S('array', { items: S('string') }),
     bgIndex: S('integer'),
+    bg: S('string', { enum: [...BG_TREATMENTS] }),
+    hero: HERO,
   },
 };
 
@@ -84,11 +109,13 @@ DESIGN DNA — design a look specific to THIS topic and audience (palette, type 
 SCENES — read the speech, split it into beats (one idea each). Suggested beats are given; you may merge/split. For each scene:
 - from/to = word ids (first/last word of the beat). Scenes must be in order, contiguous, cover all words, never cut mid-word. Respect the pacing window.
 - Choose a primitive whose purpose matches what is SAID at that moment (catalog below). Never the same primitive twice in a row; ≤3 uses of any primitive; vary layout variants (0–2).
-- On-screen text DISTILS the speech: headline 1–5 words, keep the speaker's dialect and spelling (Darija stays Darija, French words stay in Latin script). Never invent facts, prices, guarantees, medical claims or reviews that were not said. Numbers/prices only if spoken.
+- QUALITY BAR (non-negotiable): EVERY scene has a big hero visual that LITERALLY shows the sentence — use primitive "hero-scene" for almost every scene. For each hero write hero.note = what the viewer sees and why it matches the words. Hero sources, best first: user image (userImage, set hero.layout null; product photos are cut-outs) → a topic illustration (hero.illus + illusParams "key=value;key=value") → glossy 3D objects (hero.art from the ART list; layouts: center | pair (art + art2, e.g. candy + soda) | count (count copies of art, the first `highlight` coloured, rest art2 — for numbers like 70% = 10 faces with 7 highlighted, 3 tips = 3 bulbs) | orbit (art + props circling) | side). Add 1–3 props, a badge (badgeArt/badgeText 1–2 words, badgeAt word id) and a mark (forbidden for "don't"/"avoid", check for "do"/"good", cross, warning, circle) drawn on markAt. A small line icon or a lone word is never a hero. Generic shapes are forbidden.
+- bg = background treatment per scene: use at least 3 different ones across the video (dna, spotlight, split, rays, room, grid, duotone, deep).
+- On-screen text: headline = 1–3 KEY words or a number (e.g. "70%", "مرتين", "le fil dentaire") — NEVER the caption sentence (captions already show every word). kicker = a short chip (1–3 words, may be the French/Arabic term). Keep the speaker's dialect; French words stay in Latin script, in spoken order. Never invent facts, prices, guarantees, medical claims or reviews that were not said. Numbers/prices only if spoken.
 - Anchor everything to word ids: headlineAt, valueAt, items[].at = the word where it should appear. Emphasis = 1–2 stressed word ids.
 - Hook in the first 1.5 s: strongest type, fastest motion.
 - icons: use concept names from the icon list only.
-- imagePrompt only when a unique image truly adds value (≤2 per video, describe in English, match illustrationStyle, no text in image). userImage = index of a user-provided image to show (product photos), else null.
+- imagePrompt (English, no text in the image): only when IMAGE GENERATION is available. Then use it for the hero of up to 6 scenes where a rich illustration or lifestyle photo beats 3D objects (a consistent character acting out the sentence, the product in a real situation, a topic illustration); every prompt repeats the same character/product description and the illustrationStyle so the video stays consistent. Without image generation: null. userImage = index of a user-provided image to show (product photos), else null.
 - Mode C (talking head): speaker = full | split-top | split-bottom | pip | hidden per scene; full-frame speaker scenes use light overlays (kinetic-headline, sticker-pop, big-number, highlight-sweep, word-build, icon-burst, warning-alert, cta); richer graphics with split-top. zoomOn = 0–1 emphasis word ids for punch-in zooms.
 - Mode B (product ad): map the direct-response arc onto what was said: hook → problem → product reveal (product-hero with userImage) → benefits (feature-callouts / icon-grid) → offer (price-tag, delivery-badge, cod-badge — only if said) → CTA. hookVariants: 3 alternative hook lines in the same dialect.
 - Use null for fields a primitive doesn't need. bgIndex 0–2 (subtle background shifts).
@@ -97,7 +124,8 @@ Always finish by calling submit_reel_plan exactly once.`;
 const catalog = () => {
   const prims = Object.entries(PRIMITIVE_META).map(([id, m]) => `- ${id}: ${m.desc}; beats: ${m.beats.join('/')}; needs: ${m.needs}${m.modes ? `; modes: ${m.modes.join('')}` : ''}`).join('\n');
   const fonts = [...ARABIC_FONTS, ...LATIN_FONTS].map((f) => `${f.id} (${f.script}; ${f.tags.join(', ')})`).join('; ');
-  return `PRIMITIVES:\n${prims}\n\nFONTS: ${fonts}\n\nICONS: ${ICON_CONCEPTS.join(', ')}`;
+  const illus = Object.entries(ILLUSTRATIONS).map(([id, v]) => `- ${id}: ${v.note}; params: ${v.params}`).join('\n');
+  return `PRIMITIVES:\n${prims}\n\nILLUSTRATIONS (animated, topic-literal):\n${illus}\n\nART (3D objects): ${ART3D.join(', ')}\n\nFONTS: ${fonts}\n\nICONS: ${ICON_CONCEPTS.join(', ')}`;
 };
 
 const wordList = (t: Transcript) => t.words.map((w) => `${w.id}:${w.text}@${(w.startMs / 1000).toFixed(2)}`).join(' ');
@@ -167,11 +195,49 @@ export const toPlan = (scenes: Array<Record<string, unknown>>, hookVariants: str
         value: n2u(s.value as number | null), valueFrom: n2u(s.valueFrom as number | null), valueAt: n2u(s.valueAt as string | null), unit: n2u(s.unit as string | null)?.slice(0, 12), prefix: n2u(s.prefix as string | null)?.slice(0, 8),
         icon: n2u(s.icon as string | null), icons: ((s.icons as string[]) ?? []).slice(0, 12),
         price: n2u(s.price as number | null), oldPrice: n2u(s.oldPrice as number | null), wilayas: n2u(s.wilayas as number | null), rating: n2u(s.rating as number | null),
-        image,
+        image: s.primitive === 'hero-scene' ? undefined : image,
+        hero: toHero(s.hero as Record<string, unknown> | null | undefined, s.primitive === 'hero-scene' ? image : undefined),
       },
+      bg: BG_TREATMENTS.includes(s.bg as 'dna') ? (s.bg as Plan['scenes'][number]['bg']) : undefined,
     };
   });
   return PlanSchema.parse({ scenes: out, hookVariants: hookVariants.slice(0, 3) });
+};
+
+/** "highlight=cold;floss=true;value=3" → typed params */
+const parseParams = (raw: unknown): Hero['illusParams'] => {
+  if (typeof raw !== 'string' || !raw.trim()) return undefined;
+  const out: NonNullable<Hero['illusParams']> = {};
+  for (const kv of raw.split(/[;,]/)) {
+    const [k, v] = kv.split('=').map((x) => x?.trim());
+    if (!k || v === undefined) continue;
+    out[k] = v === 'true' ? true : v === 'false' ? false : /^-?\d+(\.\d+)?$/.test(v) ? Number(v) : v;
+  }
+  return out;
+};
+
+const toHero = (h: Record<string, unknown> | null | undefined, image?: { assetId?: string; src?: string; prompt?: string }): Hero | undefined => {
+  if (!h && !image) return undefined;
+  const g = (k: string) => (h?.[k] === null || h?.[k] === undefined ? undefined : h[k]);
+  const badgeArt = g('badgeArt') as string | undefined;
+  const badgeText = (g('badgeText') as string | undefined)?.slice(0, 24);
+  return {
+    note: (g('note') as string | undefined)?.slice(0, 240),
+    layout: g('layout') as Hero['layout'],
+    art: g('art') as string | undefined,
+    art2: g('art2') as string | undefined,
+    illus: g('illus') as string | undefined,
+    illusParams: parseParams(g('illusParams')),
+    image,
+    cutout: image && !image.prompt ? true : undefined,
+    mark: g('mark') as Hero['mark'],
+    markAt: g('markAt') as string | undefined,
+    props: ((g('props') as string[] | undefined) ?? []).slice(0, 5),
+    count: g('count') !== undefined ? Math.min(12, Math.max(1, Math.round(Number(g('count'))))) : undefined,
+    highlight: g('highlight') !== undefined ? Math.min(12, Math.max(0, Math.round(Number(g('highlight'))))) : undefined,
+    badge: badgeArt || badgeText ? { art: badgeArt, text: badgeText, at: g('badgeAt') as string | undefined } : undefined,
+    backdrop: g('backdrop') as Hero['backdrop'],
+  };
 };
 
 export const claudeDirector = (apiKey: string, brand?: BrandKit, imageRefs: Array<{ assetId?: string; src?: string }> = []): Director => ({
@@ -187,6 +253,7 @@ export const claudeDirector = (apiKey: string, brand?: BrandKit, imageRefs: Arra
       req.product && `PRODUCT INFO (use only what is also said): ${JSON.stringify(req.product)}`,
       req.userImages.length && `USER IMAGES: ${req.userImages.map((i) => `#${i.index}${i.note ? ` (${i.note})` : ''}`).join(', ')}`,
       req.avoid.length && `AVOID (recent videos): ${req.avoid.map((a) => `${a.mood}/${a.easing}/[${a.sequence.join(',')}]`).join(' ; ')}`,
+      `IMAGE GENERATION: ${req.imageGen ? 'available' : 'not available'}`,
       `SEED: ${req.seed}`,
       `SUGGESTED BEATS: ${beats.map((b) => `[${b.words[0]!.id}-${b.words[b.words.length - 1]!.id} ${b.type}]`).join(' ')}`,
       `WORDS (id:text@seconds): ${wordList(req.transcript)}`,

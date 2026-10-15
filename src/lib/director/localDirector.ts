@@ -233,8 +233,16 @@ const planOnce = (input: DirectorInput): Plan => {
     if (input.mode !== 'C' || speaker === 'split-top' || speaker === 'hidden') {
       const img = input.mode === 'B' && input.images?.length ? input.images[0] : undefined;
       const artCount = (a: string) => scenes.filter((x) => x.content.hero?.art === a || x.content.hero?.art2 === a).length;
-      chosen = heroContent({ words: b.words, type: b.type, index: i, seed: input.seed, mode: input.mode, product: input.product, image: img, overused: (a) => artCount(a) >= 2 });
+      const keyCount = (k: string) => scenes.filter((x) => x.primitive === 'hero-scene' && heroKey(x.content) === k).length;
+      chosen = heroContent({ words: b.words, type: b.type, index: i, seed: input.seed, mode: input.mode, product: input.product, image: img, overused: (a) => artCount(a) >= 2, overusedKey: (k) => keyCount(k) >= 2 });
       pid = 'hero-scene';
+      // ≤ 3 identical compositions per video: rotate the layout when this one is already used a lot
+      if (chosen.hero && !chosen.hero.illus && !chosen.hero.image && keyCount(heroKey(chosen)) >= 2) {
+        for (const lay of ['orbit', 'side', 'center'] as const) {
+          chosen.hero.layout = lay;
+          if (keyCount(heroKey(chosen)) < 2) break;
+        }
+      }
       if (prev?.primitive === 'hero-scene' && heroKey(prev.content) === heroKey(chosen) && chosen.hero) {
         // avoid two identical compositions in a row: switch layout / backdrop
         chosen.hero.layout = chosen.hero.layout === 'orbit' ? 'center' : 'orbit';

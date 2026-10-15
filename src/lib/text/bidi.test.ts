@@ -43,3 +43,12 @@ describe('word runs (regression: French phrase reversed in captions)', () => {
     expect(groupWordRuns(['ب', '3500', 'DA', 'مع'])[1]).toEqual({ dir: 'ltr', indices: [1, 2] });
   });
 });
+
+import { captionLayoutText, layoutText } from './layout';
+describe('caption layout keeps one token per spoken word', () => {
+  it('a word with an inner space ("10 000") is one token (regression: engine scene 12 crashed)', () => {
+    const words = ['بدّل', "l'huile", 'كل', '10 000', 'km،'];
+    const lay = layoutText(captionLayoutText(words), { maxWidth: 1000, maxSize: 60, minSize: 40, maxLines: 2, measure: (x, s) => x.length * s * 0.5 });
+    expect(lay.lines.flat().length).toBe(words.length);
+  });
+});

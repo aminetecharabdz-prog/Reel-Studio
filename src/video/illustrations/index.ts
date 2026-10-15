@@ -29,8 +29,6 @@ const rnd = (s: number) => {
   return x - Math.floor(x);
 };
 const n = (v: number) => Math.round(v * 10) / 10;
-/** entrance progress 0→1 over `len` seconds starting at `at` seconds */
-const enter = (x: IllusCtx, at: number, len = 0.5) => easeOut((x.f / x.fps - at) / len);
 
 const lg = (id: string, stops: Array<[number, string, number?]>, x1 = 0, y1 = 0, x2 = 0, y2 = 1) =>
   `<linearGradient id="${id}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}">${stops
@@ -69,7 +67,7 @@ const toothCross: IllusFn = (x) => {
   const hl = String(x.p.highlight ?? 'none');
   const t = f / fps;
   const g = `${uid}t`;
-  let defs =
+  const defs =
     lg(`${g}en`, [[0, '#FFFFFF'], [0.55, '#EEF4FA'], [1, '#D3DEEA']], 0, 0, 1, 1) +
     lg(`${g}de`, [[0, '#FBEFD2'], [1, '#E9CF9C']]) +
     lg(`${g}pu`, [[0, '#FF6B7D'], [1, '#C81E3C']]) +
@@ -458,11 +456,11 @@ const gaugeDial: IllusFn = (x) => {
   return `<defs>${defs}</defs>${s}`;
 };
 
-export const ILLUSTRATIONS: Record<string, { fn: IllusFn; note: string; params: string }> = {
+export const ILLUSTRATIONS: Record<string, { fn: IllusFn; note: string; params: string; framed?: boolean }> = {
   'tooth-cross': { fn: toothCross, note: 'tooth cross-section: enamel, dentin, pulp, roots, gum', params: 'highlight: none|pulp|crack|cavity|cold|clean' },
   'teeth-row': { fn: teethRow, note: 'front view of upper + lower teeth in the gums', params: 'plaque, floss, clean (booleans); bad: tooth index 0-7 circled red' },
   'engine-cylinder': { fn: engine, note: '4-stroke engine cross-section: piston, rod, crank, valves, spark plug', params: 'stroke: 1|2|3|4|cycle; speed (rev/s for cycle)' },
-  'car-dash': { fn: carDash, note: 'car interior: windshield + road, dashboard, AC vent with magnetic phone holder', params: 'phone: mounted|falling|rotate|snap|none; bumpy (boolean)' },
+  'car-dash': { fn: carDash, note: 'car interior: windshield + road, dashboard, AC vent with magnetic phone holder', params: 'phone: mounted|falling|rotate|snap|none; bumpy (boolean)', framed: true },
   'gauge-dial': { fn: gaugeDial, note: 'tachometer / speedometer dial with needle', params: 'value, max, unit' },
 };
 export type IllustrationId = keyof typeof ILLUSTRATIONS;

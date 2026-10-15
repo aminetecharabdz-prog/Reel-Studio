@@ -1,5 +1,31 @@
 # Progress — نبرة Nabra (AI motion-graphics reel studio)
 
+> **Active branch:** `claude/modest-wozniak-1umut3` (main merged in, incl. `docs/QUALITY_BAR.md`).
+> **Current focus (session 2026-10-15):** rebuilding the video engine against `docs/QUALITY_BAR.md`
+> (owner rejected the first demo). The earlier "final QA done" below predates the quality bar and is **re-opened**.
+> **Sandbox note:** this build sandbox cannot reach the npm registry, so typecheck/lint/tests/build/contact sheets run in
+> GitHub Actions (`.github/workflows/qa-sheets.yml`) and are published to the `qa-sheets` branch
+> (`git fetch origin qa-sheets` → PNG contact sheets + logs + hero-area metrics). Read those to continue.
+
+## Quality-bar rebuild (in progress)
+- [x] Hero compositions: new `hero-scene` primitive (src/video/primitives/compose.tsx): backdrop → big hero → props,
+      badge, red/green mark → 1–3 word label; camera push, idle loop, emphasis pulse. Hero box measured ≥ 35 % (QA page).
+- [x] Rich illustration sources: 143 glossy 3D objects (Microsoft Fluent UI Emoji 3D, MIT, public/art/3d) with a
+      Darija/Arabic/French concept lexicon (src/lib/design/art3d.ts); animated topic illustrations
+      (src/video/illustrations: tooth cross-section, teeth row + plaque/floss, 4-stroke engine, car POV + phone holder,
+      tachometer). Preview without a build: `node scripts/preview-illustrations.mjs out.html` + headless Chromium.
+- [x] Per-scene background treatments (spotlight, split, rays, room, grid, duotone, deep) — ≥ 3 per video (QA check).
+- [x] Demo directions authored by Claude as fixtures: public/demo/*.direction.json (source: scripts/demo-direction/build.py);
+      DEMO_REV forces cached demo projects in the owner's browser to regenerate.
+- [x] Local director: every A/B beat → hero-scene (src/lib/director/hero.ts); headline 1–3 words; no repeated composition.
+- [x] QA checks + auto-fix: `hero` (no empty scenes), `headline-echo`/`headline-long`, `bg-variety`; unit tests in
+      src/lib/__tests__/quality.test.ts; caption crash on words with inner spaces ("10 000") fixed + regression test.
+- [x] Claude director: hero/bg fields + quality-bar rules in the prompt; Gemini image adapter on the current model
+      (`gemini-nano-banana-2.1`, Interactions API, reference images) + per-video style sheet for consistency.
+- [ ] Iterate on contact sheets until every demo would satisfy a paying customer; then mode C + speaker-top layout.
+- [ ] Final QA on the live link + Arabic report at the top of this file.
+
+
 Read this first when resuming ("أكمل"). Source of truth: `SPEC.md`. Owner brief: `MASTER_PROMPT.md`.
 
 **Live URL:** https://aminetecharabdz-prog.github.io/Reel-Studio/  (served from the `gh-pages` branch,
