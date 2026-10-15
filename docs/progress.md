@@ -1,8 +1,34 @@
+# التقرير النهائي (بالعربية البسيطة)
+
+**الرابط:** https://aminetecharabdz-prog.github.io/Reel-Studio/ — افتحه في كروم على هاتفك.
+
+**واش تبدّل اليوم (بعد ملاحظتك على فيديو طبيب الأسنان):**
+- كل مشهد فيه الآن صورة كبيرة تشرح الكلام بالضبط (تقريبًا نصف الشاشة): سن مقطوع يبيّن العصب والتسوس، أسنان مع الجير والخيط، محرك يتحرك بأشواطه الأربعة، داخل سيارة والتيليفون يطيح أو يتركّب، عداد دورات، وأكثر من 140 رسمة ثلاثية الأبعاد (سن، فرشاة، حلوى، شاحنة توصيل...).
+- العنوان فوق الصورة كلمة أو ثلاث فقط، ما يعاودش الكابشن.
+- الخلفية تتبدّل بين المشاهد (ضوء، أشعة، غرفة، شبكة، نصفين...) وكل فيديو عنده ألوانه: أزرق طبي للطبيب، أسود وبرتقالي للمحرك، كريمي وبرتقالي لإعلان الحامل.
+- العربية مع الفرنسية في الترتيب الصحيح (مثال: «بدّل la brosse»، «بدّل l'huile»).
+- النظام يفحص كل فيديو تلقائيًا: يرفض المشهد الفارغ، العنوان الطويل، والخلفية المكررة، ويصلحهم وحده.
+
+**أين تجرّب:** الصفحة الرئيسية ← المشاريع التجريبية الثلاثة (طبيب الأسنان، محرك السيارة، إعلان حامل الهاتف) + مونتاج فيديو متكلم. افتح أي مشروع ← شغّل الفيديو ← «تصدير» لتحميل MP4.
+ملاحظة: الأصوات التجريبية آلية (روبوت)، بصوتك أنت تكون النتيجة أحسن بكثير.
+
+**كيف تضيف المفاتيح من الهاتف:** افتح الرابط ← زر «الإعدادات» فوق ← الصق المفاتيح (كل خانة فيها شرح خطوة بخطوة):
+1. مفتاح Claude (التصميم الذكي): من console.anthropic.com ← API Keys.
+2. مفتاح ElevenLabs (تفريغ صوتك): من elevenlabs.io ← Profile ← API Keys.
+3. **مفتاح Gemini للصور (مهم للجودة الكاملة):** من aistudio.google.com ← Get API key ← Create. مع هذا المفتاح كل مشهد مهم ياخذ صورة خاصة (شخصية ثابتة، منتجك في مواقف حقيقية).
+ثم اضغط «احفظ». المفاتيح تبقى في هاتفك فقط.
+
+**التكلفة التقريبية لفيديو 60 ثانية:** حوالي 0.35 إلى 0.45 دولار (تفريغ + تصميم Claude + صور Gemini). بدون مفتاح الصور: أقل من 0.15 دولار.
+
+**المرحلة القادمة المقترحة:** تسجيل الدخول للزبائن، الدفع (بطاقة جزائرية + دفع دولي)، باقات بالرصيد، ولوحة تحكم لك تشوف فيها الزبائن والتكاليف.
+
+---
+
 # Progress — نبرة Nabra (AI motion-graphics reel studio)
 
 > **Active branch:** `claude/modest-wozniak-1umut3` (main merged in, incl. `docs/QUALITY_BAR.md`).
-> **Current focus (session 2026-10-15):** rebuilding the video engine against `docs/QUALITY_BAR.md`
-> (owner rejected the first demo). The earlier "final QA done" below predates the quality bar and is **re-opened**.
+> **Status (2026-10-15, after the QUALITY_BAR rebuild):** final QA done and the final Arabic report delivered (above).
+> Next work only on the owner's request (phase 5 SaaS) — see "Next" below.
 > **Sandbox note:** this build sandbox cannot reach the npm registry, so typecheck/lint/tests/build/contact sheets run in
 > GitHub Actions (`.github/workflows/qa-sheets.yml`) and are published to the `qa-sheets` branch
 > (`git fetch origin qa-sheets` → PNG contact sheets + logs + hero-area metrics). Read those to continue.
@@ -22,8 +48,11 @@
       src/lib/__tests__/quality.test.ts; caption crash on words with inner spaces ("10 000") fixed + regression test.
 - [x] Claude director: hero/bg fields + quality-bar rules in the prompt; Gemini image adapter on the current model
       (`gemini-nano-banana-2.1`, Interactions API, reference images) + per-video style sheet for consistency.
-- [ ] Iterate on contact sheets until every demo would satisfy a paying customer; then mode C + speaker-top layout.
-- [ ] Final QA on the live link + Arabic report at the top of this file.
+- [x] Iterated on contact sheets (7 CI rounds): every demo scene has a topic-literal hero (measured 43–47 % of the frame),
+      labels land as one unit, ≥ 3 background treatments, end cards carry a hero; phone-holder 360° on the real product.
+- [x] Mode A speaker-top + graphic panel layout (face video uploaded in mode A); compact hero panels in split layouts.
+- [x] Final QA: CI green (typecheck, lint, 40 unit tests, build); live-smoke Playwright on the LIVE URL passes, incl. the new
+      "hero ≥ 35 % in every scene" test for the three demos; Arabic report delivered at the top of this file.
 
 
 Read this first when resuming ("أكمل"). Source of truth: `SPEC.md`. Owner brief: `MASTER_PROMPT.md`.
@@ -80,6 +109,15 @@ built by `.github/workflows/deploy.yml` on every push to any branch).
 - Visual: contact sheets reviewed for all 4 demos (hero frames + transition midpoints); fixed: tiny type, empty openings,
   reversed French phrases, transition ghosting, overlay contrast on footage, PiP collisions, text overflowing stage height.
 
+## Next (suggested)
+- Phase 5 (SaaS): auth, Supabase, server keys, payments, admin. Waits for the owner's go-ahead and payment-gateway choice.
+- More topic illustrations (beauty, food, real estate) and a recurring illustrated character set for voice-only videos.
+- Re-generate the demos with Gemini images once the owner adds an image key (UI already says so in the studio).
+
 ## Known issues
+- Without an image key the hero visuals are 3D objects + vector illustrations; lifestyle photos for product ads need Gemini.
+- Mode C talking-head: full-frame speaker scenes keep light overlays (the speaker is the hero); measured hero < 35 % there by design.
+- The Claude director's new hero schema could not be exercised live (no API key in the sandbox); it is covered by the
+  mapping unit test and the QA auto-fix converts any text-only scene into a hero composition.
 - Headless Chromium (CI/sandbox) has no H.264 encoder → export falls back to WebM there; Chrome on Android exports MP4.
 - Demo voices are robotic (espeak-ng) by necessity; the owner's own voice + ElevenLabs gives the real result.
