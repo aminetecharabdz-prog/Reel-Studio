@@ -1,0 +1,779 @@
+{
+ "id": "product",
+ "title": "ساعة كلاسيك — إعلان",
+ "blurb": "إعلان منتوج فاخر",
+ "mode": "product",
+ "music": "calm-pad",
+ "transcript": {
+  "words": [
+   {
+    "id": "w0",
+    "text": "راك",
+    "startMs": 375,
+    "endMs": 719,
+    "confidence": 1
+   },
+   {
+    "id": "w1",
+    "text": "تحوس",
+    "startMs": 758,
+    "endMs": 1145,
+    "confidence": 1
+   },
+   {
+    "id": "w2",
+    "text": "على",
+    "startMs": 1188,
+    "endMs": 1532,
+    "confidence": 1
+   },
+   {
+    "id": "w3",
+    "text": "هدية",
+    "startMs": 1571,
+    "endMs": 1958,
+    "confidence": 1
+   },
+   {
+    "id": "w4",
+    "text": "تبقى؟",
+    "startMs": 2001,
+    "endMs": 2388,
+    "confidence": 1
+   },
+   {
+    "id": "w5",
+    "text": "ساعة",
+    "startMs": 3000,
+    "endMs": 3387,
+    "confidence": 1
+   },
+   {
+    "id": "w6",
+    "text": "كلاسيك،",
+    "startMs": 3430,
+    "endMs": 3904,
+    "confidence": 1
+   },
+   {
+    "id": "w7",
+    "text": "معدن",
+    "startMs": 3957,
+    "endMs": 4344,
+    "confidence": 1
+   },
+   {
+    "id": "w8",
+    "text": "صافي",
+    "startMs": 4387,
+    "endMs": 4774,
+    "confidence": 1
+   },
+   {
+    "id": "w9",
+    "text": "تقاوم",
+    "startMs": 5250,
+    "endMs": 5680,
+    "confidence": 1
+   },
+   {
+    "id": "w10",
+    "text": "الماء",
+    "startMs": 5728,
+    "endMs": 6159,
+    "confidence": 1
+   },
+   {
+    "id": "w11",
+    "text": "وتليق",
+    "startMs": 6750,
+    "endMs": 7180,
+    "confidence": 1
+   },
+   {
+    "id": "w12",
+    "text": "مع",
+    "startMs": 7228,
+    "endMs": 7530,
+    "confidence": 1
+   },
+   {
+    "id": "w13",
+    "text": "كل",
+    "startMs": 7563,
+    "endMs": 7864,
+    "confidence": 1
+   },
+   {
+    "id": "w14",
+    "text": "لبسة",
+    "startMs": 7898,
+    "endMs": 8285,
+    "confidence": 1
+   },
+   {
+    "id": "w15",
+    "text": "بـ",
+    "startMs": 8625,
+    "endMs": 8926,
+    "confidence": 1
+   },
+   {
+    "id": "w16",
+    "text": "4900",
+    "startMs": 8960,
+    "endMs": 9347,
+    "confidence": 1
+   },
+   {
+    "id": "w17",
+    "text": "دج",
+    "startMs": 9390,
+    "endMs": 9692,
+    "confidence": 1
+   },
+   {
+    "id": "w18",
+    "text": "بدل",
+    "startMs": 9725,
+    "endMs": 10069,
+    "confidence": 1
+   },
+   {
+    "id": "w19",
+    "text": "6500",
+    "startMs": 10108,
+    "endMs": 10495,
+    "confidence": 1
+   },
+   {
+    "id": "w20",
+    "text": "توصيل",
+    "startMs": 10875,
+    "endMs": 11305,
+    "confidence": 1
+   },
+   {
+    "id": "w21",
+    "text": "58",
+    "startMs": 11353,
+    "endMs": 11655,
+    "confidence": 1
+   },
+   {
+    "id": "w22",
+    "text": "ولاية",
+    "startMs": 11688,
+    "endMs": 12118,
+    "confidence": 1
+   },
+   {
+    "id": "w23",
+    "text": "والدفع",
+    "startMs": 12166,
+    "endMs": 12640,
+    "confidence": 1
+   },
+   {
+    "id": "w24",
+    "text": "عند",
+    "startMs": 12692,
+    "endMs": 13037,
+    "confidence": 1
+   },
+   {
+    "id": "w25",
+    "text": "الاستلام",
+    "startMs": 13075,
+    "endMs": 13635,
+    "confidence": 1
+   },
+   {
+    "id": "w26",
+    "text": "اطلب",
+    "startMs": 14250,
+    "endMs": 14637,
+    "confidence": 1
+   },
+   {
+    "id": "w27",
+    "text": "دروك",
+    "startMs": 14680,
+    "endMs": 15068,
+    "confidence": 1
+   }
+  ],
+  "durationMs": 16611,
+  "language": "ar",
+  "source": "demo"
+ },
+ "plan": {
+  "v": 1,
+  "style": {
+   "name": "Noir & gold",
+   "palette": {
+    "ink": "#17130E",
+    "paper": "#F1EADF",
+    "accent": "#C9973F",
+    "accent2": "#E8D3A8",
+    "muted": "#8E8578",
+    "dark": "#0B0907"
+   },
+   "fonts": {
+    "display": {
+     "ar": "el-messiri",
+     "lat": "playfair",
+     "weight": 700,
+     "italic": false
+    },
+    "serif": {
+     "ar": "amiri",
+     "lat": "playfair",
+     "weight": 700,
+     "italic": true
+    },
+    "body": {
+     "ar": "readex",
+     "lat": "inter",
+     "weight": 500,
+     "italic": false
+    },
+    "impact": {
+     "ar": "alexandria",
+     "lat": "bebas",
+     "weight": 800,
+     "italic": false
+    }
+   },
+   "grain": 0.2,
+   "motion": "cinematic",
+   "music": "calm-pad",
+   "sfx": "soft",
+   "captions": "none"
+  },
+  "scenes": [
+   {
+    "id": "s0",
+    "from": "w0",
+    "to": "w4",
+    "intent": "hook: a gift drops into a warm spotlight, ghost word behind",
+    "bg": {
+     "kind": "spotlight",
+     "tone": "dark",
+     "vignette": true,
+     "leak": true,
+     "glow": "accent"
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.5
+    },
+    "transition": "cut",
+    "layers": [
+     {
+      "id": "ghost",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "هدية"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.5,
+      "w": 1.4,
+      "size": "mega",
+      "role": "serif",
+      "opacity": 0.08,
+      "rotate": -8,
+      "anim": "blur",
+      "hier": false,
+      "at": "w0"
+     },
+     {
+      "id": "gift",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/gift-box"
+      },
+      "x": 0.5,
+      "y": 0.62,
+      "w": 0.7,
+      "anim": "drop",
+      "idle": "float",
+      "at": "w3",
+      "depth": 0.7
+     },
+     {
+      "id": "t1",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "راك",
+         "at": "w0"
+        },
+        {
+         "t": "تحوس",
+         "at": "w1"
+        }
+       ],
+       [
+        {
+         "t": "على",
+         "at": "w2"
+        }
+       ],
+       [
+        {
+         "t": "هدية",
+         "at": "w3"
+        },
+        {
+         "t": "تبقى؟",
+         "at": "w4"
+        }
+       ]
+      ],
+      "x": 0.62,
+      "y": 0.27,
+      "w": 0.72,
+      "size": "xxl",
+      "align": "start",
+      "anim": "rise"
+     }
+    ]
+   },
+   {
+    "id": "s1",
+    "from": "w5",
+    "to": "w8",
+    "intent": "product reveal: the watch slides in, cropped by the right edge, gold arc",
+    "bg": {
+     "kind": "solid",
+     "tone": "light",
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.4
+    },
+    "transition": "fade",
+    "layers": [
+     {
+      "id": "arc",
+      "type": "shape",
+      "kind": "arc",
+      "x": 0.55,
+      "y": 0.5,
+      "w": 1.2,
+      "h": 1.1,
+      "color": "accent",
+      "stroke": 12,
+      "anim": "draw",
+      "at": "w5"
+     },
+     {
+      "id": "watch",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/wristwatch"
+      },
+      "x": 0.72,
+      "y": 0.58,
+      "w": 1.0,
+      "rotate": -14,
+      "anim": "slide-left",
+      "idle": "sway",
+      "at": "w5",
+      "depth": 0.8
+     },
+     {
+      "id": "t2",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "ساعة",
+         "at": "w5",
+         "em": "big"
+        }
+       ],
+       [
+        {
+         "t": "كلاسيك،",
+         "at": "w6"
+        },
+        {
+         "t": "معدن",
+         "at": "w7"
+        },
+        {
+         "t": "صافي",
+         "at": "w8"
+        }
+       ]
+      ],
+      "x": 0.36,
+      "y": 0.26,
+      "w": 0.6,
+      "size": "xxl",
+      "align": "start",
+      "anim": "mask"
+     }
+    ]
+   },
+   {
+    "id": "s2",
+    "from": "w9",
+    "to": "w10",
+    "intent": "benefit 1: water resistant, real ocean photo behind",
+    "bg": {
+     "kind": "photo",
+     "tone": "dark",
+     "image": {
+      "kind": "library",
+      "name": "bg/ocean"
+     },
+     "vignette": true
+    },
+    "camera": {
+     "move": "drift",
+     "amount": 0.5
+    },
+    "transition": "blur",
+    "layers": [
+     {
+      "id": "t3",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "تقاوم",
+         "at": "w9"
+        }
+       ],
+       [
+        {
+         "t": "الماء",
+         "at": "w10",
+         "em": "serif"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.3,
+      "w": 0.86,
+      "size": "xxl",
+      "anim": "blur",
+      "color": "white"
+     },
+     {
+      "id": "w2",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/wristwatch"
+      },
+      "x": 0.5,
+      "y": 0.64,
+      "w": 0.6,
+      "anim": "zoom",
+      "idle": "float",
+      "at": "w10",
+      "glow": "accent2"
+     }
+    ]
+   },
+   {
+    "id": "s3",
+    "from": "w11",
+    "to": "w14",
+    "intent": "benefit 2: lifestyle framed photo, city at night",
+    "bg": {
+     "kind": "photo",
+     "tone": "dark",
+     "image": {
+      "kind": "library",
+      "name": "bg/city-night"
+     },
+     "vignette": true,
+     "leak": true,
+     "glow": "accent"
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.4
+    },
+    "transition": "zoom",
+    "layers": [
+     {
+      "id": "frame",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "bg/shop"
+      },
+      "x": 0.5,
+      "y": 0.56,
+      "w": 0.66,
+      "h": 0.46,
+      "frame": "card",
+      "anim": "reveal",
+      "idle": "none",
+      "at": "w11",
+      "shadow": true,
+      "fit": "cover"
+     },
+     {
+      "id": "t4",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "وتليق",
+         "at": "w11"
+        },
+        {
+         "t": "مع",
+         "at": "w12"
+        }
+       ],
+       [
+        {
+         "t": "كل",
+         "at": "w13"
+        },
+        {
+         "t": "لبسة",
+         "at": "w14",
+         "em": "accent"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.22,
+      "w": 0.86,
+      "size": "xl",
+      "anim": "rise",
+      "color": "white"
+     }
+    ]
+   },
+   {
+    "id": "s4",
+    "from": "w15",
+    "to": "w19",
+    "intent": "offer: price slam on a gold field",
+    "bg": {
+     "kind": "solid",
+     "tone": "accent",
+     "vignette": true
+    },
+    "camera": {
+     "move": "punch",
+     "amount": 0.5
+    },
+    "transition": "flash",
+    "layers": [
+     {
+      "id": "sh1",
+      "type": "shape",
+      "kind": "shard",
+      "x": 0.88,
+      "y": 0.1,
+      "w": 0.44,
+      "h": 0.2,
+      "rotate": 90,
+      "color": "paper",
+      "fill": true,
+      "anim": "pop",
+      "at": "w15"
+     },
+     {
+      "id": "sh2",
+      "type": "shape",
+      "kind": "shard",
+      "x": 0.12,
+      "y": 0.9,
+      "w": 0.4,
+      "h": 0.18,
+      "rotate": -90,
+      "color": "paper",
+      "fill": true,
+      "anim": "pop",
+      "at": "w16"
+     },
+     {
+      "id": "price",
+      "type": "ui",
+      "kind": "price",
+      "title": "السعر",
+      "value": 4900,
+      "oldValue": 6500,
+      "x": 0.5,
+      "y": 0.44,
+      "w": 0.8,
+      "at": "w16",
+      "anim": "pop"
+     },
+     {
+      "id": "w3",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/wristwatch"
+      },
+      "x": 0.5,
+      "y": 0.72,
+      "w": 0.5,
+      "anim": "float",
+      "idle": "bob",
+      "at": "w17",
+      "rotate": 8
+     }
+    ]
+   },
+   {
+    "id": "s5",
+    "from": "w20",
+    "to": "w25",
+    "intent": "trust: delivery to 58 wilayas, cash on delivery",
+    "bg": {
+     "kind": "paper",
+     "tone": "light",
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.4
+    },
+    "transition": "whip",
+    "layers": [
+     {
+      "id": "n58",
+      "type": "counter",
+      "value": 58,
+      "x": 0.5,
+      "y": 0.3,
+      "w": 0.8,
+      "size": "mega",
+      "color": "accent",
+      "at": "w21"
+     },
+     {
+      "id": "t6",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "توصيل",
+         "at": "w20"
+        }
+       ],
+       [
+        {
+         "t": "ولاية",
+         "at": "w22"
+        }
+       ],
+       [
+        {
+         "t": "والدفع",
+         "at": "w23"
+        },
+        {
+         "t": "عند",
+         "at": "w24"
+        },
+        {
+         "t": "الاستلام",
+         "at": "w25",
+         "em": "serif"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.6,
+      "w": 0.86,
+      "size": "xl",
+      "anim": "rise",
+      "hier": false
+     }
+    ]
+   },
+   {
+    "id": "s6",
+    "from": "w26",
+    "to": "w27",
+    "intent": "CTA",
+    "bg": {
+     "kind": "spotlight",
+     "tone": "dark",
+     "vignette": true,
+     "leak": true,
+     "glow": "accent"
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.5
+    },
+    "transition": "fade",
+    "layers": [
+     {
+      "id": "w4",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/wristwatch"
+      },
+      "x": 0.5,
+      "y": 0.36,
+      "w": 0.62,
+      "anim": "zoom",
+      "idle": "float",
+      "at": "w26",
+      "glow": "accent"
+     },
+     {
+      "id": "t7",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "اطلب",
+         "at": "w26"
+        },
+        {
+         "t": "دروك",
+         "at": "w27",
+         "em": "accent"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.66,
+      "w": 0.8,
+      "size": "xxl",
+      "anim": "stamp"
+     },
+     {
+      "id": "cta",
+      "type": "ui",
+      "kind": "button",
+      "title": "اطلب الآن",
+      "x": 0.5,
+      "y": 0.79,
+      "w": 0.6,
+      "at": "w27"
+     }
+    ]
+   }
+  ],
+  "hooks": [],
+  "author": "fixture"
+ }
+}

@@ -78,3 +78,5 @@ def U(id, kind, **kw):
     d.update(kw); return d
 def sticker(name): return {'kind': 'sticker', 'name': name}
 def url(u): return {'kind': 'url', 'url': u}
+def obj(name): return {'kind': 'library', 'name': f'obj/{name}'}
+def bgp(name): return {'kind': 'library', 'name': f'bg/{name}'}

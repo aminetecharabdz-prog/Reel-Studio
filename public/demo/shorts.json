@@ -1,0 +1,986 @@
+{
+ "id": "shorts",
+ "title": "3 أخطاء تقتل الشورتس تاعك",
+ "blurb": "يوتيوب شورتس",
+ "mode": "content",
+ "music": "tech-pulse",
+ "transcript": {
+  "words": [
+   {
+    "id": "w0",
+    "text": "3",
+    "startMs": 246,
+    "endMs": 458,
+    "confidence": 1
+   },
+   {
+    "id": "w1",
+    "text": "أخطاء",
+    "startMs": 482,
+    "endMs": 835,
+    "confidence": 1
+   },
+   {
+    "id": "w2",
+    "text": "تقتل",
+    "startMs": 874,
+    "endMs": 1193,
+    "confidence": 1
+   },
+   {
+    "id": "w3",
+    "text": "الشورتس",
+    "startMs": 1228,
+    "endMs": 1652,
+    "confidence": 1
+   },
+   {
+    "id": "w4",
+    "text": "تاعك",
+    "startMs": 1699,
+    "endMs": 2018,
+    "confidence": 1
+   },
+   {
+    "id": "w5",
+    "text": "الخطأ",
+    "startMs": 2459,
+    "endMs": 2813,
+    "confidence": 1
+   },
+   {
+    "id": "w6",
+    "text": "الأول:",
+    "startMs": 2852,
+    "endMs": 3241,
+    "confidence": 1
+   },
+   {
+    "id": "w7",
+    "text": "بداية",
+    "startMs": 3284,
+    "endMs": 3638,
+    "confidence": 1
+   },
+   {
+    "id": "w8",
+    "text": "بطيئة",
+    "startMs": 3677,
+    "endMs": 4030,
+    "confidence": 1
+   },
+   {
+    "id": "w9",
+    "text": "عندك",
+    "startMs": 4426,
+    "endMs": 4744,
+    "confidence": 1
+   },
+   {
+    "id": "w10",
+    "text": "ثانيتين",
+    "startMs": 4780,
+    "endMs": 5204,
+    "confidence": 1
+   },
+   {
+    "id": "w11",
+    "text": "باش",
+    "startMs": 5251,
+    "endMs": 5534,
+    "confidence": 1
+   },
+   {
+    "id": "w12",
+    "text": "توقف",
+    "startMs": 5566,
+    "endMs": 5884,
+    "confidence": 1
+   },
+   {
+    "id": "w13",
+    "text": "السكرول",
+    "startMs": 5919,
+    "endMs": 6343,
+    "confidence": 1
+   },
+   {
+    "id": "w14",
+    "text": "الخطأ",
+    "startMs": 6885,
+    "endMs": 7239,
+    "confidence": 1
+   },
+   {
+    "id": "w15",
+    "text": "الثاني:",
+    "startMs": 7278,
+    "endMs": 7702,
+    "confidence": 1
+   },
+   {
+    "id": "w16",
+    "text": "كلام",
+    "startMs": 7750,
+    "endMs": 8068,
+    "confidence": 1
+   },
+   {
+    "id": "w17",
+    "text": "بلا",
+    "startMs": 8103,
+    "endMs": 8386,
+    "confidence": 1
+   },
+   {
+    "id": "w18",
+    "text": "صورة",
+    "startMs": 8417,
+    "endMs": 8736,
+    "confidence": 1
+   },
+   {
+    "id": "w19",
+    "text": "العين",
+    "startMs": 9098,
+    "endMs": 9452,
+    "confidence": 1
+   },
+   {
+    "id": "w20",
+    "text": "تشري",
+    "startMs": 9491,
+    "endMs": 9809,
+    "confidence": 1
+   },
+   {
+    "id": "w21",
+    "text": "قبل",
+    "startMs": 9845,
+    "endMs": 10128,
+    "confidence": 1
+   },
+   {
+    "id": "w22",
+    "text": "الودن",
+    "startMs": 10159,
+    "endMs": 10513,
+    "confidence": 1
+   },
+   {
+    "id": "w23",
+    "text": "الخطأ",
+    "startMs": 11066,
+    "endMs": 11419,
+    "confidence": 1
+   },
+   {
+    "id": "w24",
+    "text": "الثالث:",
+    "startMs": 11458,
+    "endMs": 11883,
+    "confidence": 1
+   },
+   {
+    "id": "w25",
+    "text": "ما",
+    "startMs": 11930,
+    "endMs": 12177,
+    "confidence": 1
+   },
+   {
+    "id": "w26",
+    "text": "كاش",
+    "startMs": 12205,
+    "endMs": 12488,
+    "confidence": 1
+   },
+   {
+    "id": "w27",
+    "text": "خطة",
+    "startMs": 12519,
+    "endMs": 12802,
+    "confidence": 1
+   },
+   {
+    "id": "w28",
+    "text": "كل",
+    "startMs": 13279,
+    "endMs": 13526,
+    "confidence": 1
+   },
+   {
+    "id": "w29",
+    "text": "فيديو",
+    "startMs": 13554,
+    "endMs": 13907,
+    "confidence": 1
+   },
+   {
+    "id": "w30",
+    "text": "لازم",
+    "startMs": 13947,
+    "endMs": 14265,
+    "confidence": 1
+   },
+   {
+    "id": "w31",
+    "text": "يخدم",
+    "startMs": 14300,
+    "endMs": 14618,
+    "confidence": 1
+   },
+   {
+    "id": "w32",
+    "text": "هدف",
+    "startMs": 14654,
+    "endMs": 14937,
+    "confidence": 1
+   },
+   {
+    "id": "w33",
+    "text": "واحد",
+    "startMs": 14968,
+    "endMs": 15286,
+    "confidence": 1
+   },
+   {
+    "id": "w34",
+    "text": "تابع",
+    "startMs": 15738,
+    "endMs": 16056,
+    "confidence": 1
+   },
+   {
+    "id": "w35",
+    "text": "باش",
+    "startMs": 16091,
+    "endMs": 16374,
+    "confidence": 1
+   },
+   {
+    "id": "w36",
+    "text": "ما",
+    "startMs": 16406,
+    "endMs": 16653,
+    "confidence": 1
+   },
+   {
+    "id": "w37",
+    "text": "تفوتكش",
+    "startMs": 16681,
+    "endMs": 17069,
+    "confidence": 1
+   },
+   {
+    "id": "w38",
+    "text": "الحيلة",
+    "startMs": 17113,
+    "endMs": 17502,
+    "confidence": 1
+   },
+   {
+    "id": "w39",
+    "text": "الجاية",
+    "startMs": 17545,
+    "endMs": 17934,
+    "confidence": 1
+   }
+  ],
+  "durationMs": 19477,
+  "language": "ar",
+  "source": "demo"
+ },
+ "plan": {
+  "v": 1,
+  "style": {
+   "name": "Ultraviolet editorial",
+   "palette": {
+    "ink": "#16101F",
+    "paper": "#F6F4F8",
+    "accent": "#7A1FD1",
+    "accent2": "#FFFFFF",
+    "muted": "#A69BB5",
+    "dark": "#0B0711"
+   },
+   "fonts": {
+    "display": {
+     "ar": "alexandria",
+     "lat": "playfair",
+     "weight": 800,
+     "italic": false
+    },
+    "serif": {
+     "ar": "amiri",
+     "lat": "playfair",
+     "weight": 700,
+     "italic": true
+    },
+    "body": {
+     "ar": "readex",
+     "lat": "inter",
+     "weight": 500,
+     "italic": false
+    },
+    "impact": {
+     "ar": "alexandria",
+     "lat": "playfair",
+     "weight": 900,
+     "italic": false
+    }
+   },
+   "grain": 0.16,
+   "motion": "snappy",
+   "music": "tech-pulse",
+   "sfx": "punchy",
+   "captions": "none"
+  },
+  "scenes": [
+   {
+    "id": "s0",
+    "from": "w0",
+    "to": "w4",
+    "intent": "hook on a purple field: giant 3, eyeball cropped by the edge",
+    "bg": {
+     "kind": "solid",
+     "tone": "accent",
+     "grid": true,
+     "vignette": true
+    },
+    "camera": {
+     "move": "punch",
+     "amount": 0.5
+    },
+    "transition": "cut",
+    "layers": [
+     {
+      "id": "sh1",
+      "type": "shape",
+      "kind": "shard",
+      "x": 0.9,
+      "y": 0.08,
+      "w": 0.5,
+      "h": 0.22,
+      "rotate": 90,
+      "color": "white",
+      "fill": true,
+      "anim": "pop",
+      "at": "w0"
+     },
+     {
+      "id": "n3",
+      "type": "counter",
+      "value": 3,
+      "x": 0.3,
+      "y": 0.3,
+      "w": 0.5,
+      "size": "mega",
+      "color": "white",
+      "at": "w0",
+      "role": "serif"
+     },
+     {
+      "id": "eye",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/eyeball"
+      },
+      "x": 0.88,
+      "y": 0.62,
+      "w": 0.75,
+      "anim": "slide-left",
+      "idle": "sway",
+      "at": "w2",
+      "depth": 0.8
+     },
+     {
+      "id": "t1",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "أخطاء",
+         "at": "w1",
+         "em": "serif"
+        }
+       ],
+       [
+        {
+         "t": "تقتل",
+         "at": "w2"
+        }
+       ],
+       [
+        {
+         "t": "الشورتس",
+         "at": "w3"
+        },
+        {
+         "t": "تاعك",
+         "at": "w4"
+        }
+       ]
+      ],
+      "x": 0.4,
+      "y": 0.6,
+      "w": 0.66,
+      "size": "xxl",
+      "align": "start",
+      "anim": "mask",
+      "color": "white"
+     }
+    ]
+   },
+   {
+    "id": "s1",
+    "from": "w5",
+    "to": "w8",
+    "intent": "mistake 1: slow start; hourglass, ghost word behind",
+    "bg": {
+     "kind": "paper",
+     "tone": "light",
+     "grid": true,
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.4
+    },
+    "transition": "whip",
+    "layers": [
+     {
+      "id": "ghost",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "بطيئة"
+        }
+       ]
+      ],
+      "x": 0.45,
+      "y": 0.68,
+      "w": 1.5,
+      "size": "mega",
+      "role": "serif",
+      "opacity": 0.1,
+      "anim": "blur",
+      "hier": false,
+      "at": "w7"
+     },
+     {
+      "id": "hg",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/hourglass"
+      },
+      "x": 0.5,
+      "y": 0.62,
+      "w": 0.56,
+      "anim": "drop",
+      "idle": "sway",
+      "at": "w7"
+     },
+     {
+      "id": "t2",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "الخطأ",
+         "at": "w5"
+        },
+        {
+         "t": "الأول:",
+         "at": "w6"
+        }
+       ],
+       [
+        {
+         "t": "بداية",
+         "at": "w7"
+        },
+        {
+         "t": "بطيئة",
+         "at": "w8",
+         "em": "serif"
+        }
+       ]
+      ],
+      "x": 0.6,
+      "y": 0.25,
+      "w": 0.74,
+      "size": "xxl",
+      "align": "start",
+      "anim": "rise"
+     }
+    ]
+   },
+   {
+    "id": "s2",
+    "from": "w9",
+    "to": "w13",
+    "intent": "two seconds: giant glowing 2 on black",
+    "bg": {
+     "kind": "spotlight",
+     "tone": "dark",
+     "vignette": true
+    },
+    "camera": {
+     "move": "punch",
+     "amount": 0.5
+    },
+    "transition": "cut",
+    "layers": [
+     {
+      "id": "two",
+      "type": "counter",
+      "value": 2,
+      "x": 0.5,
+      "y": 0.36,
+      "w": 0.6,
+      "size": "mega",
+      "color": "accent",
+      "at": "w10",
+      "suffix": "s"
+     },
+     {
+      "id": "t3",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "عندك",
+         "at": "w9"
+        },
+        {
+         "t": "ثانيتين",
+         "at": "w10",
+         "em": "accent"
+        }
+       ],
+       [
+        {
+         "t": "باش",
+         "at": "w11"
+        },
+        {
+         "t": "توقف",
+         "at": "w12"
+        }
+       ],
+       [
+        {
+         "t": "السكرول",
+         "at": "w13",
+         "em": "serif"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.66,
+      "w": 0.86,
+      "size": "xl",
+      "anim": "rise",
+      "hier": false
+     }
+    ]
+   },
+   {
+    "id": "s3",
+    "from": "w14",
+    "to": "w18",
+    "intent": "mistake 2: talking without visuals; vintage TV",
+    "bg": {
+     "kind": "solid",
+     "tone": "accent",
+     "grid": true,
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.4
+    },
+    "transition": "zoom",
+    "layers": [
+     {
+      "id": "tv",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/television"
+      },
+      "x": 0.5,
+      "y": 0.62,
+      "w": 0.72,
+      "anim": "pop",
+      "idle": "float",
+      "at": "w18",
+      "shadow": true
+     },
+     {
+      "id": "t4",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "الخطأ",
+         "at": "w14"
+        },
+        {
+         "t": "الثاني:",
+         "at": "w15"
+        }
+       ],
+       [
+        {
+         "t": "كلام",
+         "at": "w16"
+        },
+        {
+         "t": "بلا",
+         "at": "w17"
+        },
+        {
+         "t": "صورة",
+         "at": "w18",
+         "em": "serif"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.24,
+      "w": 0.86,
+      "size": "xxl",
+      "anim": "mask",
+      "color": "white"
+     }
+    ]
+   },
+   {
+    "id": "s4",
+    "from": "w19",
+    "to": "w22",
+    "intent": "the eye buys before the ear: eyeball bleeding from the left",
+    "bg": {
+     "kind": "paper",
+     "tone": "light",
+     "grid": true,
+     "vignette": true
+    },
+    "camera": {
+     "move": "drift",
+     "amount": 0.5
+    },
+    "transition": "cut",
+    "layers": [
+     {
+      "id": "eye2",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/eyeball"
+      },
+      "x": 0.12,
+      "y": 0.38,
+      "w": 0.8,
+      "anim": "slide-right",
+      "idle": "float",
+      "at": "w19",
+      "depth": 0.9
+     },
+     {
+      "id": "t5",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "العين",
+         "at": "w19",
+         "em": "accent"
+        },
+        {
+         "t": "تشري",
+         "at": "w20"
+        }
+       ],
+       [
+        {
+         "t": "قبل",
+         "at": "w21"
+        },
+        {
+         "t": "الودن",
+         "at": "w22"
+        }
+       ]
+      ],
+      "x": 0.64,
+      "y": 0.62,
+      "w": 0.66,
+      "size": "xxl",
+      "align": "end",
+      "anim": "rise"
+     }
+    ]
+   },
+   {
+    "id": "s5",
+    "from": "w23",
+    "to": "w27",
+    "intent": "mistake 3: no strategy; chess king rises",
+    "bg": {
+     "kind": "spotlight",
+     "tone": "dark",
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.5
+    },
+    "transition": "glitch",
+    "layers": [
+     {
+      "id": "ghost",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "خطة"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.55,
+      "w": 1.4,
+      "size": "mega",
+      "role": "serif",
+      "opacity": 0.1,
+      "anim": "blur",
+      "hier": false,
+      "at": "w23"
+     },
+     {
+      "id": "king",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/chess-king"
+      },
+      "x": 0.68,
+      "y": 0.64,
+      "w": 0.62,
+      "anim": "float",
+      "idle": "sway",
+      "at": "w27",
+      "glow": "accent"
+     },
+     {
+      "id": "t6",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "الخطأ",
+         "at": "w23"
+        },
+        {
+         "t": "الثالث:",
+         "at": "w24"
+        }
+       ],
+       [
+        {
+         "t": "ما",
+         "at": "w25"
+        },
+        {
+         "t": "كاش",
+         "at": "w26"
+        },
+        {
+         "t": "خطة",
+         "at": "w27",
+         "em": "serif"
+        }
+       ]
+      ],
+      "x": 0.4,
+      "y": 0.26,
+      "w": 0.7,
+      "size": "xxl",
+      "align": "start",
+      "anim": "rise"
+     }
+    ]
+   },
+   {
+    "id": "s6",
+    "from": "w28",
+    "to": "w33",
+    "intent": "one goal: dartboard cropped bottom-right",
+    "bg": {
+     "kind": "paper",
+     "tone": "light",
+     "grid": true,
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.4
+    },
+    "transition": "slide-up",
+    "layers": [
+     {
+      "id": "dart",
+      "type": "image",
+      "src": {
+       "kind": "library",
+       "name": "obj/dartboard"
+      },
+      "x": 0.82,
+      "y": 0.66,
+      "w": 0.8,
+      "anim": "spin",
+      "idle": "float",
+      "at": "w32"
+     },
+     {
+      "id": "t7",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "كل",
+         "at": "w28"
+        },
+        {
+         "t": "فيديو",
+         "at": "w29"
+        },
+        {
+         "t": "لازم",
+         "at": "w30"
+        }
+       ],
+       [
+        {
+         "t": "يخدم",
+         "at": "w31"
+        },
+        {
+         "t": "هدف",
+         "at": "w32"
+        }
+       ],
+       [
+        {
+         "t": "واحد",
+         "at": "w33"
+        }
+       ]
+      ],
+      "x": 0.44,
+      "y": 0.3,
+      "w": 0.76,
+      "size": "xl",
+      "align": "start",
+      "anim": "mask",
+      "hier": false
+     }
+    ]
+   },
+   {
+    "id": "s7",
+    "from": "w34",
+    "to": "w39",
+    "intent": "CTA on the purple field",
+    "bg": {
+     "kind": "solid",
+     "tone": "accent",
+     "grid": true,
+     "vignette": true
+    },
+    "camera": {
+     "move": "push",
+     "amount": 0.5
+    },
+    "transition": "flash",
+    "layers": [
+     {
+      "id": "sh3",
+      "type": "shape",
+      "kind": "shard",
+      "x": 0.1,
+      "y": 0.9,
+      "w": 0.5,
+      "h": 0.22,
+      "rotate": -90,
+      "color": "white",
+      "fill": true,
+      "anim": "pop",
+      "at": "w34"
+     },
+     {
+      "id": "t8",
+      "type": "text",
+      "lines": [
+       [
+        {
+         "t": "تابع",
+         "at": "w34",
+         "em": "big"
+        }
+       ],
+       [
+        {
+         "t": "باش",
+         "at": "w35"
+        },
+        {
+         "t": "ما",
+         "at": "w36"
+        },
+        {
+         "t": "تفوتكش",
+         "at": "w37"
+        }
+       ],
+       [
+        {
+         "t": "الحيلة",
+         "at": "w38"
+        },
+        {
+         "t": "الجاية",
+         "at": "w39"
+        }
+       ]
+      ],
+      "x": 0.5,
+      "y": 0.42,
+      "w": 0.86,
+      "size": "xxl",
+      "anim": "pop",
+      "color": "white"
+     },
+     {
+      "id": "cta",
+      "type": "ui",
+      "kind": "button",
+      "title": "اشترك",
+      "x": 0.5,
+      "y": 0.72,
+      "w": 0.5,
+      "color": "paper",
+      "at": "w39"
+     }
+    ]
+   }
+  ],
+  "hooks": [],
+  "author": "fixture"
+ }
+}

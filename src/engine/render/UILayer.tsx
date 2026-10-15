@@ -41,13 +41,13 @@ export const UILayerView = ({ l }: { l: CLayer & UIL }) => {
       el = (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 * u }}>
           {l.oldValue !== undefined && (
-            <div dir="rtl" style={{ position: 'relative', fontFamily: body.family, fontWeight: 700, fontSize: 70 * u, color: alpha(ink.length === 7 ? ink : '#FFFFFF', 0.6) }}>
+            <div dir="rtl" style={{ position: 'relative', fontFamily: body.family, fontWeight: 700, fontSize: 96 * u, color: alpha(ink.length === 7 ? ink : '#FFFFFF', 0.6) }}>
               <span dir="ltr" style={{ unicodeBidi: 'isolate' }}>{num(l.oldValue)}</span> {l.sub || 'دج'}
               <span style={{ position: 'absolute', left: '-6%', top: '52%', height: 8 * u, width: `${strike * 112}%`, backgroundColor: t.style.palette.accent2, borderRadius: 4, transform: 'rotate(-7deg)' }} />
             </div>
           )}
-          <div dir="rtl" style={{ backgroundColor: acc, color: onAcc, fontFamily: imp.family, fontWeight: imp.weight, fontSize: 150 * u, lineHeight: 1.05, padding: `${10 * u}px ${46 * u}px`, borderRadius: 30 * u, transform: `scale(${0.4 + 0.6 * slam}) rotate(${(1 - slam) * -10}deg)`, opacity: clamp01(slam * 2), boxShadow: shadow }}>
-            <span dir="ltr" style={{ unicodeBidi: 'isolate' }}>{num(l.value ?? 0)}</span> <span style={{ fontSize: 64 * u }}>{l.sub || 'دج'}</span>
+          <div dir="rtl" style={{ backgroundColor: acc, color: onAcc, fontFamily: imp.family, fontWeight: imp.weight, fontSize: 220 * u, lineHeight: 1.05, padding: `${14 * u}px ${60 * u}px`, borderRadius: 30 * u, transform: `scale(${0.4 + 0.6 * slam}) rotate(${(1 - slam) * -10}deg)`, opacity: clamp01(slam * 2), boxShadow: shadow }}>
+            <span dir="ltr" style={{ unicodeBidi: 'isolate' }}>{num(l.value ?? 0)}</span> <span style={{ fontSize: 90 * u }}>{l.sub || 'دج'}</span>
           </div>
         </div>
       );

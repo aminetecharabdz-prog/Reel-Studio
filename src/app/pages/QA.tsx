@@ -26,7 +26,7 @@ export const QA = ({ q }: { q: URLSearchParams }) => {
     const out: Array<{ f: number; label: string }> = [];
     for (const s of c.scenes) {
       for (let k = 0; k < per; k++) {
-        const f = s.startF + Math.round(((k + 1) / (per + 0.4)) * s.duration);
+        const f = s.startF + Math.round((per === 1 ? 0.9 : (k + 1) / (per + 0.4)) * s.duration);
         out.push({ f: Math.min(c.durationInFrames - 1, f), label: `${s.id} f${f}` });
       }
     }
