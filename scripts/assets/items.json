@@ -1,31 +1,20 @@
 {
  "objects": {
-  "light-bulb": "incandescent light bulb isolated", "brain": "human brain model isolated", "eyeball": "eyeball isolated",
-  "chess-king": "chess king piece isolated", "chess-pawn": "chess pawn isolated", "diamond": "diamond gemstone isolated",
-  "hourglass": "hourglass isolated", "alarm-clock": "alarm clock isolated", "smartphone": "smartphone isolated white background",
-  "laptop": "laptop isolated white background", "keyboard": "computer keyboard isolated", "megaphone": "megaphone isolated",
-  "money-stack": "stack of banknotes isolated", "coins": "pile of coins isolated", "gold-bars": "gold bars isolated",
-  "briefcase": "leather briefcase isolated", "trophy": "gold trophy cup isolated", "dartboard": "dartboard isolated",
-  "magnifier": "magnifying glass isolated", "key": "old key isolated", "padlock": "padlock isolated",
-  "gift-box": "gift box isolated", "shopping-bag": "paper shopping bag isolated", "cardboard-box": "cardboard box isolated",
-  "credit-card": "credit card isolated", "compass": "compass isolated", "crown": "crown isolated",
-  "dice": "dice isolated white", "puzzle": "jigsaw puzzle piece isolated", "paper-plane": "paper airplane isolated",
-  "camera": "camera isolated white background", "microphone": "studio microphone isolated", "headphones": "headphones isolated",
-  "coffee-cup": "coffee cup isolated", "calendar": "desk calendar isolated", "hammer": "hammer isolated",
-  "gear": "metal gear cog isolated", "battery": "battery isolated", "magnet": "horseshoe magnet isolated",
-  "sneaker": "sneaker shoe isolated", "wristwatch": "wristwatch isolated", "perfume": "perfume bottle isolated",
-  "sunglasses": "sunglasses isolated", "potted-plant": "potted plant isolated", "book": "old book isolated",
-  "fountain-pen": "fountain pen isolated", "globe": "desk globe isolated", "ladder": "wooden ladder isolated",
-  "anchor": "ship anchor isolated", "balloon": "red balloon isolated", "umbrella": "umbrella isolated",
-  "scale": "balance scale isolated", "traffic-cone": "traffic cone isolated", "rocket": "rocket model isolated",
-  "television": "vintage television isolated", "rubber-duck": "rubber duck isolated", "chain": "metal chain isolated",
-  "ice-cube": "ice cube isolated", "column": "greek column isolated", "statue": "marble bust statue isolated"
+  "light-bulb": "light bulb", "brain": "brain model", "chess-king": "chess king", "chess-pawn": "chess pieces", "rocket": "toy rocket",
+  "hourglass": "hourglass sand", "trophy": "trophy cup", "iphone": "iphone", "dollar-bills": "dollar bills", "bullhorn": "bullhorn",
+  "magnifying-glass": "magnifying glass", "vintage-key": "vintage key", "macbook": "macbook", "archery-target": "archery target",
+  "royal-crown": "royal crown", "jigsaw": "jigsaw piece", "alarm-clock": "alarm clock", "perfume": "perfume", "lipstick": "lipstick",
+  "honey-jar": "honey jar", "dates": "dates fruit", "coffee-beans": "coffee beans", "olive-oil": "olive oil bottle",
+  "handbag": "handbag", "armchair": "armchair", "table-lamp": "table lamp", "picture-frame": "picture frame", "canvas-painting": "framed painting",
+  "watering-can": "watering can", "paper-plane": "paper airplane", "red-heart": "red heart", "rose": "red rose", "cactus": "cactus",
+  "ice-cream": "ice cream cone", "burger": "hamburger", "pizza": "pizza", "car": "sports car", "motorbike": "motorcycle",
+  "drone": "drone quadcopter", "robot": "robot toy", "astronaut": "astronaut", "mannequin": "dress mannequin", "toothbrush": "toothbrush",
+  "skincare": "cream jar", "dumbbell": "dumbbell", "football": "football ball", "graduation-cap": "graduation cap"
  },
  "backgrounds": {
-  "studio-dark": "dark studio backdrop light", "city-night": "city skyline night", "crowd": "crowd of people street",
-  "desert": "desert dunes", "ocean": "ocean waves", "mountains": "mountain peaks dramatic", "office": "modern office interior",
-  "shop": "boutique shop interior", "warehouse": "warehouse shelves", "sunrise": "sunrise sky clouds", "forest": "forest fog",
-  "road": "empty road", "market": "souk market", "living-room": "living room interior", "kitchen": "kitchen interior",
-  "phone-hand": "hand holding smartphone"
+  "neon": "neon lights night", "bokeh": "bokeh lights", "marble": "marble texture", "concrete": "concrete wall texture",
+  "velvet": "velvet fabric", "smoke": "smoke dark", "sahara-stars": "desert night stars", "mosque": "mosque interior",
+  "algiers": "algiers city", "luxury-interior": "luxury hotel lobby", "gym": "gym interior", "cafe": "coffee shop interior",
+  "studio-light": "photo studio", "stadium": "stadium lights", "kids-room": "playroom", "beach": "beach sunset"
  }
 }
