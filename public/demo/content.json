@@ -864,11 +864,11 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/dart"
+       "name": "obj/chess-king"
       },
-      "x": 0.78,
-      "y": 0.7,
-      "w": 0.9,
+      "x": 0.74,
+      "y": 0.66,
+      "w": 0.62,
       "anim": "slide-left",
       "idle": "float",
       "at": "w25",

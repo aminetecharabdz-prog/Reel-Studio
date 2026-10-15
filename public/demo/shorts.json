@@ -474,7 +474,7 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/clock"
+       "name": "obj/hourglass"
       },
       "x": 0.5,
       "y": 0.62,
@@ -767,7 +767,7 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/bust"
+       "name": "obj/chess-pieces"
       },
       "x": 0.68,
       "y": 0.64,
@@ -838,12 +838,12 @@
       "type": "image",
       "src": {
        "kind": "library",
-       "name": "obj/dart"
+       "name": "obj/trophy"
       },
-      "x": 0.82,
+      "x": 0.76,
       "y": 0.66,
-      "w": 0.8,
-      "anim": "spin",
+      "w": 0.6,
+      "anim": "drop",
       "idle": "float",
       "at": "w32"
      },

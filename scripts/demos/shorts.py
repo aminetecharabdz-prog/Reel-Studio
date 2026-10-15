@@ -25,7 +25,7 @@ v.scene(a, FIELD,
 b = v.say('الخطأ الأول: بداية بطيئة', pause=420)
 v.scene(b, PAPER,
   [T('ghost', [[{'t': 'بطيئة'}]], x=0.45, y=0.68, w=1.5, size='mega', role='serif', opacity=0.1, anim='blur', hier=False, at=b[2]),
-   I('hg', obj('clock'), x=0.5, y=0.62, w=0.56, anim='drop', idle='sway', at=b[2]),
+   I('hg', obj('hourglass'), x=0.5, y=0.62, w=0.56, anim='drop', idle='sway', at=b[2]),
    T('t2', [words(v, b[:2]), words(v, b[2:], {'بطيئة': 'serif'})], x=0.6, y=0.25, w=0.74, size='xxl', align='start', anim='rise')],
   transition='whip', camera=('push', 0.4), intent='mistake 1: slow start; hourglass, ghost word behind')
 
@@ -50,13 +50,13 @@ v.scene(e, PAPER,
 f = v.say('الخطأ الثالث: ما كاش خطة', pause=420)
 v.scene(f, DARK,
   [T('ghost', [[{'t': 'خطة'}]], x=0.5, y=0.55, w=1.4, size='mega', role='serif', opacity=0.1, anim='blur', hier=False, at=f[0]),
-   I('king', obj('bust'), x=0.68, y=0.64, w=0.62, anim='float', idle='sway', at=v.find(f, 'خطة'), glow='accent'),
+   I('king', obj('chess-pieces'), x=0.68, y=0.64, w=0.62, anim='float', idle='sway', at=v.find(f, 'خطة'), glow='accent'),
    T('t6', [words(v, f[:2]), words(v, f[2:], {'خطة': 'serif'})], x=0.4, y=0.26, w=0.7, size='xxl', align='start', anim='rise')],
   transition='glitch', camera=('push', 0.5), intent='mistake 3: no strategy; chess king rises')
 
 g = v.say('كل فيديو لازم يخدم هدف واحد', pause=420)
 v.scene(g, PAPER,
-  [I('dart', obj('dart'), x=0.82, y=0.66, w=0.8, anim='spin', idle='float', at=v.find(g, 'هدف')),
+  [I('dart', obj('trophy'), x=0.76, y=0.66, w=0.6, anim='drop', idle='float', at=v.find(g, 'هدف')),
    T('t7', [words(v, g[:3]), words(v, g[3:5]), words(v, g[5:], {'هدف': 'highlight'})], x=0.44, y=0.3, w=0.76, size='xl', align='start', anim='mask', hier=False)],
   transition='slide-up', camera=('push', 0.4), intent='one goal: dartboard cropped bottom-right')
 

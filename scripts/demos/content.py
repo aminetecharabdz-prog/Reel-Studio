@@ -61,7 +61,7 @@ v.scene(g, {'kind': 'solid', 'tone': 'accent', 'vignette': True},
 h = v.say('يكافي الاستراتيجية', pause=520)
 v.scene(h, LIGHT,
   [T('t8', [words(v, h[:1]), words(v, h[1:], {'الاستراتيجية': 'accent'})], x=0.5, y=0.3, w=0.9, size='xxl', anim='pop', at=h[0]),
-   I('target', obj('dart'), x=0.78, y=0.7, w=0.9, anim='slide-left', idle='float', at=h[1], depth=0.8)],
+   I('target', obj('chess-king'), x=0.74, y=0.66, w=0.62, anim='slide-left', idle='float', at=h[1], depth=0.8)],
   transition='cut', camera=('push', 0.4), intent='strategy in red, bullseye bleeding off the right edge')
 
 i = v.say('كل فيديو لازم يوقف السكرول في 3 ثواني', pause=500)

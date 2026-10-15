@@ -484,5 +484,455 @@
 "author": "<a href=\"//commons.wikimedia.org/wiki/User:Mictlancihuatl\" title=\"User:Mictlancihuatl\">Mictlancihuatl</a>",
 "license": "cc by-sa 4.0",
 "source": "https://commons.wikimedia.org/wiki/File:Hand_holding_Smartphone.jpg"
+},
+{
+"name": "obj/light-bulb",
+"author": "<a href=\"https://de.wikipedia.org/wiki/Benutzer:KMJ\" class=\"extiw\" title=\"de:Benutzer:KMJ\">KMJ</a>",
+"license": "cc by-sa 3.0",
+"source": "https://commons.wikimedia.org/wiki/File:Gluehlampe_01_KMJ.jpg"
+},
+{
+"name": "obj/brain",
+"author": "Edeh Sophia",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:The_Human_Brain_Model_01.jpg"
+},
+{
+"name": "obj/brain-color",
+"author": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/104346167@N06\">John Campbell</a>",
+"license": "cc by 2.0",
+"source": "https://commons.wikimedia.org/wiki/File:Brain_model_12.jpg"
+},
+{
+"name": "obj/chess-king",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:MichaelMaggs\" title=\"User:MichaelMaggs\">MichaelMaggs</a>",
+"license": "cc by-sa 2.5",
+"source": "https://commons.wikimedia.org/wiki/File:Chess_piece_-_White_king.jpg"
+},
+{
+"name": "obj/chess-king-black",
+"author": "<a rel=\"mw:WikiLink\" href=\"https://commons.wikimedia.org/wiki/User:Che\" title=\"User:Che\">che</a> (production: <a rel=\"mw:WikiLink\" href=\"https://commons.wikimedia.org/wiki/User:Nolanus\" title=\"User:No",
+"license": "cc by-sa 2.5",
+"source": "https://commons.wikimedia.org/wiki/File:Chess_king_0998.jpg"
+},
+{
+"name": "obj/chess-pieces",
+"author": "<bdi><a href=\"https://www.wikidata.org/wiki/Q34788025\" class=\"extiw\" title=\"d:Q34788025\"><span title=\"German photographer and mathematician\">Dietmar Rabich</span></a></bdi>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Schachfiguren_--_2022_--_0292_(bw).jpg"
+},
+{
+"name": "obj/rocket-toy",
+"author": "Alf van Beem",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:Litho_tin_toy_MONORAIL_ROCKET-SHIP_-_LINEMAR,_Rocket_Express_pic2.JPG"
+},
+{
+"name": "obj/hourglass",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:S_Sepp\" title=\"User:S Sepp\">User:S Sepp</a>",
+"license": "cc by-sa 3.0",
+"source": "https://commons.wikimedia.org/wiki/File:Wooden_hourglass_3.jpg"
+},
+{
+"name": "obj/hourglass-glass",
+"author": "John Morgan",
+"license": "cc by 2.0",
+"source": "https://commons.wikimedia.org/wiki/File:Hourglass_with_sand.jpg"
+},
+{
+"name": "obj/trophy",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Jefferestiw\" title=\"User:Jefferestiw\">Jefferestiw</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Asian_cup_trophy_2019-.png"
+},
+{
+"name": "obj/trophy-silver",
+"author": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:RoyalxOptimum&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:RoyalxOptimum (page does not exist)\">RoyalxOptimum</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Blue_Darter_Trophy.jpg"
+},
+{
+"name": "obj/iphone",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Padgriffin\" title=\"User:Padgriffin\">Padgriffin</a>",
+"license": "cc by 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:IPhone_16_Ultramarine_Rear.png"
+},
+{
+"name": "obj/iphone-old",
+"author": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/38455623@N05\">Carl Berkeley</a> from Riverside California",
+"license": "cc by-sa 2.0",
+"source": "https://commons.wikimedia.org/wiki/File:IPhone_First_Generation.jpg"
+},
+{
+"name": "obj/bullhorn",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Solomon203\" title=\"User:Solomon203\">Solomon203</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Seikaku_ER-56_20190217.jpg"
+},
+{
+"name": "obj/magnifying-glass",
+"author": "<a rel=\"mw:WikiLink\" href=\"https://commons.wikimedia.org/wiki/User:Tomomarusan\" title=\"User:Tomomarusan\">Tomomarusan</a>",
+"license": "cc by 2.5",
+"source": "https://commons.wikimedia.org/wiki/File:Magnifying_glass.jpg"
+},
+{
+"name": "obj/vintage-key",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Billjones94\" title=\"User:Billjones94\">Billjones94</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:A_key_of_vintage_wooden_wall_clock_of_Smiths_(from_circa_1930s).jpg"
+},
+{
+"name": "obj/macbook",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Rm1911\" title=\"User:Rm1911\">Rüdiger Müller</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Apple_Macbook12,_2015Unboxing_3.jpg"
+},
+{
+"name": "obj/royal-crown",
+"author": "<a rel=\"mw:WikiLink\" href=\"https://commons.wikimedia.org/wiki/User:TheRichic\" title=\"User:TheRichic\">TheRichic</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Spanish_Royal_Crown_1crop.jpg"
+},
+{
+"name": "obj/jigsaw",
+"author": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/189475687@N05\">Leanne Walker</a>",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:Leanne_Walker-_Jigsaw_Piece_-_FREE_(50219383702).png"
+},
+{
+"name": "obj/alarm-clock",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Zunter\" title=\"User:Zunter\">Santeri Viinamäki</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Classic_alarm_clock_20180513.jpg"
+},
+{
+"name": "obj/alarm-red",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Jacek_Halicki\" title=\"User:Jacek Halicki\">Jacek Halicki</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:2023_Budzik_Perfect.jpg"
+},
+{
+"name": "obj/perfume",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Takkk\" title=\"User:Takkk\">Takkk</a>",
+"license": "cc by-sa 3.0",
+"source": "https://commons.wikimedia.org/wiki/File:Perfume_set_from_Sovjetunio_cca_1965.jpg"
+},
+{
+"name": "obj/perfume-round",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:DDupard\" title=\"User:DDupard\">DDupard</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:A_Suma-perfume_by_Coty.1.jpg"
+},
+{
+"name": "obj/lipstick",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Calliopejen1\" title=\"User:Calliopejen1\">Jen</a>",
+"license": "cc by-sa 3.0",
+"source": "https://commons.wikimedia.org/wiki/File:MAC_pink_lipstick_(1).jpg"
+},
+{
+"name": "obj/honey-jar",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Hayden_Soloviev\" title=\"User:Hayden Soloviev\">Hayden Soloviev</a>",
+"license": "cc by 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Three_French_monofloral_honey_jars.jpg"
+},
+{
+"name": "obj/dates",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Lebron_jay\" title=\"User:Lebron jay\">Lebron jay</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Bowl_of_Dates.jpg"
+},
+{
+"name": "obj/coffee-beans",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Alorin\" title=\"User:Alorin\">Alorin</a>",
+"license": "cc by 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Roasted_coffee_beans_in_white_bowl.png"
+},
+{
+"name": "obj/coffee-bean",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Heiti_Paves\" title=\"User:Heiti Paves\">Heiti Paves</a>",
+"license": "cc by 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:From_coffee_bean_to_instant_coffee_01.jpg"
+},
+{
+"name": "obj/olive-oil",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Lemone\" title=\"User:Lemone\">Lemone</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Olive_oil_from_Oneglia.jpg"
+},
+{
+"name": "obj/olive-oil-bottle",
+"author": "<a rel=\"nofollow\" class=\"external text\" href=\"https://pixabay.com/users/margenauer-271373/\">margenauer from Pixabay</a>",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:Bottle_of_olive_oil.jpg"
+},
+{
+"name": "obj/throne",
+"author": "<div class=\"fn value\">\n<a rel=\"mw:WikiLink\" href=\"https://commons.wikimedia.org/wiki/Creator:Gustave_Herter?action=edit&amp;redlink=1\" title=\"Creator:Gustave Herter (page does not exist)\" class=\"new\" ",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:Armchair_MET_DT8323.jpg"
+},
+{
+"name": "obj/table-lamp",
+"author": "<b><a href=\"//commons.wikimedia.org/wiki/User:LoMit\" title=\"User:LoMit\">LoMit</a></b>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Lamp_with_a_lampshade_illuminated_by_sunlight.jpg"
+},
+{
+"name": "obj/ornate-frame",
+"author": "<bdi><a href=\"https://www.wikidata.org/wiki/Q126951825\" class=\"extiw\" title=\"d:Q126951825\"><span title=\"French painter\">Valentine Manchon Duchesne</span></a></bdi>",
+"license": "public domain",
+"source": "https://commons.wikimedia.org/wiki/File:Oval_portrait_miniature_of_girl_oil_painting_by_Valentine_Manchon_Duchesne_-_with_scale.jpg"
+},
+{
+"name": "obj/modern-art",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Basile_Morin\" title=\"User:Basile Morin\">Basile Morin</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Oeuvre_pour_salon_by_Basile_Morin,_2003_-_framed_abstract_acrylic_painting_with_blue_rectangles_on_a_wall.jpg"
+},
+{
+"name": "obj/watering-can",
+"author": "<bdi><a rel=\"mw:WikiLink/Interwiki\" href=\"https://www.wikidata.org/wiki/Q28147777\" title=\"d:Q28147777\" class=\"extiw\"><span title=\"Spanish photographer\">Diego Delso</span></a></bdi>",
+"license": "cc by-sa 3.0",
+"source": "https://commons.wikimedia.org/wiki/File:Regadera,_jard%C3%ADn_del_molino,_Sierra_de_San_Felipe,_Set%C3%BAbal,_Portugal,_2012-05-11,_DD_01.JPG"
+},
+{
+"name": "obj/paper-plane",
+"author": "<a href=\"https://en.wikipedia.org/wiki/de:User:RegiegeigeR\" class=\"extiw\" title=\"w:de:User:RegiegeigeR\">RegiegeigeR</a> at <a href=\"https://en.wikipedia.org/wiki/de:\" class=\"extiw\" title=\"w:de:\">Germa",
+"license": "public domain",
+"source": "https://commons.wikimedia.org/wiki/File:Glybbs_Paper_Plane.jpg"
+},
+{
+"name": "obj/paper-plane-white",
+"author": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Arthurfan828&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Arthurfan828 (page does not exist)\">Arthurfan828</a>",
+"license": "cc by 3.0",
+"source": "https://commons.wikimedia.org/wiki/File:White_paper_airplane.jpg"
+},
+{
+"name": "obj/heart-anatomy",
+"author": "RawPixel",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:Red_heart_illustration.png"
+},
+{
+"name": "obj/rose",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Laitche\" title=\"User:Laitche\">Laitche</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Red_rose_with_black_background.jpg"
+},
+{
+"name": "obj/rose-pink",
+"author": "<a rel=\"mw:WikiLink\" href=\"https://commons.wikimedia.org/wiki/User:Petro_Stelte\" title=\"User:Petro Stelte\">Petro Stelte</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Red-Rose-Sitia-Crete-2.jpg"
+},
+{
+"name": "obj/cactus",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Tagooty\" title=\"User:Tagooty\">Timothy A. Gonsalves</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Top_Chin_Cactus_Ooty_Jun25_A7CR_05768-856_zsp.jpg"
+},
+{
+"name": "obj/ice-cream",
+"author": "<a rel=\"mw:WikiLink\" href=\"https://commons.wikimedia.org/wiki/User:Thegreatmutata?action=edit&amp;redlink=1\" title=\"User:Thegreatmutata (page does not exist)\" class=\"new\" typeof=\"mw:LocalizedAttrs\" da",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:Ice_cream_cone_with_spoon.jpg"
+},
+{
+"name": "obj/burger",
+"author": "Mosa Meat",
+"license": "cc by 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Cultivated_hamburger,_2013.jpg"
+},
+{
+"name": "obj/pizza",
+"author": "<a rel=\"mw:WikiLink/Interwiki\" href=\"https://en.wikipedia.org/wiki/User:ElfQrin\" title=\"wikipedia:User:ElfQrin\" class=\"extiw\">Valerio Capello</a> at <a rel=\"mw:WikiLink/Interwiki\" href=\"https://en.wik",
+"license": "cc by-sa 3.0",
+"source": "https://commons.wikimedia.org/wiki/File:Eq_it-na_pizza-margherita_sep2005_sml.jpg"
+},
+{
+"name": "obj/sports-car",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:MB-one\" title=\"User:MB-one\">Matti Blume</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Porsche_911_No_1000000,_70_Years_Porsche_Sports_Car,_Berlin_(1X7A3888).jpg"
+},
+{
+"name": "obj/rally-car",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Granada\" title=\"User:Granada\">Granada</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:20170624_Schneeberglandrallye_DSC_7444.jpg"
+},
+{
+"name": "obj/classic-car",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:MB-one\" title=\"User:MB-one\">Matti Blume</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Porsche_356_No._1_Roadster,_70_Years_Porsche_Sports_Car,_Berlin_(1X7A3875).jpg"
+},
+{
+"name": "obj/drone",
+"author": "Josh Sorenson",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:Quadcopter_camera_drone_in_flight.jpg"
+},
+{
+"name": "obj/robot",
+"author": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/36692623@N06\">GeorgeRexTA [at</a>  gmail [dot] com]",
+"license": "cc by-sa 2.0",
+"source": "https://commons.wikimedia.org/wiki/File:Toy_Robot,_large.jpg"
+},
+{
+"name": "obj/astronaut",
+"author": "NASA",
+"license": "public domain",
+"source": "https://commons.wikimedia.org/wiki/File:Bruce_McCandless_II_during_EVA_in_1984.jpg"
+},
+{
+"name": "obj/mannequin",
+"author": "Phillip Pessar",
+"license": "cc by 2.0",
+"source": "https://commons.wikimedia.org/wiki/File:Mannequin_Miami_Design_District_-_Little_Black_Dress.jpg"
+},
+{
+"name": "obj/toothpaste",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Thegreenj~commonswiki\" title=\"User:Thegreenj~commonswiki\">Thegreenj</a>",
+"license": "cc by-sa 3.0",
+"source": "https://commons.wikimedia.org/wiki/File:Toothpasteonbrush.jpg"
+},
+{
+"name": "obj/cream-jars",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Pittigrilli\" title=\"User:Pittigrilli\">Pittigrilli</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Eight_jars_of_body_cream_from_company_Rituals_on_sale_shelf_in_German_shop_(2023)_(cropped).jpg"
+},
+{
+"name": "obj/dumbbells",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Ser_Amantio_di_Nicolao\" title=\"User:Ser Amantio di Nicolao\">Ser Amantio di Nicolao</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Colorful_dumbbells_of_various_sizes.jpg"
+},
+{
+"name": "bg/neon-city",
+"author": "<bdi>Martin Falbisoner</bdi>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Dotonbori,_Osaka,_at_night,_November_2016.jpg"
+},
+{
+"name": "bg/bokeh",
+"author": "DP Singh Bhullar",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Raindrops_on_a_window_with_vibrant_bokeh_lights_creating_an_artistic,_abstract_effect.jpg"
+},
+{
+"name": "bg/marble",
+"author": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:JustMeSupport&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:JustMeSupport (page does not exist)\">JustMeSupport</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Marble_Stone_Texture.jpg"
+},
+{
+"name": "bg/concrete",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Sisters.seamless\" title=\"User:Sisters.seamless\">Sisters.seamless</a>",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:Cream_speckled_spotted_clean_seamless_concrete_building_wall_texture.jpg"
+},
+{
+"name": "bg/green-velvet",
+"author": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Shiva_Theerthagiri&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Shiva Theerthagiri (page does not exist)\">Shiva Theerthagiri</a>",
+"license": "cc by 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Green_velvet_fabric.jpg"
+},
+{
+"name": "bg/blue-velvet",
+"author": "<a rel=\"mw:WikiLink\" href=\"https://commons.wikimedia.org/wiki/User:Isokivi?action=edit&amp;redlink=1\" title=\"User:Isokivi (page does not exist)\" class=\"new\" typeof=\"mw:LocalizedAttrs\" data-mw-i18n='{\"",
+"license": "cc by-sa 3.0",
+"source": "https://commons.wikimedia.org/wiki/File:Blue_velvet.jpg"
+},
+{
+"name": "bg/clouds-dark",
+"author": "<a rel=\"mw:WikiLink\" href=\"https://commons.wikimedia.org/wiki/User:W.carter\" title=\"User:W.carter\">W.carter</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Dark_clouds_and_smoke_over_%C3%96sterby,_Gotland.jpg"
+},
+{
+"name": "bg/desert-dusk",
+"author": "<a rel=\"nofollow\" class=\"external text\" href=\"http://timthing.me/\">Tim de Groot</a>",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:Stars@desertSunset(byTdeGroot).JPG"
+},
+{
+"name": "bg/mosque",
+"author": "<a rel=\"mw:WikiLink\" href=\"https://commons.wikimedia.org/wiki/User:Mustafa-trit20?action=edit&amp;redlink=1\" title=\"User:Mustafa-trit20 (page does not exist)\" class=\"new\" typeof=\"mw:LocalizedAttrs\" da",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Sinan_Pasha_Mosque,_interior.jpg"
+},
+{
+"name": "bg/mosque-ornate",
+"author": "<bdi><a href=\"https://www.wikidata.org/wiki/Q96050296\" class=\"extiw\" title=\"d:Q96050296\"><span title=\"Iranian architectural photographer\">Amir Pashaei</span></a></bdi>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Shah_Mosque_(Imam_mosque)_in_Fatima_Masumeh_Shrine,_Qom,_Iran.jpg"
+},
+{
+"name": "bg/algiers",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Muhammed_amine_benloulou\" class=\"mw-redirect\" title=\"User:Muhammed amine benloulou\">Muhammed amine benloulou</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:At_night_in_Algiers,_Algeria.jpg"
+},
+{
+"name": "bg/algiers-poste",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Muhammed_amine_benloulou\" class=\"mw-redirect\" title=\"User:Muhammed amine benloulou\">Muhammed amine benloulou</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Algiers_Grand_Post.jpg"
+},
+{
+"name": "bg/luxury-lounge",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Basile_Morin\" title=\"User:Basile Morin\">Basile Morin</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Reception_lounge_at_Amantaka_luxury_Resort_%26_Hotel_at_blue_hour_in_Luang_Prabang_Laos.jpg"
+},
+{
+"name": "bg/hotel-lobby",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Basile_Morin\" title=\"User:Basile Morin\">Basile Morin</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Entrance_lobby_of_Amantaka_luxury_Resort_%26_Hotel_at_blue_hour_in_Luang_Prabang_Laos.jpg"
+},
+{
+"name": "bg/gym",
+"author": "GymNation",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:GymNation_gym_interior_2024.jpg"
+},
+{
+"name": "bg/cafe",
+"author": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.geograph.org.uk/profile/118660\">Michael Garlick</a> <span class=\"mw-valign-text-top noprint\" typeof=\"mw:File/Frameless\"><a href=\"//commons.wik",
+"license": "cc by-sa 2.0",
+"source": "https://commons.wikimedia.org/wiki/File:Newark-on-Trent,_Interior_of_%27Cherizena_Coffee_Shop%27,_23-24_Stodman_Street_-_geograph.org.uk_-_7846323.jpg"
+},
+{
+"name": "bg/stadium",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Hzh\" title=\"User:Hzh\">Hzh</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Grow_lights_suspended_over_the_pitch_at_Tottenham_Hotspur_Stadium_2020.jpg"
+},
+{
+"name": "bg/playroom",
+"author": "HelMet-kirjasto",
+"license": "cc by 2.0",
+"source": "https://commons.wikimedia.org/wiki/File:Leikkihuone-lekrum.jpg"
+},
+{
+"name": "bg/beach-sunset",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Villy_Fink_Isaksen\" title=\"User:Villy Fink Isaksen\">Villy Fink Isaksen</a>",
+"license": "cc by-sa 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Kitesurfer_at_sunset,_Workum,_may_2017.jpg"
+},
+{
+"name": "bg/sea-dusk",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Christian_Ferrer\" title=\"User:Christian Ferrer\">Christian Ferrer</a>",
+"license": "cc by 4.0",
+"source": "https://commons.wikimedia.org/wiki/File:Sunset_on_the_Aresquiers_beach.jpg"
+},
+{
+"name": "bg/red-wall",
+"author": "<a href=\"//commons.wikimedia.org/wiki/User:Sisters.seamless\" title=\"User:Sisters.seamless\">Sisters.seamless</a>",
+"license": "cc0",
+"source": "https://commons.wikimedia.org/wiki/File:Dark_red_garnet_painted_speckled_concrete_seamless_building_wall_texture.jpg"
 }
 ]

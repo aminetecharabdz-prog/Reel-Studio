@@ -21,10 +21,13 @@ Architecture (all new):
 - Deploy: commits with [no-deploy] skip the Pages deploy (keeps the live link stable while building).
 
 Status:
-- [x] engine, AI layer, data layer, UI pages written; typecheck/lint/unit tests green locally
-- [ ] photo library (waiting for fetch-assets run) → director prompt lists library ids when no Gemini key
-- [ ] demos: content (re-author with photos, bold), product ad, YouTube short
-- [ ] contact-sheet QA vs references, Playwright local, deploy, live smoke, final Arabic report
+- [x] engine, AI layer, data layer, UI pages; typecheck/lint/11 unit tests (incl. automated video QA + word sync) green
+- [x] photo library: 156 openly licensed photos (100+ cut-out objects, 47 backgrounds), credits page; director uses it without a Gemini key
+- [x] demos: content (ink & red), product ad (noir & gold, watch), YouTube short (ultraviolet) — contact sheets reviewed
+- [x] exporter-safe rendering (no CSS blur: SVG radial lights), export e2e passes locally (WebM 720p, ~1.2 min)
+- [x] Playwright local 6/6; live-smoke on the Pages URL green
+- Known: real customer videos reach full quality with Claude + Gemini keys; demos use the bundled library.
+- Next ideas: accounts + points/payments (Chargily/Stripe), server proxy so customers don't need keys, talking-head demo.
 
 ---
 
