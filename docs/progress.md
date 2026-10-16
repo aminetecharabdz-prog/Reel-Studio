@@ -28,11 +28,15 @@
 - [x] Live previews rendered by the engine on style tiles and style pages.
 - [x] **`infographic` style engine**: one continuous morph shot (100-unit particle bridge, bar→ring bend), 12 beat kinds,
       rolling counters, number-aware local planner (%, shares, amounts, years, sources), Claude director, SFX, 2 demos.
+- [x] **`doodle` style engine**: code-drawn ink library (variable-width ribbons from SVG paths, memoised), cut-out
+      character rig (walk phase from distance, talk, gesture, blink, robes/casual, hijab, kufi, turban, kids, elders),
+      Maghreb props, one-take world with zones + camera keys in pauses, overlays (bubble, thought, ؟, tag, cards, quote),
+      caption with squiggled accent word, local planner (cast/zones/beats from sentences), 2 demos.
 - [x] Fix: public audio resolved against the page base (the site lives under /Reel-Studio/; `staticFile` pointed to `/`).
 
 ### Next
 - Deploy + live gate for the studio flow (CI live tests include the full ad → export flow).
-- Styles in order: `doodle`, `whiteboard`, `plotter`, `stickman`, `chalkboard`, `isometric`, `fake3d`, `map-journey`.
+- Styles in order: `whiteboard`, `plotter`, `stickman`, `chalkboard`, `isometric`, `fake3d`, `map-journey`.
 - Speech-to-text alignment provider (OpenAI Whisper / ElevenLabs Scribe, BYOK) for word-exact timing on uploaded voice/video;
   AI voice (ElevenLabs) for «صوت ذكي»; silence/filler cuts for talking-head; background removal for product photos.
 
@@ -43,6 +47,8 @@
 | product | `docs/gate/product/ad_sheet.jpg` (9:16), `app169_gate.jpg` (16:9 side by side with `docs/styles/product/ref-sheet.jpg`) | `water_sheet.jpg` (water benefits, Darija) | `talk_sheet.jpg` | Nova watch ad (photo in the 3D window, price chip, delivery/COD chips) | planner unit tests (schema, anchors, ordering, no 3D back-to-back); preview vs export `export_fidelity.jpg`; site tests 15/15 locally | **PASS — same creator** (black + glow dome, blur-in kinetic type with one gradient word, neon prompt bar typed word by word, glowing 3D product window, light flips with pill rings, orbit finale) |
 
 | infographic | `docs/gate/infographic/ad.jpg` (Nova in numbers), `water.jpg` (sourced: USGS, Guyton & Hall); `ad169.jpg` side by side with `docs/styles/infographic/ref-sheet.jpg` | `phone.jpg` (screen time, planner: headline → symbol → grid → bar → timeline → symbol → source) | `talk.jpg` | Nova ad (grid 98 %, versus battery, bar→ring sleep split, price symbol) | planner tests (figures, % inheritance, share names, no invented numbers); `export_fidelity.jpg` (mask-free counters) | **PASS — same creator** (black + blue bloom, one glass object morphing through 100 units, rolling gradient counters, single cyan focus, bar bending into a ring, source line) |
+
+| doodle | `docs/gate/doodle/story.jpg` (original story, 9:16), `ad.jpg` (delivery app); `story169.jpg` side by side with `docs/styles/doodle/ref-sheet.jpg`; `story11.jpg` (1:1) | `shop.jpg` (planner: woman + daughter, thought, bubbles, cards, quote, closing) | `talk.jpg` | Dooz delivery ad (name tag, phone thought, product cards, delivery scooter, COD quote card) | planner tests; `export_fidelity.jpg` | **PASS — same creator** (one continuous inked world, variable-width brown ink, big-head smiling cast with chalk-hatched robes, word-by-word navy caption with one orange squiggled word, camera travelling between sentences, bubbles/cards/tags/quote card, dusk ending) |
 
 Known gaps for `product` (non-blocking): Arabic numerals inside Latin fonts in the window UI are tiny at 9:16; giant word
 can show the next word's slot opening at its side for 2–3 frames.

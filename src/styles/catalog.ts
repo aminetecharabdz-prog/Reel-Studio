@@ -59,7 +59,7 @@ export const STYLES: Record<StyleId, StyleMeta> = {
     goals: ['story', 'explainer'],
     nativeAspect: '9:16',
     swatch: ['#AFDCF0', '#3A2A1E', '#F07F2E'],
-    ready: false,
+    ready: true,
     keywords: ['قصة', 'حكاية', 'كان', 'يوم', 'راجل', 'طفل', 'عبرة'],
   },
   whiteboard: {
