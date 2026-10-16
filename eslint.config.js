@@ -4,7 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 
 export default tseslint.config(
-  { ignores: ['dist', 'public', 'docs', '.qa', 'node_modules', '.claude', 'playwright-report', 'test-results'] },
+  { ignores: ['dist', 'public', 'docs', '.qa', 'node_modules', '.claude', 'playwright-report', 'test-results', '.ref', '.deps'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -19,7 +19,8 @@ export default tseslint.config(
   },
   {
     // Remotion compositions must be deterministic (CLAUDE.md video rules).
-    files: ['src/engine/render/**/*.{ts,tsx}'],
+    files: ['src/engine/render/**/*.{ts,tsx}', 'src/styles/**/*.{ts,tsx}', 'src/core/**/*.{ts,tsx}'],
+    ignores: ['src/core/plan/**', 'src/styles/*/director.ts', 'src/styles/*/local.ts'],
     rules: {
       'no-restricted-properties': ['error',
         { object: 'Math', property: 'random', message: 'Use random(seed) from remotion.' },
