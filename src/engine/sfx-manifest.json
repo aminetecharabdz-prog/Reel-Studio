@@ -1,0 +1,62 @@
+{
+ "blip": {
+  "dur": 0.09,
+  "peak": 0.005
+ },
+ "click": {
+  "dur": 0.08,
+  "peak": 0.005
+ },
+ "drop": {
+  "dur": 1.2,
+  "peak": 0.009
+ },
+ "glitch": {
+  "dur": 0.35,
+  "peak": 0.006
+ },
+ "hit": {
+  "dur": 0.45,
+  "peak": 0.006
+ },
+ "impact": {
+  "dur": 0.9,
+  "peak": 0.006
+ },
+ "pen": {
+  "dur": 1.0,
+  "peak": 0.306
+ },
+ "pop": {
+  "dur": 0.12,
+  "peak": 0.005
+ },
+ "riser": {
+  "dur": 1.6,
+  "peak": 1.566
+ },
+ "shimmer": {
+  "dur": 0.8,
+  "peak": 0.01
+ },
+ "swell": {
+  "dur": 2.0,
+  "peak": 1.836
+ },
+ "swish": {
+  "dur": 0.9,
+  "peak": 0.516
+ },
+ "tick": {
+  "dur": 0.05,
+  "peak": 0.005
+ },
+ "type": {
+  "dur": 0.7,
+  "peak": 0.154
+ },
+ "whoosh": {
+  "dur": 0.4,
+  "peak": 0.244
+ }
+}
