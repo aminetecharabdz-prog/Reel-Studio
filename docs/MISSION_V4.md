@@ -7,6 +7,7 @@
 ## 0. Repository layout and branches
 - Build the new site on a fresh **orphan branch `rassam`** (no Motiq/Nabra code). Old branches stay untouched as archive: `claude/modest-wozniak-1umut3` (Motiq), `claude/upbeat-ride-cwljzw`, `claude/modest-cerf-gwzwwp`, `asset-staging`, `qa-sheets`.
 - The new site replaces what GitHub Pages serves: https://aminetecharabdz-prog.github.io/Reel-Studio/ (deploy the `rassam` build to `gh-pages`; keep the deploy workflow on the `rassam` branch).
+- An earlier session started engine work on branch **`claude/rassam-wip-engine`** (style-module framework, word-anchored timeline compiler, `product` style scenes, WIP). Review it and port what is good into `rassam` instead of rewriting it.
 - You may reuse **infrastructure know-how** from the old branches (Pages deploy workflow, the CI trick that publishes a `node_modules` snapshot for sandboxes without an npm registry, `[qa]` contact-sheet workflow, transcription provider code) — but the **UI, design system, video engine and brand are 100 % new**.
 - Copy into the new branch: `.claude/skills/*` from main, `docs/MISSION_V4.md`, a new `CLAUDE.md` (adapted from main's: owner profile, rules, Arabic, deterministic Remotion, word-anchored timing, BYOK, Playwright on live URL).
 - If a sandbox has no npm/pip registry: install/build/test/render in GitHub Actions (as earlier sessions did) and read results back from a results branch.
