@@ -1,3 +1,5 @@
+> **SUPERSEDED by `docs/MISSION_V4.md` (2026-10-16): build a completely new site on branch `rassam` instead of updating Motiq.**
+
 # MISSION V3 — Rebuild the platform as "Rassam" around the Motion Starter Kit styles
 
 > Base: continue from branch `claude/modest-wozniak-1umut3` (the current "Motiq" app, live on Pages) after merging `origin/main`. Leave the branches `claude/upbeat-ride-cwljzw`, `claude/modest-cerf-gwzwwp` and `asset-staging` untouched (owner's one-off client reels).
@@ -5,6 +7,23 @@
 > This file **supersedes** the creative/engine parts of `MASTER_PROMPT.md`, `SPEC.md` §5 and `docs/QUALITY_BAR.md`.
 > Infrastructure decisions in SPEC.md (static site on GitHub Pages, BYOK keys, in-browser render/export, IndexedDB, word-anchored timing, Arabic RTL rules, mobile-first, Playwright on the live URL) still apply.
 > The owner (Arabic speaker, not a programmer, works from his phone) has given **full permission**: do not ask him anything, decide yourself, record decisions in `docs/progress.md`, and tell him only when it is done.
+
+
+## ⚠️ SCOPE DECISION (owner, updated 2026-10-16 03:00 Algiers) — ALL TEN STYLES, as fast as possible
+The owner changed his mind: build **all 10 styles** and the **whole website**, as quickly as possible, then report once. Order: `product` first (it defines the e-commerce flow below), then `infographic`, `doodle`, `whiteboard`, `plotter`, `stickman`, `chalkboard`, `isometric`, `fake3d`, `map-journey`. Each style still has to pass the §5 gate; work fast but never ship a style below its reference (a style that is not ready yet shows as "قريبًا" until it passes). The site features below apply to every style.
+- `product` must cover the owner's market: **physical product ads for e-commerce** (shoes, clothes, phone holder, watch, cosmetics… from 1–5 user photos: background removal in the browser if possible, the product as hero object in the style's tilted glowing card / orbiting rings / giant words), **app/service promos**, and **offers** (price, old→new price, delivery to 58 wilayas, cash on delivery, stock/urgency only if true). Vertical 9:16 first, also 4:5, 1:1 and 16:9.
+- Features to ship with it (all working, tested on a phone):
+  1. Create from **voice** (upload/record in the browser, transcription with word timing), from a **script**, or **"write the ad for me"** from product name + price + 3 benefits (Claude, Darija/MSA/French) with 3 hook variants to choose from.
+  2. Optional AI voice-over (ElevenLabs TTS, voices list, speed) when a key exists.
+  3. **Brand kit**: logo upload, brand colours, phone/WhatsApp/Instagram handle → used on the end card; saved and reused.
+  4. Music library by mood + upload, auto-ducking under voice, SFX on/off.
+  5. Caption styles (in the product style's language) with keyword highlight; on/off.
+  6. Preview with scene list: edit any text, swap product photo, change accent colour, regenerate a scene, re-time.
+  7. Export MP4 in the browser (720p fast / 1080p HD), SRT, cover image (thumbnail); "make 3 versions" for ad A/B tests.
+  8. Projects library (IndexedDB), duplicate project, demo projects (at least 3 product ads you author at top quality: e.g. sneakers, smart watch, phone holder).
+  9. Settings with BYOK keys + Arabic phone guides; demo mode without keys.
+- Then polish the whole site with the `frontend-design` skill: landing (animated Rassam logo, live product demo playing, how-it-works, styles gallery, FAQ), app shell, empty states, loading states, errors in clear Arabic, accessibility, smooth transitions, perfect RTL, fast on a phone.
+- Quality gate (§5) applies to `product` and to the site: Playwright on the live URL at 412×915 for every flow above; contact sheets side by side with the kit's product reference.
 
 ## 1. Why we rebuild
 The owner rejected "Nabra" (v1) and now wants a new direction beyond "Motiq" (v2, the current live app: scene-graph engine, photo library, Claude/Gemini director). He found the open-source **Motion Starter Kit** (MIT licence): https://github.com/motalim-ai/motion-starter-kit — 10 hand-crafted Remotion styles, all drawn in code (no AI images), with reference videos, style analysis scripts, Arabic rules and a review method. **That is the quality he wants.** Our platform turns that agent workflow into a self-serve web product: a user picks a style, gives a voice or a script, and gets a finished video of that quality.
