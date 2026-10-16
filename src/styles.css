@@ -1,0 +1,226 @@
+@import 'tailwindcss';
+@import '@fontsource/alexandria/400.css';
+@import '@fontsource/alexandria/600.css';
+@import '@fontsource/alexandria/800.css';
+@import '@fontsource/ibm-plex-sans-arabic/400.css';
+@import '@fontsource/ibm-plex-sans-arabic/500.css';
+@import '@fontsource/ibm-plex-sans-arabic/700.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/700.css';
+
+/*
+ * Rassam design tokens. Dark ("night ink") is the default; light ("paper") via [data-theme='light'].
+ * Depth system: three elevations. e1 = resting surfaces, e2 = interactive cards, e3 = floating sheets/menus.
+ */
+@custom-variant light (&:where([data-theme='light'], [data-theme='light'] *));
+
+@theme {
+  --font-display: 'Alexandria', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans Arabic', 'Alexandria', system-ui, sans-serif;
+  --font-latin: 'Space Grotesk', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+
+  --color-spark: #ff7a1a;
+  --color-spark-glow: #ffb45c;
+  --color-spark-core: #fff3d9;
+  --color-teal: #6fd1c3;
+  --color-danger: #ff6b5e;
+  --color-ok: #57d18f;
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --bg: #0a141b;
+  --bg-2: #0e1a22;
+  --surface: #13232d;
+  --surface-2: #182b36;
+  --surface-3: #1e3441;
+  --line: #24363f;
+  --line-strong: #33505d;
+  --text: #eef2f2;
+  --text-2: #a9bcc2;
+  --text-3: #7d9299;
+  --on-spark: #1b0d02;
+  --shadow-e1: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 1px 2px rgb(0 0 0 / 0.35);
+  --shadow-e2: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 10px 30px -12px rgb(0 0 0 / 0.65), 0 2px 6px rgb(0 0 0 / 0.3);
+  --shadow-e3: 0 1px 0 rgb(255 255 255 / 0.07) inset, 0 30px 70px -20px rgb(0 0 0 / 0.8), 0 8px 20px rgb(0 0 0 / 0.35);
+  --grid: rgb(238 242 242 / 0.035);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f3f2ee;
+  --bg-2: #ebeae4;
+  --surface: #ffffff;
+  --surface-2: #f7f6f2;
+  --surface-3: #efeee8;
+  --line: #dcdcd4;
+  --line-strong: #c3c4ba;
+  --text: #122028;
+  --text-2: #43555c;
+  --text-3: #6c7c82;
+  --on-spark: #1b0d02;
+  --shadow-e1: 0 1px 2px rgb(18 32 40 / 0.06);
+  --shadow-e2: 0 12px 30px -14px rgb(18 32 40 / 0.22), 0 2px 6px rgb(18 32 40 / 0.06);
+  --shadow-e3: 0 30px 70px -24px rgb(18 32 40 / 0.35), 0 8px 18px rgb(18 32 40 / 0.08);
+  --grid: rgb(18 32 40 / 0.05);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100dvh;
+  line-height: 1.6;
+}
+
+/* Arabic: never letter-space, keep descenders/dots clear */
+:lang(ar) {
+  letter-spacing: 0 !important;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.latin {
+  font-family: var(--font-latin);
+}
+
+.num {
+  font-family: var(--font-latin);
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: rgb(255 122 26 / 0.35);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-spark);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* the drafting grid used behind hero sections */
+.drafting-grid {
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-e1);
+}
+
+.card {
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-e2);
+}
+
+.sheet {
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow-e3);
+}
+
+.spark-glow {
+  box-shadow: 0 0 0 1px rgb(255 122 26 / 0.55), 0 8px 30px -6px rgb(255 122 26 / 0.55);
+}
+
+/* the self-drawing logo (UI only; video compositions animate from frames, never CSS) */
+@keyframes rs-draw {
+  from {
+    stroke-dashoffset: var(--len);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes rs-spark-travel {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+@keyframes rs-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+@keyframes rs-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+@keyframes rs-sheet-in {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: rs-shimmer 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* safe area for the mobile tab bar */
+.pb-tabbar {
+  padding-bottom: calc(84px + env(safe-area-inset-bottom));
+}
+@media (min-width: 1024px) {
+  .pb-tabbar {
+    padding-bottom: 0;
+  }
+}
