@@ -42,17 +42,36 @@ export const isContrast = (w: string) => CONTRAST.has(norm(strip(w)));
 const QUESTION_START = new Set(['واش', 'هل', 'كيفاش', 'علاش', 'شحال', 'وين', 'فين', 'كيف', 'لماذا', 'متى', 'ماذا', 'pourquoi', 'comment', 'why', 'how', 'what']);
 export const isQuestion = (text: string) => /[?؟]\s*$/.test(text.trim()) || QUESTION_START.has(norm(text.trim().split(/\s+/)[0] ?? ''));
 
-/** «A، B، C و D» style enumerations → item word indexes (≥ 3 items) */
-export const listItems = (words: string[]): number[] => {
-  const marks: number[] = [];
+/**
+ * «A، B، C و D» style enumerations → segments (≥ 3), each with the index of its first word and a short label
+ * (≤ 3 words). Splits at commas and at a «و…» word that follows a comma-separated item.
+ */
+export const listSegments = (words: string[]): Array<{ i: number; label: string }> => {
+  const segs: number[][] = [[]];
+  let sawComma = false;
   words.forEach((w, i) => {
-    if (/[،,]$/.test(w) || (i > 0 && /[،,]$/.test(words[i - 1]!))) marks.push(i);
-    else if (i > 0 && /^و\S{2,}/.test(w) && !isStop(w) && marks.length >= 2) marks.push(i);
+    const cur = segs[segs.length - 1]!;
+    if (cur.length && sawComma && /^و\S{2,}/.test(w) && !isStop(w)) segs.push([i]);
+    else cur.push(i);
+    if (/[،,]$/.test(w)) {
+      sawComma = true;
+      segs.push([]);
+    }
   });
-  // keep content words only, one per segment
-  const out = [...new Set(marks)].filter((i) => !isStop(words[i]!));
-  return out.length >= 3 ? out.slice(0, 7) : [];
+  const out = segs
+    .filter((g) => g.length)
+    .map((g) => {
+      const content = g.filter((i) => !isStop(words[i]!));
+      const pick = (content.length ? content : g).slice(-2);
+      const label = pick.map((i) => strip(words[i]!).replace(/^و(?=\S{3,})/, '')).join(' ');
+      return { i: pick[0]!, label, n: g.length };
+    });
+  if (out.length < 3 || out.some((o) => o.n > 4)) return [];
+  return out.slice(0, 7).map(({ i, label }) => ({ i, label }));
 };
+
+/** first word index of each list item (≥ 3 items) */
+export const listItems = (words: string[]): number[] => listSegments(words).map((x) => x.i);
 
 /** topic hints → icon id (icons exist in every style's illustration library under the same names) */
 const ICON_HINTS: Array<[RegExp, string]> = [

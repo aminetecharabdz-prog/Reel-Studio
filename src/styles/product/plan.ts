@@ -5,7 +5,7 @@
  */
 import { random } from 'remotion';
 import { TimingIndex, norm, type Word } from '@/engine/timing';
-import { chunk, clean, iconFor, isContrast, isNumberish, isQuestion, isStop, keyIndex, listItems } from '@/engine/lexicon';
+import { chunk, clean, iconFor, isContrast, isNumberish, isQuestion, isStop, keyIndex, listSegments } from '@/engine/lexicon';
 import type { PlanInput } from '@/engine/types';
 import { ICONS, type IconId } from './icons';
 import { ProductPlanSchema, type KWord, type ProductPlan, type ProductScene } from './schema';
@@ -64,7 +64,8 @@ export const productLocalPlan = (input: PlanInput): ProductPlan => {
     const w0 = ws[0]!;
     const strs = ws.map((w) => clean(w.w));
     const nums = ws.filter((w) => isNumberish(w.w));
-    const items = listItems(ws.map((w) => w.w));
+    const segsL = listSegments(ws.map((w) => w.w));
+    const items = segsL.map((x) => x.i);
     const hasBrand = !!brandKey && strs.some((s) => norm(s).includes(brandKey));
 
     if (g.first) {
@@ -113,28 +114,26 @@ export const productLocalPlan = (input: PlanInput): ProductPlan => {
       );
       return;
     }
-    // 3) a question / request → typed into the neon prompt bar
-    if (!used.prompt && (isQuestion(g.text) || (gi >= 2 && ws.length >= 4 && rnd(`p${gi}`) < 0.35)) && ws.length >= 3) {
-      used.prompt = true;
-      let k = ws.length - 1;
-      while (k > 0 && ws.slice(0, k + 1).map((w) => w.w).join(' ').length > 105) k--;
-      push({ kind: 'prompt', from: w0.id, text: ws.slice(0, k + 1).map((w) => w.w).join(' '), typeFrom: w0.id, typeTo: ws[k]!.id, send: ws[k]!.id });
-      return;
-    }
     // 4) two or more numbers → light capsule (before → after)
-    if (nums.length >= 2 && !used.capsule) {
+    if (nums.filter((n) => /[0-9٠-٩]/.test(n.w)).length >= 2 && !used.capsule) {
       used.capsule = true;
-      const firstNum = ws.indexOf(nums[0]!);
-      const title = ws.slice(0, Math.max(1, Math.min(4, firstNum)));
-      const its = nums.slice(0, 4).map((n) => {
+      const tw = ws.filter((w) => !isNumberish(w.w) && !isStop(w.w));
+      const title = (tw.length ? tw : [ws[0]!]).slice(0, 3);
+      const its = nums.filter((n) => /[0-9٠-٩]/.test(n.w)).slice(0, 4).map((n) => {
         const j = ws.indexOf(n);
-        const unit = ws[j + 1] && !isNumberish(ws[j + 1]!.w) && !isStop(ws[j + 1]!.w) ? ` ${clean(ws[j + 1]!.w)}` : '';
+        const nx = ws[j + 1];
+        const unit = nx && !/[0-9٠-٩]/.test(nx.w) && (isNumberish(nx.w) || !isStop(nx.w)) && nums.length <= 2 ? ` ${clean(nx.w).replace(/^بالمي[ةه]$|^بالمئة$/, '%')}` : '';
         return { t: cut(`${clean(n.w)}${unit}`, 40), at: n.id };
       });
       push({ kind: 'capsule', from: w0.id, title: title.map((w, i) => ({ t: t28(w), at: w.id, ...(i === title.length - 1 ? { em: 'grad' as const } : {}) })), items: its }, true);
       return;
     }
     // 5) an enumeration → flying cards (dark, 3D) or the glass orb (light)
+    if (items.length >= 3 && !product && !used.showcase && since3d >= 2) {
+      used.showcase = true;
+      push({ kind: 'showcase', from: w0.id, title: cut(input.topic || brandName, 60), steps: segsL.slice(0, 4).map((x) => ({ t: cut(x.label, 40), at: ws[x.i]!.id })), chips: [] }, false, true);
+      return;
+    }
     if (items.length >= 3) {
       const useCards = !used.cards && since3d >= 2 && (used.orb || rnd(`c${gi}`) < 0.6);
       if (useCards) {
@@ -145,7 +144,7 @@ export const productLocalPlan = (input: PlanInput): ProductPlan => {
             kind: 'cards',
             from: w0.id,
             title: title.map((w) => ({ t: t28(w), at: w.id })),
-            cards: items.map((i) => ({ t: t28(ws[i]!), at: ws[i]!.id, icon: icon(ws[i]!.w, (['sparkles', 'star', 'bolt', 'heart', 'check', 'gem', 'rocket'] as IconId[])[i % 7]!) })),
+            cards: segsL.map(({ i, label }) => ({ t: cut(label, 28), at: ws[i]!.id, icon: icon(label, (['sparkles', 'star', 'bolt', 'heart', 'check', 'gem', 'rocket'] as IconId[])[i % 7]!) })),
           },
           false,
           true,
@@ -154,9 +153,17 @@ export const productLocalPlan = (input: PlanInput): ProductPlan => {
       }
       if (!used.orb && items.length <= 6) {
         used.orb = true;
-        push({ kind: 'orb', from: w0.id, steps: items.map((i) => ({ t: cut(clean(ws[i]!.w), 40), at: ws[i]!.id })), list: [] }, true);
+        push({ kind: 'orb', from: w0.id, steps: segsL.map(({ i, label }) => ({ t: cut(label, 40), at: ws[i]!.id })), list: [] }, true);
         return;
       }
+    }
+    // 3) a question / request → typed into the neon prompt bar
+    if (!used.prompt && (isQuestion(g.text) || (gi >= 3 && ws.length >= 4 && !items.length && rnd(`p${gi}`) < 0.5)) && ws.length >= 3) {
+      used.prompt = true;
+      let k = ws.length - 1;
+      while (k > 0 && ws.slice(0, k + 1).map((w) => w.w).join(' ').length > 105) k--;
+      push({ kind: 'prompt', from: w0.id, text: ws.slice(0, k + 1).map((w) => w.w).join(' '), typeFrom: w0.id, typeTo: ws[k]!.id, send: ws[k]!.id });
+      return;
     }
     // 6) no product window yet in a content video → the app window completes the line's key ideas as steps
     if (!product && !used.showcase && since3d >= 2 && gi >= 2 && ws.filter((w) => !isStop(w.w)).length >= 3) {

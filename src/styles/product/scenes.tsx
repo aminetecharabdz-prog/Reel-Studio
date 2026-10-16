@@ -209,8 +209,9 @@ export const LogoView = ({ s, from, dur, plan }: SceneProps<'logo'>) => {
 export const ShowcaseView = ({ s, from, dur, plan }: SceneProps<'showcase'>) => {
   const { f, at, W, H, u, fps, vertical, asset } = useScene(from);
   const acc = ACCENTS[plan.accent];
-  const ww = vertical ? W * 0.84 : W * 0.6;
-  const wh = vertical ? H * 0.6 : H * 0.66;
+  const wide = W > H * 1.2;
+  const ww = vertical ? W * 0.86 : wide ? W * 0.8 : W * 0.84;
+  const wh = vertical ? H * 0.58 : wide ? H * 0.74 : H * 0.6;
   const enter = prog(f, 0, sec(0.9, fps), E.out);
   const rx = keys(f, [[0, 26], [sec(1, fps), 16], [dur, 9]], E.sine);
   const ry = keys(f, [[0, vertical ? -22 : -26], [sec(1, fps), -14], [dur, vertical ? -4 : -6]], E.sine);
@@ -219,7 +220,10 @@ export const ShowcaseView = ({ s, from, dur, plan }: SceneProps<'showcase'>) => 
   const exit = prog(f, dur - sec(0.35, fps), sec(0.35, fps), E.in);
   const photo = asset(s.photo) ?? undefined;
   const title = s.title ?? plan.brand.name;
-  const fs = (vertical ? 1.45 : 0.82) * u;
+  const fs = ww / (vertical ? 640 : wide ? 1300 : 900);
+  const stepK = s.steps.map((st) => prog(f, at(st.at) - sec(0.6, fps), sec(0.6, fps), E.inOut));
+  const active = Math.max(0, stepK.filter((k) => k > 0).length - 1);
+  const nav = s.steps.length >= 2 ? s.steps.map((st) => st.t) : ['الرئيسية', title.split(' ')[0] ?? 'المنتج', 'الطلبات', 'الإعدادات'];
   return (
     <AbsoluteFill>
       <Stage theme="dark" lift={0.06} />
@@ -230,7 +234,7 @@ export const ShowcaseView = ({ s, from, dur, plan }: SceneProps<'showcase'>) => 
           <div style={{ position: 'absolute', inset: -2 * u, borderRadius: 36 * u, background: `linear-gradient(135deg, ${T.orangeLight}, ${T.pink} 35%, ${acc.b} 70%, ${T.blue})` }} />
           <div dir="rtl" style={{ position: 'absolute', inset: 0, borderRadius: 34 * u, background: 'linear-gradient(180deg, #121022 0%, #0B0A14 100%)', overflow: 'hidden', fontFamily: T.font, color: T.text }}>
             {/* title bar */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: `${22 * fs}px ${30 * fs}px`, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 84 * fs, boxSizing: 'border-box', padding: `0 ${30 * fs}px`, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 * fs }}>
                 <Mark size={40 * fs} accent={plan.accent} letter={plan.brand.mark} glow={0} />
                 <span style={{ fontWeight: 700, fontSize: 28 * fs }}>{plan.brand.name}</span>
@@ -239,31 +243,70 @@ export const ShowcaseView = ({ s, from, dur, plan }: SceneProps<'showcase'>) => 
                 {['#FF5F57', '#FEBC2E', '#28C840'].map((col) => <span key={col} style={{ width: 16 * fs, height: 16 * fs, borderRadius: 99, background: col, opacity: 0.85 }} />)}
               </div>
             </div>
-            <div style={{ padding: `${24 * fs}px ${30 * fs}px`, display: 'flex', flexDirection: 'column', gap: 22 * fs, height: '100%' }}>
-              <div style={{ fontSize: 22 * fs, color: T.grey }}>{title}</div>
-              {s.steps.length ? (
-                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${vertical ? 2 : Math.min(4, s.steps.length)}, 1fr)`, gap: 14 * fs }}>
-                  {s.steps.map((st, i) => {
-                    const k = prog(f, at(st.at) - sec(0.6, fps), sec(0.6, fps), E.inOut);
-                    const done = k >= 1;
-                    return (
-                      <div key={i} style={{ borderRadius: 18 * fs, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', padding: `${14 * fs}px ${16 * fs}px` }}>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 * fs }}>
-                          <span style={{ fontSize: 24 * fs, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{st.t}</span>
-                          <span style={{ width: 26 * fs, height: 26 * fs, borderRadius: 99, flex: 'none', display: 'grid', placeItems: 'center', background: done ? '#22C55E' : 'rgba(255,255,255,0.08)', transform: `scale(${done ? 1 : 0.85})` }}>
-                            {done ? <svg width={16 * fs} height={16 * fs} viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" strokeWidth={3.2} fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg> : null}
-                          </span>
-                        </div>
-                        <div style={{ marginTop: 12 * fs, height: 6 * fs, borderRadius: 9, background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
-                          <div style={{ width: `${k * 100}%`, height: '100%', background: done ? '#22C55E' : acc.grad, marginInlineStart: 0 }} />
-                        </div>
-                      </div>
-                    );
-                  })}
+            <div style={{ display: 'flex', flexDirection: 'row', height: `calc(100% - ${84 * fs}px)` }}>
+              {!vertical ? (
+                <div style={{ width: '19%', flex: 'none', borderInlineEnd: '1px solid rgba(255,255,255,0.06)', padding: `${22 * fs}px ${16 * fs}px`, display: 'flex', flexDirection: 'column', gap: 10 * fs }}>
+                  {nav.slice(0, 5).map((n, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 * fs, padding: `${10 * fs}px ${12 * fs}px`, borderRadius: 12 * fs, background: i === active ? 'rgba(168,139,255,0.16)' : 'transparent', color: i === active ? T.text : T.grey, fontSize: 18 * fs, whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                      <span style={{ width: 9 * fs, height: 9 * fs, borderRadius: 9, background: i === active ? acc.a : 'rgba(255,255,255,0.18)', flex: 'none' }} />
+                      {n}
+                    </div>
+                  ))}
                 </div>
               ) : null}
-              <div style={{ position: 'relative', flex: 1, minHeight: 0, marginBottom: 90 * fs, borderRadius: 24 * fs, overflow: 'hidden', background: 'radial-gradient(ellipse at 50% 85%, rgba(108,59,255,0.55), rgba(47,91,255,0.18) 45%, rgba(11,10,20,1) 80%)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                <PreviewArt f={f} fps={fps} photo={photo} accent={plan.accent} u={fs} name={plan.brand.name} />
+              <div style={{ flex: 1, minWidth: 0, padding: `${22 * fs}px ${26 * fs}px`, display: 'flex', flexDirection: 'column', gap: 18 * fs }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 * fs, padding: `${12 * fs}px ${18 * fs}px`, borderRadius: 99, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(168,139,255,0.22)', fontSize: 20 * fs, color: T.text, whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                  <span style={{ width: 10 * fs, height: 10 * fs, borderRadius: 9, background: acc.a, boxShadow: `0 0 ${10 * fs}px ${acc.a}`, flex: 'none' }} />
+                  {title}
+                </div>
+                {s.steps.length ? (
+                  <div style={{ display: 'grid', gridTemplateColumns: `repeat(${vertical ? 2 : Math.min(4, s.steps.length)}, 1fr)`, gap: 12 * fs }}>
+                    {s.steps.map((st, i) => {
+                      const k = stepK[i]!;
+                      const done = k >= 1;
+                      const pop = prog(f, at(st.at), sec(0.3, fps), E.outBack);
+                      return (
+                        <div key={i} style={{ borderRadius: 16 * fs, background: i === active ? 'rgba(168,139,255,0.08)' : 'rgba(255,255,255,0.035)', border: `1px solid ${i === active ? 'rgba(168,139,255,0.35)' : 'rgba(255,255,255,0.07)'}`, padding: `${12 * fs}px ${14 * fs}px` }}>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 * fs }}>
+                            <span style={{ fontSize: 22 * fs, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{st.t}</span>
+                            <span style={{ width: 24 * fs, height: 24 * fs, borderRadius: 99, flex: 'none', display: 'grid', placeItems: 'center', background: done ? '#34D399' : 'rgba(255,255,255,0.08)', transform: `scale(${done ? pop : 0.85})` }}>
+                              {done ? <svg width={15 * fs} height={15 * fs} viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" strokeWidth={3.2} fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg> : null}
+                            </span>
+                          </div>
+                          <div style={{ fontSize: 14 * fs, color: T.grey, marginTop: 4 * fs }}>{done ? 'مكتمل' : k > 0 ? `${Math.round(k * 100)}%` : 'في الانتظار'}</div>
+                          <div style={{ marginTop: 8 * fs, height: 5 * fs, borderRadius: 9, background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+                            <div style={{ width: `${k * 100}%`, height: '100%', background: done ? '#34D399' : '#8B6CFF' }} />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : null}
+                <div style={{ display: 'flex', flex: 1, minHeight: 0, gap: 14 * fs }}>
+                  <div style={{ position: 'relative', flex: 1.7, minWidth: 0, borderRadius: 20 * fs, overflow: 'hidden', background: 'radial-gradient(ellipse at 50% 85%, rgba(108,59,255,0.55), rgba(47,91,255,0.18) 45%, rgba(11,10,20,1) 80%)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <PreviewArt f={f} fps={fps} photo={photo} accent={plan.accent} u={fs} name={plan.brand.name} />
+                  </div>
+                  {!vertical ? (
+                    <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gridAutoRows: '1fr', gap: 10 * fs }}>
+                      {(['sparkles', 'chart', 'heart', 'star', 'bolt', 'gem'] as const).map((ic, i) => {
+                        const k = prog(f, sec(0.5 + i * 0.08, fps), sec(0.4, fps), E.out);
+                        const light = i % 3 === 1;
+                        return (
+                          <div key={ic} style={{ borderRadius: 12 * fs, background: light ? '#EEE9FF' : i % 3 === 2 ? 'linear-gradient(160deg,#1E2A5A,#121022)' : 'linear-gradient(160deg,#2A1E4A,#121022)', border: '1px solid rgba(255,255,255,0.06)', display: 'grid', placeItems: 'center', opacity: k, transform: `scale(${mix(k, 0.9, 1)})` }}>
+                            <Icon id={ic} size={34 * fs} color={light ? acc.b : acc.a} width={1.8} />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : null}
+                </div>
+                {/* timeline with a moving playhead */}
+                <div style={{ position: 'relative', height: 26 * fs, borderRadius: 8 * fs, background: 'rgba(255,255,255,0.04)', display: 'flex', gap: 4 * fs, padding: 4 * fs, flex: 'none', marginBottom: vertical ? 70 * fs : 0 }}>
+                  {[0.22, 0.14, 0.3, 0.18, 0.16].map((wd, i) => (
+                    <div key={i} style={{ width: `${wd * 100}%`, borderRadius: 5 * fs, background: i % 2 ? 'rgba(168,139,255,0.35)' : 'rgba(47,91,255,0.35)' }} />
+                  ))}
+                  <div style={{ position: 'absolute', top: -4 * fs, bottom: -4 * fs, right: `${clamp01(f / Math.max(1, dur)) * 100}%`, width: 2 * fs, background: T.orangeLight, boxShadow: `0 0 ${8 * fs}px ${T.orangeLight}` }} />
+                </div>
               </div>
             </div>
           </div>
