@@ -1,3 +1,5 @@
+> **SUPERSEDED by `docs/MISSION_V4.md` (2026-10-16): build a completely new site on branch `rassam` instead of updating Motiq.**
+
 # MISSION V3 — Rebuild the platform as "Rassam" around the Motion Starter Kit styles
 
 > Base: continue from branch `claude/modest-wozniak-1umut3` (the current "Motiq" app, live on Pages) after merging `origin/main`. Leave the branches `claude/upbeat-ride-cwljzw`, `claude/modest-cerf-gwzwwp` and `asset-staging` untouched (owner's one-off client reels).
