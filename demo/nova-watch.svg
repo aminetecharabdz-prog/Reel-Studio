@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <defs>
+    <linearGradient id="strap" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1b1a22"/>
+      <stop offset=".45" stop-color="#2c2a36"/>
+      <stop offset=".55" stop-color="#34323f"/>
+      <stop offset="1" stop-color="#16151c"/>
+    </linearGradient>
+    <linearGradient id="case" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e9e6f2"/>
+      <stop offset=".25" stop-color="#9c98ad"/>
+      <stop offset=".5" stop-color="#5d5a6c"/>
+      <stop offset=".8" stop-color="#b5b1c4"/>
+      <stop offset="1" stop-color="#47445a"/>
+    </linearGradient>
+    <radialGradient id="screen" cx=".45" cy=".35" r=".8">
+      <stop offset="0" stop-color="#1a1530"/>
+      <stop offset="1" stop-color="#05040b"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8a3d"/>
+      <stop offset=".5" stop-color="#d946ef"/>
+      <stop offset="1" stop-color="#6c3bff"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset=".4" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="crown" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6d6a7c"/>
+      <stop offset=".5" stop-color="#e3e0ec"/>
+      <stop offset="1" stop-color="#5a5768"/>
+    </linearGradient>
+  </defs>
+  <!-- strap -->
+  <path d="M215 0 H385 L372 210 H228 Z" fill="url(#strap)"/>
+  <path d="M228 590 H372 L385 800 H215 Z" fill="url(#strap)"/>
+  <g stroke="#0d0c12" stroke-width="3" opacity=".7">
+    <path d="M240 40 H360"/><path d="M238 90 H362"/><path d="M236 140 H364"/>
+    <path d="M236 660 H364"/><path d="M238 710 H362"/><path d="M240 760 H360"/>
+  </g>
+  <!-- case -->
+  <rect x="150" y="180" width="300" height="440" rx="92" fill="url(#case)"/>
+  <rect x="162" y="192" width="276" height="416" rx="82" fill="#0b0a10"/>
+  <!-- crown + button -->
+  <rect x="446" y="300" width="26" height="70" rx="11" fill="url(#crown)"/>
+  <rect x="448" y="410" width="14" height="60" rx="6" fill="#8a8798"/>
+  <!-- screen -->
+  <rect x="178" y="208" width="244" height="384" rx="70" fill="url(#screen)"/>
+  <!-- activity rings -->
+  <g transform="translate(300 360)" fill="none" stroke-linecap="round">
+    <circle r="84" stroke="#ffffff" stroke-opacity=".08" stroke-width="16"/>
+    <circle r="84" stroke="url(#ring)" stroke-width="16" stroke-dasharray="400 528" transform="rotate(-90)"/>
+    <circle r="60" stroke="#ffffff" stroke-opacity=".08" stroke-width="14"/>
+    <circle r="60" stroke="#34d399" stroke-width="14" stroke-dasharray="270 377" transform="rotate(-90)"/>
+    <circle r="38" stroke="#ffffff" stroke-opacity=".08" stroke-width="12"/>
+    <circle r="38" stroke="#7ea0ff" stroke-width="12" stroke-dasharray="190 239" transform="rotate(-90)"/>
+  </g>
+  <!-- time + heart -->
+  <text x="300" y="512" text-anchor="middle" font-family="Space Grotesk, Arial, sans-serif" font-weight="700" font-size="54" fill="#f5f3ff">10:09</text>
+  <g transform="translate(262 540)">
+    <path d="M10 18 C-2 9 0 0 7 0 C9 0 10 2 10 3 C10 2 11 0 13 0 C20 0 22 9 10 18 Z" fill="#ff5f7a"/>
+    <text x="30" y="15" font-family="Space Grotesk, Arial, sans-serif" font-weight="500" font-size="18" fill="#b9b6cf">72 bpm</text>
+  </g>
+  <!-- glass highlight -->
+  <rect x="178" y="208" width="244" height="384" rx="70" fill="url(#glass)"/>
+</svg>
