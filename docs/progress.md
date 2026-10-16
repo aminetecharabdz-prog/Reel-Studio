@@ -1,3 +1,6 @@
+# ⛔ STOP — MISSION CHANGED (owner, 2026-10-16 03:03 Algiers)
+The owner does NOT want the previous site (Motiq) updated. Read `docs/MISSION_V4.md` now: build a **brand-new site "رسّام · Rassam" from scratch on the orphan branch `rassam`**. Do not continue MISSION_V3 work on this branch. If you already wrote style-engine code here (e.g. the `product` style), port only what fits V4 into the `rassam` branch. Write all new progress in `docs/progress.md` on branch `rassam`.
+
 # التقرير النهائي — Motiq (بالعربية البسيطة)
 
 **الرابط:** https://aminetecharabdz-prog.github.io/Reel-Studio/ — افتحه في كروم على هاتفك.
