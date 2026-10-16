@@ -124,12 +124,13 @@ export const mountHero = (host: HTMLElement, opts: { light: boolean }): HeroHand
   const hg = haloCanvas.getContext('2d')!;
   const grad = hg.createRadialGradient(64, 64, 0, 64, 64, 64);
   grad.addColorStop(0, 'rgba(255,243,217,1)');
-  grad.addColorStop(0.25, 'rgba(255,180,92,0.9)');
+  grad.addColorStop(0.18, 'rgba(255,170,80,0.95)');
+  grad.addColorStop(0.45, 'rgba(255,122,26,0.35)');
   grad.addColorStop(1, 'rgba(255,122,26,0)');
   hg.fillStyle = grad;
   hg.fillRect(0, 0, 128, 128);
   const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(haloCanvas), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
-  halo.scale.setScalar(1.6);
+  halo.scale.setScalar(1.1);
   markGroup.add(halo);
 
   // the pen: a slim body + nib, leaning like a hand holds it
@@ -144,6 +145,7 @@ export const mountHero = (host: HTMLElement, opts: { light: boolean }): HeroHand
   nib.position.y = 0.25;
   pen.add(body, band, nib);
   pen.rotation.set(0.5, 0, -0.55);
+  pen.scale.setScalar(0.62);
   markGroup.add(pen);
 
   // --- floating frames, one per style, on an orbit behind the mark ---
@@ -160,6 +162,7 @@ export const mountHero = (host: HTMLElement, opts: { light: boolean }): HeroHand
   const N = 10;
   for (let i = 0; i < N; i++) {
     const m = new THREE.Mesh(frameGeo, new THREE.MeshStandardMaterial({ map: frameTexture(i), roughness: 0.45, metalness: 0.05, side: THREE.DoubleSide, transparent: true, opacity: 0.96 }));
+    m.scale.setScalar(0.7);
     frames.push(m);
     scene.add(m);
   }
@@ -180,15 +183,20 @@ export const mountHero = (host: HTMLElement, opts: { light: boolean }): HeroHand
   };
   window.addEventListener('pointermove', onMove, { passive: true });
 
+  let w0 = 1;
   const resize = () => {
     const w = host.clientWidth || 1;
     const h = host.clientHeight || 1;
+    w0 = w / h;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     // keep the mark comfortably framed on tall phones
-    camera.position.z = w / h < 0.8 ? 17 : 13;
+    camera.position.z = w / h < 0.8 ? 19 : 13;
     camera.updateProjectionMatrix();
-    markGroup.position.set(w / h < 0.8 ? 0 : -1.2, w / h < 0.8 ? 1.1 : 0, 0);
+    // desktop: the mark lives in the left half (RTL text sits on the right); phones: centred above the headline
+    const wide = w / h >= 1.1;
+    markGroup.position.set(wide ? -Math.min(4.4, (w / h) * 2.2) : 0, wide ? 0.1 : 4.3, 0);
+    markGroup.scale.setScalar(wide ? 0.72 : 0.56);
   };
   const ro = new ResizeObserver(resize);
   ro.observe(host);
@@ -213,7 +221,7 @@ export const mountHero = (host: HTMLElement, opts: { light: boolean }): HeroHand
     tubeGeo.setDrawRange(0, Math.floor((totalIdx / per) * e) * per);
     curve.getPointAt(Math.max(0.0001, e), tmp);
     halo.position.copy(tmp);
-    halo.scale.setScalar(1.5 + Math.sin(t * 3) * 0.12);
+    halo.scale.setScalar(1.05 + Math.sin(t * 3) * 0.1);
     sparkLight.position.set(tmp.x, tmp.y, 1.2);
     // the pen follows the tip, then lifts away slightly
     const lift = Math.max(0, (t - DRAW) * 0.8);
@@ -227,8 +235,8 @@ export const mountHero = (host: HTMLElement, opts: { light: boolean }): HeroHand
 
     frames.forEach((m, i) => {
       const a = (i / N) * Math.PI * 2 + t * 0.12;
-      const r = 6.2;
-      m.position.set(Math.sin(a) * r, Math.sin(a * 2 + i) * 0.5 + 0.2, Math.cos(a) * r - 4.5);
+      const r = w0 >= 1.1 ? 3.6 : 3.2;
+      m.position.set(markGroup.position.x + Math.sin(a) * r * (w0 >= 1.1 ? 0.95 : 1), markGroup.position.y + Math.sin(a * 2 + i) * 0.4, Math.cos(a) * r - 6);
       m.lookAt(camera.position.x, m.position.y, camera.position.z);
       m.rotation.z += Math.sin(t * 0.5 + i) * 0.04;
       const mat = m.material as THREE.MeshStandardMaterial;
@@ -236,7 +244,7 @@ export const mountHero = (host: HTMLElement, opts: { light: boolean }): HeroHand
     });
     camera.position.x = pointer.x * 0.5;
     camera.position.y = 0.3 - pointer.y * 0.3;
-    camera.lookAt(0, 0, -1.5);
+    camera.lookAt(0, w0 < 1.1 ? 1.6 : 0, -1.5);
     renderer.render(scene, camera);
   };
   loop();

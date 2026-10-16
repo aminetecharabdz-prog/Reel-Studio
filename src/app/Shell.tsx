@@ -59,7 +59,7 @@ export const Shell = ({ route, children, bare }: { route: Route; children: React
       </div>
     </header>
 
-    <main id="main" className={cx('flex-1', !bare && 'pb-tabbar')}>
+    <main id="main" className="flex-1">
       {children}
     </main>
 

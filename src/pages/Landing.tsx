@@ -42,20 +42,21 @@ const Hero3D = () => {
 
 /** fallback for weak devices / reduced motion: the self-drawing mark over a fan of style frames */
 const StaticHero = () => (
-  <div className="absolute inset-0 flex items-start justify-center pt-6 lg:items-center lg:justify-start lg:pt-0 lg:pl-[8%]">
+  <div className="absolute inset-0 flex items-start justify-center pt-6 lg:items-center lg:justify-end lg:pt-0 lg:pl-[6%]">
     <div className="relative h-[300px] w-[300px] lg:h-[440px] lg:w-[440px]">
       {STYLE_LIST.slice(0, 5).map((st, i) => (
         <div
           key={st.id}
           className="absolute top-1/2 left-1/2 h-[46%] w-[26%] rounded-xl border border-[var(--line)] shadow-[var(--shadow-e2)]"
-          style={{ background: st.swatch[0], transform: `translate(-50%,-50%) rotate(${(i - 2) * 14}deg) translateY(-34%)`, transformOrigin: '50% 140%' }}
+          style={{ background: st.swatch[0], opacity: 0.9, transform: `translate(-50%,-50%) rotate(${(i - 2) * 14}deg) translateY(-34%)`, transformOrigin: '50% 140%' }}
         >
           <span className="absolute right-[18%] bottom-[16%] h-[6%] w-[45%] rounded" style={{ background: st.swatch[1] }} />
           <span className="absolute top-[30%] left-1/2 size-[28%] -translate-x-1/2 rounded-full" style={{ background: st.swatch[2] }} />
         </div>
       ))}
       <div className="absolute inset-0 grid place-items-center text-[var(--text)]">
-        <Mark size={170} animate duration={2.2} />
+        <span className="absolute size-[58%] rounded-full bg-[radial-gradient(circle,var(--bg)_55%,transparent_72%)]" />
+        <Mark size={170} animate duration={2.2} className="relative" />
       </div>
     </div>
   </div>
@@ -109,11 +110,10 @@ export const Landing = () => (
     {/* HERO */}
     <section className="drafting-grid relative isolate overflow-hidden border-b border-[var(--line)]">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_30%_40%,rgb(255_122_26/0.12),transparent_70%)]" />
-      <div className="relative mx-auto grid min-h-[min(860px,calc(100dvh-64px))] max-w-6xl grid-rows-[340px_auto] px-4 sm:px-6 lg:grid-cols-2 lg:grid-rows-1">
-        <div className="relative -mx-4 sm:-mx-6 lg:order-2 lg:mx-0">
-          <Hero3D />
-        </div>
-        <div className="relative z-10 flex flex-col justify-center gap-6 pb-14 lg:order-1 lg:pb-0">
+      <Hero3D />
+      <div className="pointer-events-none relative mx-auto grid min-h-[min(860px,calc(100dvh-64px))] max-w-6xl grid-rows-[340px_auto] px-4 sm:px-6 lg:grid-cols-2 lg:grid-rows-1">
+        <div aria-hidden="true" className="lg:order-2" />
+        <div className="pointer-events-auto relative z-10 flex flex-col items-start justify-center gap-6 pb-14 lg:order-1 lg:pb-0">
           <Badge tone="spark">عشرة ستايلات · العربية أولًا</Badge>
           <h1 className="text-[2.6rem] leading-[1.25] font-extrabold sm:text-[3.6rem]">{BRAND.taglineAr}</h1>
           <p className="max-w-lg text-[1.05rem] text-[var(--text-2)] sm:text-[1.15rem]">
