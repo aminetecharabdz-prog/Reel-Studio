@@ -35,11 +35,13 @@
 - [x] **`whiteboard` style engine**: board world + layout solver per aspect, prop library (bespoke + all icons) drawn as
       progressive pressure ribbons, clipped 60° hatching, write-on Marhey text, marker prop that follows the tip,
       lean-in camera, living loops, mascot journey, local planner (title/objects/arrows/numbers/contrast/band/note), 2 demos.
+- [x] **`plotter` style engine**: 11 scene kinds on a gliding graph-paper canvas (pen title, hero stack, slam, node flow,
+      prompt input + ranking table, karaoke, graph card, schematic with product photo, paper form, film strip, arc outro).
 - [x] Fix: public audio resolved against the page base (the site lives under /Reel-Studio/; `staticFile` pointed to `/`).
 
 ### Next
 - Deploy + live gate for the studio flow (CI live tests include the full ad → export flow).
-- Styles in order: `plotter`, `stickman`, `chalkboard`, `isometric`, `fake3d`, `map-journey`.
+- Styles in order: `stickman`, `chalkboard`, `isometric`, `fake3d`, `map-journey`.
 - Speech-to-text alignment provider (OpenAI Whisper / ElevenLabs Scribe, BYOK) for word-exact timing on uploaded voice/video;
   AI voice (ElevenLabs) for «صوت ذكي»; silence/filler cuts for talking-head; background removal for product photos.
 
@@ -54,6 +56,8 @@
 | doodle | `docs/gate/doodle/story.jpg` (original story, 9:16), `ad.jpg` (delivery app); `story169.jpg` side by side with `docs/styles/doodle/ref-sheet.jpg`; `story11.jpg` (1:1) | `shop.jpg` (planner: woman + daughter, thought, bubbles, cards, quote, closing) | `talk.jpg` | Dooz delivery ad (name tag, phone thought, product cards, delivery scooter, COD quote card) | planner tests; `export_fidelity.jpg` | **PASS — same creator** (one continuous inked world, variable-width brown ink, big-head smiling cast with chalk-hatched robes, word-by-word navy caption with one orange squiggled word, camera travelling between sentences, bubbles/cards/tags/quote card, dusk ending) |
 
 | whiteboard | `docs/gate/whiteboard/teeth.jpg` (why teeth decay, 9:16), `ad.jpg` (Safi water filter); `teeth169.jpg` side by side with `docs/styles/whiteboard/ref-sheet.jpg` | `sell.jpg` (selling on Facebook, planner) | `talk.jpg` | Safi filter explainer (count of layers, flow arrow, number, ✗/✓ contrast, CTA note) | planner tests; `export_fidelity.jpg` | **PASS — same creator** (off-white board + bezel + eraser ghosts, hand-less marker with shadow, pressure strokes, 60° hatching, Marhey lettering written R→L, red underline + stars, faces, flowing arrows, lean-in camera, pull-back reveal) |
+
+| plotter | `docs/gate/plotter/ad.jpg` (Nova schematic ad, 9:16), `voice169.jpg` (voice → meaning) side by side with `docs/styles/plotter/ref-sheet.jpg` | `shop.jpg` (3 shop mistakes, planner) | `talk.jpg` | Nova: product photo as a schematic, price paper form with strike + stamp | planner tests; `export_fidelity.jpg` | **PASS — same creator** (ink graph paper + vignette + grain, spark pen drawing outlined title / underlines / connectors, mono micro-annotations, single orange focus, orange slam, paper interlude, arc outro with glowing end word) |
 
 Known gaps for `product` (non-blocking): Arabic numerals inside Latin fonts in the window UI are tiny at 9:16; giant word
 can show the next word's slot opening at its side for 2–3 frames.

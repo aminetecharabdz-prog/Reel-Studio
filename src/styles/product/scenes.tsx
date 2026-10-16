@@ -1,6 +1,6 @@
 /** product style scene vocabulary. Each scene renders inside its own <Sequence>, so frames are scene-local. */
 import { AbsoluteFill, Img } from 'remotion';
-import { E, clamp01, keys, mix, prog, sec, useScene as useSceneBase } from './compat';
+import { E, clamp01, keys, mix, prog, sec, useScene as useSceneBase } from '@/engine/scene';
 import { detectDir, measure } from '@/engine/measure';
 import { glow } from '@/engine/paint';
 import { ACCENTS, T, type AccentId } from './tokens';

@@ -15,6 +15,7 @@ export const E = {
   sine: Easing.inOut(Easing.sin),
   outBack: Easing.out(Easing.back(1.4)),
   outQuad: Easing.out(Easing.quad),
+  linear: Easing.linear,
 };
 
 /** 0→1 between frame a and a+dur (frames), eased */

@@ -1,7 +1,7 @@
 /** product style building blocks: glow stage, kinetic word line, gradient text, brand mark, neon frame. */
 import type { CSSProperties, ReactNode } from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
-import { E, clamp01, mix, prog, sec, useScene } from './compat';
+import { E, clamp01, mix, prog, sec, useScene } from '@/engine/scene';
 import { measure } from '@/engine/measure';
 import { glow } from '@/engine/paint';
 import { ACCENTS, T, type AccentId } from './tokens';

@@ -7,6 +7,7 @@ const loaders: Partial<Record<StyleId, () => Promise<{ default: unknown }>>> = {
   infographic: () => import('./infographic'),
   doodle: () => import('./doodle'),
   whiteboard: () => import('./whiteboard'),
+  plotter: () => import('./plotter'),
 };
 
 const loaded = new Map<StyleId, StyleModule<never>>();

@@ -83,7 +83,7 @@ export const STYLES: Record<StyleId, StyleMeta> = {
     goals: ['explainer', 'talking', 'free'],
     nativeAspect: '16:9',
     swatch: ['#090909', '#D1CDC2', '#F04A14'],
-    ready: false,
+    ready: true,
     keywords: ['ذكاء', 'برمجة', 'تقنية', 'نظام', 'AI', 'كود', 'فكرة'],
   },
   stickman: {
