@@ -116,6 +116,8 @@ export type StyleModule<P = unknown> = {
   director: DirectorSpec;
   /** repairs a parsed plan against the timing (unknown word ids, ordering, read-time) */
   sanitize: (plan: P, T: TimingIndex) => { plan: P; issues: string[] };
+  /** beats shown full screen over the speaker in talking-head mode */
+  cutaways?: string[];
   /** scene list for the editor: first word + label + editable texts */
   scenes: (plan: P) => Array<{ at: string; beat: string; label: string; texts: Array<{ path: string; label: string; value: string }> }>;
 };

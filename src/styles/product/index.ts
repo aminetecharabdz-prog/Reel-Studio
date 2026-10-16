@@ -31,6 +31,7 @@ const product: StyleModule<ProductPlan> = {
   Video: ProductVideo,
   fonts: ['700|Readex Pro', '600|Readex Pro', '500|Readex Pro', '400|Readex Pro', '300|Readex Pro', '500|IBM Plex Mono'],
   tailSeconds: 1.6,
+  cutaways: ['logo', 'showcase', 'cards', 'end'],
   sfx: productSfx,
   localPlan: productLocalPlan,
   director: productDirector,

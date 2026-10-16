@@ -6,7 +6,7 @@ import { AbsoluteFill } from 'remotion';
 import { prog, ease } from './anim';
 import { useT, useVideo } from './context';
 
-export const Captions = () => {
+export const Captions = ({ box }: { box?: { top: number; height: number } } = {}) => {
   const { input, T, W, H, u, portrait } = useVideo();
   const t = useT();
   const c = input.captions;
@@ -16,6 +16,7 @@ export const Captions = () => {
   const size = { s: 44, m: 56, l: 70 }[c.size] * u;
   const k = prog(t, line.start - 0.1, line.start + 0.12, ease.outCubic);
   const out = prog(t, line.end + 0.2, line.end + 0.35, ease.inCubic);
+  const anchor = box ? { bottom: H - (box.top + box.height) + size * 0.9 } : null;
   const top = c.position === 'top' ? H * (portrait ? 0.14 : 0.08) : c.position === 'middle' ? H * 0.5 - size : H * (portrait ? 0.72 : 0.8);
   const key = c.keywordColor || '#FFB45C';
   return (
@@ -24,7 +25,7 @@ export const Captions = () => {
         dir="rtl"
         style={{
           position: 'absolute',
-          top,
+          ...(anchor ?? { top }),
           left: W * 0.08,
           right: W * 0.08,
           display: 'flex',

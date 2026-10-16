@@ -9,6 +9,7 @@ import { getLoadedStyle } from '@/styles/registry';
 import { Captions } from './Captions';
 import { EndCard, END_CARD_SECONDS } from './EndCard';
 import { VideoProvider } from './context';
+import { TalkingLayout } from './Talking';
 import sfxManifest from './sfx-manifest.json';
 import { FPS, TimingIndex, toFrame } from './timing';
 import { DIMS, type SfxEvent, type VideoCtx, type VideoInput } from './types';
@@ -87,9 +88,9 @@ export const RassamVideo = ({ input }: { input: VideoInput }) => {
     <VideoProvider value={ctx}>
       <AbsoluteFill style={{ background: '#000', direction: 'rtl' }}>
         <Sequence durationInFrames={contentFrames} name="scenes">
-          <Video plan={input.plan as never} />
+          {input.talking ? <TalkingLayout style={style} plan={input.plan as never}>{() => <Video plan={input.plan as never} />}</TalkingLayout> : <Video plan={input.plan as never} />}
         </Sequence>
-        {input.captions && <Captions />}
+        {input.captions && !input.talking && <Captions />}
         {input.endCard && input.brand && (
           <Sequence from={contentFrames} name="end card">
             <EndCard />

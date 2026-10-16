@@ -16,7 +16,7 @@ export const SettingsSchema = z.object({
       google: z.string().default(''),
     })
     .default({ anthropic: '', elevenlabs: '', openai: '', google: '' }),
-  claudeModel: z.string().default('claude-sonnet-4-5'),
+  claudeModel: z.string().default('claude-sonnet-5-5'),
   perfMode: z.enum(['auto', 'full', 'lite']).default('auto'),
 });
 export type Settings = z.infer<typeof SettingsSchema>;

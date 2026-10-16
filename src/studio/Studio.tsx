@@ -7,6 +7,8 @@ import { Icon, type IconName } from '@/ui/Icon';
 import { Loader } from '@/ui/Logo';
 import { Badge, Button, cx, Field, Input, Segmented, Slider, Textarea, Toggle } from '@/ui/kit';
 import { ASPECTS, newWizard, WizardSchema, type Wizard } from './state';
+import { Export, Preview, ScriptScenes } from './Production';
+import { MediaInputs, PhotoInputs, WriteForMe } from './ContentInputs';
 
 const STEPS = ['الهدف', 'الستايل', 'المحتوى', 'الإعدادات', 'السكريبت والمشاهد', 'المعاينة والتعديل', 'التصدير'] as const;
 const GOAL_ICON: Record<Goal, IconName> = { ad: 'cart', explainer: 'help', story: 'film', numbers: 'layers', talking: 'camera', free: 'spark' };
@@ -181,15 +183,10 @@ export const Studio = ({ route }: { route: Route }) => {
                       ]}
                     />
                   </Field>
+                  <WriteForMe w={w} setW={setW} />
                 </>
               )}
-              {(w.content.source === 'voice' || w.content.source === 'video') && (
-                <div className="flex flex-col items-center gap-3 rounded-[var(--radius-lg)] border border-dashed border-[var(--line-strong)] p-8 text-center">
-                  <Icon name={w.content.source === 'voice' ? 'mic' : 'camera'} size={30} className="text-[var(--color-spark)]" />
-                  <p className="text-[0.95rem]">{w.content.source === 'voice' ? 'ارفع ملف صوت أو سجّل الآن.' : 'ارفع فيديو تتكلم فيه (عمودي أفضل).'}</p>
-                  <Badge tone="soon">التسجيل والرفع يُفعَّلان مع المحرك</Badge>
-                </div>
-              )}
+              {(w.content.source === 'voice' || w.content.source === 'video') && <MediaInputs w={w} setW={setW} />}
               {w.goal === 'ad' && (
                 <div className="surface grid gap-4 rounded-[var(--radius-lg)] p-5 sm:grid-cols-2">
                   <h3 className="font-bold sm:col-span-2">معلومات المنتج</h3>
@@ -208,6 +205,7 @@ export const Studio = ({ route }: { route: Route }) => {
                   <Field label="واتساب">
                     <Input inputMode="tel" dir="ltr" value={w.content.product.whatsapp} onChange={(e) => setC({ product: { ...w.content.product, whatsapp: e.target.value } })} placeholder="0555 12 34 56" />
                   </Field>
+                  <PhotoInputs w={w} setW={setW} />
                   <div className="flex flex-col">
                     <Toggle label="التوصيل لـ 58 ولاية" checked={w.content.product.delivery58} onChange={(delivery58) => setC({ product: { ...w.content.product, delivery58 } })} />
                     <Toggle label="الدفع عند الاستلام" checked={w.content.product.cod} onChange={(cod) => setC({ product: { ...w.content.product, cod } })} />
@@ -299,12 +297,19 @@ export const Studio = ({ route }: { route: Route }) => {
           </StepFrame>
         )}
 
-        {w.step >= 5 && (
-          <StepFrame title={STEPS[w.step - 1]!} sub="هذه الخطوة تُفعَّل مع أول ستايل يجتاز فحص الجودة.">
-            <div className="flex flex-col items-center gap-3 rounded-[var(--radius-lg)] border border-dashed border-[var(--line-strong)] p-10 text-center">
-              <Icon name="film" size={30} className="text-[var(--color-spark)]" />
-              <p className="max-w-md text-[0.95rem] text-[var(--text-2)]">المحرك قيد البناء. مشروعك محفوظ، وستجده في «مشاريعي» عندما تجهز المعاينة والتصدير.</p>
-            </div>
+        {w.step === 5 && (
+          <StepFrame title="السكريبت والمشاهد" sub="هذه خطة الفيديو: أي مشهد يظهر على أي كلمة. عدّل ما تريد ثم انتقل للمعاينة.">
+            <ScriptScenes w={w} setW={setW} />
+          </StepFrame>
+        )}
+        {w.step === 6 && (
+          <StepFrame title="المعاينة والتعديل" sub="شغّل الفيديو، غيّر اللون والإيقاع والموسيقى، واضغط على مشهد للذهاب إليه.">
+            <Preview w={w} setW={setW} />
+          </StepFrame>
+        )}
+        {w.step === 7 && (
+          <StepFrame title="التصدير" sub="يُصنع الفيديو داخل هاتفك، بلا رفع ولا انتظار في طابور.">
+            <Export w={w} setW={setW} name={w.content.product.name || w.content.topic || 'رسام'} />
           </StepFrame>
         )}
 

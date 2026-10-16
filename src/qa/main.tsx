@@ -29,7 +29,7 @@ const makeInput = async (): Promise<VideoInput> => {
     if (!d) throw new Error(`no demo ${demo}`);
     const style = await loadStyle(d.styleId);
     void style;
-    return demoInput(d, aspect);
+    return demoInput(d, aspect, q.get('talking') ? { talking: { video: './demo/qa-talking.webm', cuts: [] }, captions: { size: 'm', position: 'bottom', keywordColor: '' } } : {});
   }
   const styleId = (q.get('style') ?? 'product') as StyleId;
   const style = await loadStyle(styleId);

@@ -17,7 +17,7 @@ fs.mkdirSync(out, { recursive: true });
 
 const q = new URLSearchParams({ aspect });
 if (args.demo) q.set('demo', args.demo);
-for (const k of ['script', 'style', 'topic', 'brand', 'product', 'seed']) if (args[k]) q.set(k, args[k]);
+for (const k of ['script', 'style', 'topic', 'brand', 'product', 'seed', 'talking']) if (args[k]) q.set(k, args[k]);
 
 const dims = { '9:16': [1080, 1920], '4:5': [1080, 1350], '1:1': [1080, 1080], '16:9': [1920, 1080] }[aspect];
 const browser = await chromium.launch({ executablePath: process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', args: ['--font-render-hinting=none'] });

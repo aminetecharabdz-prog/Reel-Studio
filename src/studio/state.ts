@@ -80,6 +80,21 @@ export const WizardSchema = z.object({
       useBrandKit: true,
       endCard: true,
     }),
+  /** the produced video: timing + plan (word ids), regenerated on demand, edited in step 5/6 */
+  production: z
+    .object({
+      styleId: z.enum(STYLE_IDS),
+      reason: z.string().default(''),
+      seed: z.number().default(1),
+      source: z.enum(['local', 'claude']).default('local'),
+      scriptHash: z.string().default(''),
+      timing: z.unknown(),
+      plan: z.unknown(),
+      issues: z.array(z.string()).default([]),
+      hooks: z.array(z.string()).default([]),
+    })
+    .nullable()
+    .default(null),
   step: z.number().int().min(1).max(7).default(1),
 });
 export type Wizard = z.infer<typeof WizardSchema>;
