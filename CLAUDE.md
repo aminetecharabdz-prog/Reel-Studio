@@ -30,7 +30,7 @@
 - Cache AI results and generated images by content hash. Log every paid call in the cost ledger.
 
 ## Video rules (most important)
-- **No fixed templates.** The look comes from the per-video Design DNA + parametric primitives (SPEC §5). Never hardcode colors/fonts/layouts inside primitives.
+- **Style engines (MISSION_V2):** each of the 10 styles is a module with its own tokens, scene vocabulary and drawable illustration library, matching its reference video. Within a style, every video is planned from its own content (no fixed scene sequence).
 - **Timing is anchored to word IDs**, converted to frames in one compiler module (SPEC §6). Never hand-type seconds.
 - Remotion code is deterministic: `random(seed)` not `Math.random()`, no `Date.now()`, animation only from `useCurrentFrame()`. Stay within what the web renderer supports.
 - Arabic RTL correctness is mandatory (SPEC §7).
