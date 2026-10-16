@@ -64,3 +64,31 @@ test('settings: key saved in this browser and theme toggles', async ({ page }) =
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
+
+test('studio: ad script → scene plan → live preview → export downloads a video', async ({ page }) => {
+  test.setTimeout(300_000);
+  const errors = watch(page);
+  await page.goto('./#/create?goal=ad');
+  await page.getByRole('button', { name: /إطلاق منتج/ }).first().click();
+  await page.getByRole('button', { name: 'التالي' }).click();
+  await page.locator('textarea').first().fill('ساعتك القديمة تعبتك؟\nجرب ساعة نوفا الذكية\nتحسب خطواتك، قلبك ونومك\nبـ 6900 دينار بدل 9500\nاطلبها اليوم');
+  await page.getByLabel('اسم المنتج').fill('نوفا');
+  await page.getByRole('button', { name: 'التالي' }).click();
+  await page.getByRole('button', { name: 'التالي' }).click();
+  await expect(page.getByRole('heading', { name: 'خطة المشاهد' })).toBeVisible();
+  await expect(page.getByText('واجهة المنتج').first()).toBeVisible();
+  await page.getByRole('button', { name: 'التالي' }).click();
+  await expect(page.locator('.__remotion-player').first()).toBeVisible({ timeout: 30_000 });
+  await page.getByRole('button', { name: 'التالي' }).click();
+  const dl = page.waitForEvent('download', { timeout: 240_000 });
+  await page.getByRole('button', { name: 'صدّر الفيديو' }).click();
+  const d = await dl;
+  expect((await d.createReadStream())).toBeTruthy();
+  await expect(page.getByText(/^تم!/)).toBeVisible();
+  expect(errors.filter((e) => !/usage event|register-usage|Failed to load resource/.test(e)), errors.join('\n')).toEqual([]);
+});
+
+test('style page plays the engine preview', async ({ page }) => {
+  await page.goto('./#/styles/product');
+  await expect(page.locator('.__remotion-player').first()).toBeVisible({ timeout: 30_000 });
+});

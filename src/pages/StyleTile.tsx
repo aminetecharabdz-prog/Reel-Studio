@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { href } from '@/app/router';
 import type { StyleId, StyleMeta } from '@/styles/catalog';
 import { Badge } from '@/ui/kit';
+import { DemoPlayer } from './DemoPlayer';
 
 /** A tiny drawn poster per style (placeholder until the engine's looping preview replaces it). */
 const MOTIF: Record<StyleId, (c: [string, string, string]) => ReactNode> = {
@@ -104,8 +105,8 @@ export const StylePoster = ({ s, className = '' }: { s: StyleMeta; className?: s
 
 export const StyleTile = ({ s }: { s: StyleMeta }) => (
   <a href={href(`/styles/${s.id}`)} className="group card flex w-[46vw] max-w-[220px] shrink-0 snap-start flex-col overflow-hidden rounded-[var(--radius-lg)] sm:w-auto sm:max-w-none">
-    <div className="relative aspect-[9/14] overflow-hidden border-b border-[var(--line)]">
-      <StylePoster s={s} className="absolute inset-0 h-full w-full transition duration-500 group-hover:scale-[1.04]" />
+    <div className="relative aspect-[9/16] overflow-hidden border-b border-[var(--line)]">
+      {s.ready ? <DemoPlayer styleId={s.id} className="absolute inset-0 h-full w-full" /> : <StylePoster s={s} className="absolute inset-0 h-full w-full transition duration-500 group-hover:scale-[1.04]" />}
       <span className="absolute top-2.5 right-2.5">{s.ready ? <Badge tone="teal">جاهز</Badge> : <Badge tone="neutral">قريبًا</Badge>}</span>
     </div>
     <div className="flex flex-col gap-1 p-3.5">

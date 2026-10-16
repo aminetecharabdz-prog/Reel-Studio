@@ -2,7 +2,27 @@ import { href } from '@/app/router';
 import { GOALS, STYLES, STYLE_LIST, type StyleId } from '@/styles/catalog';
 import { Icon } from '@/ui/Icon';
 import { Badge, Button, Section } from '@/ui/kit';
+import { useState } from 'react';
+import { demosOf } from '@/demos';
+import type { Aspect } from '@/engine/types';
+import { Segmented } from '@/ui/kit';
+import { DemoPlayer } from './DemoPlayer';
 import { StylePoster, StyleTile } from './StyleTile';
+
+const LivePreview = ({ id }: { id: StyleId }) => {
+  const demos = demosOf(id);
+  const [d, setD] = useState(0);
+  const [aspect, setAspect] = useState<Aspect>('9:16');
+  return (
+    <div className="flex flex-col gap-3 p-3">
+      <DemoPlayer key={`${d}-${aspect}`} styleId={id} demo={d} aspect={aspect} controls sound className="w-full overflow-hidden rounded-[var(--radius-lg)]" />
+      {demos.length > 1 && (
+        <Segmented label="المثال" value={String(d)} onChange={(v) => setD(Number(v))} options={demos.map((x, i) => ({ value: String(i), label: x.titleAr }))} />
+      )}
+      <Segmented label="المقاس" value={aspect} onChange={setAspect} options={(['9:16', '1:1', '16:9'] as const).map((a) => ({ value: a, label: <span className="num">{a}</span> }))} />
+    </div>
+  );
+};
 
 export const StylesPage = () => (
   <Section title="الستايلات العشرة" kicker="اختر الأسلوب الذي يشبه فكرتك">
@@ -27,7 +47,8 @@ export const StylePage = ({ id }: { id: string }) => {
     <>
       <section className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,420px)_1fr] lg:py-16">
         <div className="card overflow-hidden rounded-[var(--radius-xl)]">
-          <div className="relative aspect-[9/14]">
+          {s.ready ? <LivePreview id={s.id} /> : null}
+          <div className={s.ready ? 'hidden' : 'relative aspect-[9/14]'}>
             <StylePoster s={s} className="absolute inset-0 h-full w-full" />
             {!s.ready && (
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5 text-white">

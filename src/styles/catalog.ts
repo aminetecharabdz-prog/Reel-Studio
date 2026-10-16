@@ -35,7 +35,7 @@ export const STYLES: Record<StyleId, StyleMeta> = {
     goals: ['ad', 'free'],
     nativeAspect: '16:9',
     swatch: ['#05050A', '#F5F3FF', '#6C3BFF'],
-    ready: false,
+    ready: true,
     keywords: ['تطبيق', 'منتج', 'برنامج', 'app', 'launch', 'إطلاق', 'جديد', 'ميزة', 'هاتف', 'تقنية'],
   },
   infographic: {

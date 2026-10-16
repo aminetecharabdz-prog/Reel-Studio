@@ -244,7 +244,7 @@ export const Preview = ({ w, setW }: { w: Wizard; setW: SetW }) => {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
       <div className="flex flex-col items-center gap-3">
         {input && ctx ? (
-          <div style={size.style} className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--line)] shadow-[var(--shadow-e3)]">
+          <div dir="ltr" style={size.style} className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--line)] shadow-[var(--shadow-e3)]">
             <Player
               ref={player}
               component={RassamVideo}

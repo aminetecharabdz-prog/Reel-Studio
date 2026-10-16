@@ -135,8 +135,8 @@ export const Studio = ({ route }: { route: Route }) => {
           <StepFrame title="اختر الستايل" sub="المقترحة لهدفك في الأول. «اختيار تلقائي» يترك رسّام يختار مع السبب.">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
               <Option active={w.style === 'auto'} onClick={() => set({ style: 'auto' })} icon="wand" title="اختيار تلقائي" body="رسّام يقرأ كلامك ويختار الستايل الأنسب، ويشرح لماذا." />
-              {[...STYLE_LIST].sort((a, b) => Number(!!w.goal && b.goals.includes(w.goal)) - Number(!!w.goal && a.goals.includes(w.goal))).map((s) => (
-                <Option key={s.id} active={w.style === s.id} onClick={() => set({ style: s.id })} title={s.nameAr} body={s.goodForAr[0]}>
+              {[...STYLE_LIST].sort((a, b) => Number(b.ready) * 10 + Number(!!w.goal && b.goals.includes(w.goal)) - (Number(a.ready) * 10 + Number(!!w.goal && a.goals.includes(w.goal)))).map((s) => (
+                <Option key={s.id} active={w.style === s.id} onClick={() => s.ready && set({ style: s.id })} title={s.nameAr} body={s.ready ? s.goodForAr[0] : 'قريبًا — قيد فحص الجودة'}>
                   <span className="relative block aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)]">
                     <StylePoster s={s} className="absolute inset-0 h-full w-full" />
                     <span className="absolute top-2 right-2">{s.ready ? <Badge tone="teal">جاهز</Badge> : <Badge>قريبًا</Badge>}</span>
