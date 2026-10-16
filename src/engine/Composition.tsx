@@ -3,7 +3,7 @@
  * + optional captions + optional brand end card. Pure function of the frame.
  */
 import { useMemo } from 'react';
-import { AbsoluteFill, Sequence, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from 'remotion';
 import { Audio } from '@remotion/media';
 import { getLoadedStyle } from '@/styles/registry';
 import { Captions } from './Captions';
@@ -15,6 +15,9 @@ import { FPS, TimingIndex, toFrame } from './timing';
 import { DIMS, type SfxEvent, type VideoCtx, type VideoInput } from './types';
 
 const EASTERN = '٠١٢٣٤٥٦٧٨٩';
+
+/** a file from /public, resolved against the page (the site lives under /Reel-Studio/ on GitHub Pages) */
+export const pub = (path: string) => (typeof document === 'undefined' ? path : new URL(path.replace(/^\//, ''), document.baseURI).href);
 
 export const buildCtx = (input: VideoInput): VideoCtx => {
   const style = getLoadedStyle(input.styleId);
@@ -48,7 +51,7 @@ const Sfx = ({ events, intensity }: { events: SfxEvent[]; intensity: number }) =
       const from = toFrame(Math.max(0, e.at - m.peak));
       return (
         <Sequence key={`${e.name}-${i}`} from={from} durationInFrames={Math.max(2, toFrame(m.dur) + 2)} name={`sfx ${e.name}`} layout="none">
-          <Audio src={staticFile(`${SFX_BASE}${e.name}.mp3`)} volume={(e.vol ?? 0.6) * (0.4 + intensity * 0.9)} />
+          <Audio src={pub(`${SFX_BASE}${e.name}.mp3`)} volume={(e.vol ?? 0.6) * (0.4 + intensity * 0.9)} />
         </Sequence>
       );
     })}
@@ -66,7 +69,7 @@ const Music = ({ ctx }: { ctx: VideoCtx }) => {
   if (!a.music) return null;
   return (
     <Audio
-      src={a.music.startsWith('audio/') ? staticFile(a.music) : a.music}
+      src={a.music.startsWith('audio/') ? pub(a.music) : a.music}
       volume={(f) => {
         const fadeIn = Math.min(1, f / 15);
         const fadeOut = Math.min(1, Math.max(0, (endFrame - f) / 45));

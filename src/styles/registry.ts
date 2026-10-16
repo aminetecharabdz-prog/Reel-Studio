@@ -4,6 +4,7 @@ import type { StyleId } from './catalog';
 /** Style engines are code-split; load one before mounting a Player/export with it. */
 const loaders: Partial<Record<StyleId, () => Promise<{ default: unknown }>>> = {
   product: () => import('./product'),
+  infographic: () => import('./infographic'),
 };
 
 const loaded = new Map<StyleId, StyleModule<never>>();

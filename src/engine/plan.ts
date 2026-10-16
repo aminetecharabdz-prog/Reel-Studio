@@ -1,7 +1,7 @@
 /** Style-agnostic plan utilities: word-id repair, scene ordering, editable texts (ported from the wip engine). */
 
 const ANCHOR_KEYS = new Set(['from', 'at', 'typeFrom', 'typeTo', 'send', 'until']);
-const TEXT_KEYS: Record<string, string> = { t: 'نص', text: 'نص', title: 'عنوان', tagline: 'شعار', line: 'سطر', cta: 'زر', handle: 'حساب', label: 'تسمية', old: 'السعر القديم', name: 'الاسم' };
+const TEXT_KEYS: Record<string, string> = { t: 'نص', text: 'نص', title: 'عنوان', tagline: 'شعار', line: 'سطر', cta: 'زر', handle: 'حساب', label: 'تسمية', old: 'السعر القديم', name: 'الاسم', eyebrow: 'سطر صغير', source: 'المصدر', equation: 'معادلة', rest: 'الباقي' };
 
 const idx = (id: string) => Number(id.slice(1));
 type Obj = Record<string, unknown>;

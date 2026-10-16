@@ -47,7 +47,7 @@ export const STYLES: Record<StyleId, StyleMeta> = {
     goals: ['numbers', 'explainer', 'ad'],
     nativeAspect: '16:9',
     swatch: ['#000000', '#F5F5F7', '#64D2FF'],
-    ready: false,
+    ready: true,
     keywords: ['نسبة', 'رقم', 'إحصاء', '%', 'مليون', 'مقارنة', 'سعر', 'أرقام'],
   },
   doodle: {

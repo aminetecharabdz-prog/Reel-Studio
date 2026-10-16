@@ -52,8 +52,9 @@ export const TalkingLayout = ({ style, plan, children }: { style: StyleModule<ne
   void from;
   return (
     <AbsoluteFill style={{ background: '#000' }}>
-      {mode !== 'cutaway' && src && (
-        <div style={{ position: 'absolute', top: 0, right: 0, width: speakerW, height: speakerH, overflow: 'hidden' }}>
+      {/* the speaker stays mounted (no reload on layout changes); hidden under full-screen cutaways */}
+      {src && (
+        <div style={{ position: 'absolute', top: 0, right: 0, width: speakerW, height: speakerH, overflow: 'hidden', opacity: mode === 'cutaway' ? 0 : 1 }}>
           <div style={{ position: 'absolute', inset: 0, transform: `scale(${punch})`, transformOrigin: `50% ${idx % 2 ? 35 : 45}%` }}>
             <Video src={src} muted style={{ width: '100%', height: '100%' }} objectFit="cover" />
           </div>
