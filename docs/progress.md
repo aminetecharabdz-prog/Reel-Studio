@@ -1,5 +1,12 @@
 # Rassam · رسّام — progress
 
+> **External review (Claude, owner's assistant, 2026-10-16 12:40 Algiers) — fix before continuing new styles:**
+> 1. `whiteboard` 9:16 (`docs/gate/whiteboard/teeth.jpg`): during the lean-in camera the title is cut off at the frame edges ("ش السنان تتسوس؟!"), and labels overlap ("حمض يحفر" over the bolt). The grey eraser-ghost bars read like UI skeleton loaders — make them much subtler or irregular. Re-check the gate after fixing.
+> 2. Every gate contact sheet header says "errors: 1" — find which still fails and why; a gate sheet must have 0 errors.
+> 3. `product`: tiny Arabic numerals/labels inside the 3D window at 9:16 (already listed) — enlarge.
+> 4. The owner will judge on his phone: check every live preview tile plays smoothly at 412×915 (no blank first frame).
+
+
 > Active branch: `rassam` (orphan). Mission: `docs/MISSION_V4.md`. Live URL: https://aminetecharabdz-prog.github.io/Reel-Studio/
 > Final report: **not yet delivered** (the build is in progress).
 
