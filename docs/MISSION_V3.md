@@ -1,19 +1,22 @@
-# MISSION V2 — Rebuild the platform around the Motion Starter Kit styles
+# MISSION V3 — Rebuild the platform as "Rassam" around the Motion Starter Kit styles
+
+> Base: continue from branch `claude/modest-wozniak-1umut3` (the current "Motiq" app, live on Pages) after merging `origin/main`. Leave the branches `claude/upbeat-ride-cwljzw`, `claude/modest-cerf-gwzwwp` and `asset-staging` untouched (owner's one-off client reels).
 
 > This file **supersedes** the creative/engine parts of `MASTER_PROMPT.md`, `SPEC.md` §5 and `docs/QUALITY_BAR.md`.
 > Infrastructure decisions in SPEC.md (static site on GitHub Pages, BYOK keys, in-browser render/export, IndexedDB, word-anchored timing, Arabic RTL rules, mobile-first, Playwright on the live URL) still apply.
 > The owner (Arabic speaker, not a programmer, works from his phone) has given **full permission**: do not ask him anything, decide yourself, record decisions in `docs/progress.md`, and tell him only when it is done.
 
 ## 1. Why we rebuild
-The owner reviewed the "Nabra" engine output and rejected it (kinetic text on flat backgrounds, generic icons, empty scenes). He found the open-source **Motion Starter Kit** (MIT licence): https://github.com/motalim-ai/motion-starter-kit — 10 hand-crafted Remotion styles, all drawn in code (no AI images), with reference videos, style analysis scripts, Arabic rules and a review method. **That is the quality he wants.** Our platform turns that agent workflow into a self-serve web product: a user picks a style, gives a voice or a script, and gets a finished video of that quality.
+The owner rejected "Nabra" (v1) and now wants a new direction beyond "Motiq" (v2, the current live app: scene-graph engine, photo library, Claude/Gemini director). He found the open-source **Motion Starter Kit** (MIT licence): https://github.com/motalim-ai/motion-starter-kit — 10 hand-crafted Remotion styles, all drawn in code (no AI images), with reference videos, style analysis scripts, Arabic rules and a review method. **That is the quality he wants.** Our platform turns that agent workflow into a self-serve web product: a user picks a style, gives a voice or a script, and gets a finished video of that quality.
 
 ## 2. New brand — "رسّام · Rassam"
 - Name: **رسّام / Rassam** ("the one who draws") — the platform *draws* your video: pen, marker, chalk, ink, light. Short, strong, easy in Arabic, French and English.
-- Replace every "Nabra/نبرة" occurrence (brand config, title, manifest, favicon, landing, docs). One config file controls the name.
+- Replace every "Motiq/موتيك" and "Nabra/نبرة" occurrence (brand config, title, manifest, favicon, landing, docs). One config file controls the name.
 - Logo (original SVG, design it with the `frontend-design` skill): one continuous hand-drawn stroke that forms the letter **ر** and closes into a **play triangle**, with a small glowing **orange spark at the pen tip** (the stroke is "still being drawn"). Variants: full lockup (mark + wordmark رسّام / Rassam), icon only (favicon/PWA, legible at 16 px), animated version (the stroke draws itself, spark travels) for the landing hero and the video end card.
 - UI identity: ink-black `#0E0D0B`, warm paper `#F5EFE4`, spark orange `#FF5A1F`, plus one cool accent; display type with hand-drawn character for Arabic + a clean sans for UI. Premium, calm, editorial — must look like a serious international product, clearly different from "Make it" (navy + yellow).
 
 ## 3. The kit — how to use it
+- Build sandboxes may have no npm/pip registry (see progress.md): if so, do installs, builds, tests, renders and contact sheets in GitHub Actions as the Motiq sessions did (`[qa]` commits → `qa-sheets` branch), and extract reference frames locally with `ffmpeg` if `uv`/Python packages are unavailable.
 - In every session: `git clone --depth 1 https://github.com/motalim-ai/motion-starter-kit .ref/msk` (add `.ref/` to `.gitignore`; do NOT commit the reference videos).
 - Copy the kit's skill `motion-from-reference` (SKILL.md, references/, scripts/) into `.claude/skills/motion-from-reference/` once and commit it (MIT — keep the licence file and credit "Motion Starter Kit by Motalim" in `docs/CREDITS.md` and in the app's About page).
 - For each style: run its analysis (`analyze.py`, needs `uv`; install it if missing) on `.ref/msk/styles/<id>/reference.mp4`, LOOK at every sheet/motion image, read `styles/<id>/README.md`, and write `docs/styles/<id>/STYLE.md` using the kit's `references/style-bible.md` template (exact hex colours, px sizes, durations, easing names). Commit the small analysis images you need under `docs/styles/<id>/`.
@@ -37,7 +40,7 @@ Each module contains:
 2. **Create:** style (or "اختيار تلقائي" — Claude picks the best style from the topic) → content: upload voice (MP3/M4A/WAV/MP4 → transcription with word timestamps) OR write/paste a script (optional ElevenLabs TTS if key, else silent with text pacing like the kit's `--wps`) OR "write the script for me" from a topic (Claude) → topic/notes, duration, aspect ratio → music (generated/mood or upload) + SFX on/off → **Generate**.
 3. **Preview & edit:** Player, scene list, edit any text, regenerate one scene, change accent colour, re-time; then **Export MP4 in the browser** (720p fast / 1080p HD), plus SRT.
 4. **Settings:** BYOK keys (Claude, ElevenLabs, optional OpenAI for Whisper) with Arabic phone guides; works in demo mode without keys.
-5. Keep from the current build where useful: transcription providers, word re-alignment, export, IndexedDB projects, talking-head mode (Mode C) — restyle Mode C overlays with the new style engines. Delete the old "50 primitives / Design DNA" engine once the new one covers it.
+5. Keep from the current Motiq build where useful: `src/ai/speech.ts` (Scribe STT / TTS / estimator), Claude tool-call + Zod + caching + cost ledger, export pipeline, IndexedDB projects, BYOK settings, the QA checks in `src/engine/qa.ts` (adapt them to the new engines), CI workflows (`qa-sheets` with `[qa]` commits, live-smoke). Motiq's free-form scene-graph engine and photo library may remain as an extra style "editorial" only if it still passes the quality gate; otherwise remove it.
 
 ### 4.3 Product ads
 The `product` style plus user product photos: the photo is placed as the hero object inside the style (tilted card with glowing edge, orbiting rings, price/offer/delivery chips in the style's language). Ad structure from the `reel-copywriting` skill.
