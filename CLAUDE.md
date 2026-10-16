@@ -1,6 +1,6 @@
 # CLAUDE.md — project rules
 
-Read `SPEC.md` before any work. It is the source of truth. `MASTER_PROMPT.md` is the owner's mission brief.
+**Current mission: `docs/MISSION_V2.md` (rebuild as "رسّام · Rassam" around the Motion Starter Kit styles). Read it first; it supersedes the engine/creative parts of `MASTER_PROMPT.md`, `SPEC.md` §5 and `docs/QUALITY_BAR.md`.** `SPEC.md` still defines the infrastructure.
 
 ## The owner
 - Not a programmer. Speaks Arabic (Algerian). Works **from his phone only** — he cannot run commands, open files on a computer, or edit code. He tests by opening the **public GitHub Pages link** in Chrome on Android.
