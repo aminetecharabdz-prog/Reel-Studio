@@ -7,9 +7,8 @@
 > The owner (Arabic speaker, not a programmer, works from his phone) has given **full permission**: do not ask him anything, decide yourself, record decisions in `docs/progress.md`, and tell him only when it is done.
 
 
-## ⚠️ SCOPE DECISION (owner, 2026-10-16 03:56) — overrides §4.1 and §5 below
-Build **ONE style only for now: `product`** — at full reference quality — and finish the **whole website** around it: very strong, professional, beautiful colours and design, zero bugs, many powerful features. The other 9 styles come later.
-- The style gallery shows `product` as live; the 9 others appear as elegant "قريبًا" (coming soon) cards with a short description and a still teaser that **we** draw (never copy the kit's previews).
+## ⚠️ SCOPE DECISION (owner, updated 2026-10-16 03:00 Algiers) — ALL TEN STYLES, as fast as possible
+The owner changed his mind: build **all 10 styles** and the **whole website**, as quickly as possible, then report once. Order: `product` first (it defines the e-commerce flow below), then `infographic`, `doodle`, `whiteboard`, `plotter`, `stickman`, `chalkboard`, `isometric`, `fake3d`, `map-journey`. Each style still has to pass the §5 gate; work fast but never ship a style below its reference (a style that is not ready yet shows as "قريبًا" until it passes). The site features below apply to every style.
 - `product` must cover the owner's market: **physical product ads for e-commerce** (shoes, clothes, phone holder, watch, cosmetics… from 1–5 user photos: background removal in the browser if possible, the product as hero object in the style's tilted glowing card / orbiting rings / giant words), **app/service promos**, and **offers** (price, old→new price, delivery to 58 wilayas, cash on delivery, stock/urgency only if true). Vertical 9:16 first, also 4:5, 1:1 and 16:9.
 - Features to ship with it (all working, tested on a phone):
   1. Create from **voice** (upload/record in the browser, transcription with word timing), from a **script**, or **"write the ad for me"** from product name + price + 3 benefits (Claude, Darija/MSA/French) with 3 hook variants to choose from.
