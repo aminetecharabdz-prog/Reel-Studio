@@ -1,7 +1,7 @@
 /** product — the Claude director: style bible + vocabulary + rules, and the plan JSON schema for tool use. */
 import { z } from 'zod';
 import type { DirectorSpec } from '@/engine/types';
-import { ICON_IDS } from './icons';
+import { ICON_IDS } from '@/art/icons';
 import { ProductPlanSchema } from './schema';
 
 const system = `You are the art director of «رسّام», planning ONE short video in the "product" style

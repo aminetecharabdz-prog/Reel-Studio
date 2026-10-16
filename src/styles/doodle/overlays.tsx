@@ -1,7 +1,7 @@
 /** doodle overlays in screen space: narration caption, bubbles, ؟ badge, name tag, icon cards, quote card. */
 import type { CSSProperties, ReactNode } from 'react';
-import { ICONS, type IconId } from '@/styles/product/icons';
-import { ellipse, inkOf } from './ink';
+import { ICONS, type IconId } from '@/art/icons';
+import { ellipse, inkOf } from '@/art/ink';
 import { K } from './tokens';
 
 /** accent word: orange, soft peach glow, squiggle drawn under it (R → L) then drifting */

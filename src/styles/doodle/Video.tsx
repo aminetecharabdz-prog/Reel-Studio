@@ -10,7 +10,7 @@ import { clamp, ease, lerp, prog, springAt } from '@/engine/anim';
 import { keyIndex, clean } from '@/engine/lexicon';
 import { measure, wrapWords } from '@/engine/measure';
 import { Character, Cloud, Ink, Prop, Sun, type Look, type Pose } from './art';
-import { ellipse } from './ink';
+import { ellipse } from '@/art/ink';
 import { AccentWord, CardIcon, InkBox, QBadge, Thought, TINTS } from './overlays';
 import type { DoodleBeat, DoodlePlan } from './schema';
 import { GROUND, K } from './tokens';

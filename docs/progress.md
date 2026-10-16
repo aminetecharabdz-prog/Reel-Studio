@@ -70,6 +70,6 @@ can show the next word's slot opening at its side for 2–3 frames.
   reduced motion.
 
 ## Known issues
-- Live CI run e1c0280: export test failed because SFX/music URLs were root-absolute → fixed (`pub()`), re-verifying.
+- (fixed) Live export failed while SFX/music URLs were root-absolute; live run 450cfcc passes the full ad → export flow.
 - The sandbox's headless Chromium has no H.264, so CI/local exports are WebM; phones with H.264 encoders get MP4.
 - Without a speech-to-text key, timing on an uploaded voice/video is the script estimate scaled to the media length.

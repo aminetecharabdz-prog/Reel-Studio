@@ -1,6 +1,6 @@
 /** product style — the scene vocabulary the director (Claude or local) writes. Every "when" is a word id. */
 import { z } from 'zod';
-import { ICON_IDS } from './icons';
+import { ICON_IDS } from '@/art/icons';
 
 export const WordId = z.string().regex(/^w\d+$/);
 

@@ -7,7 +7,7 @@ import { random } from 'remotion';
 import { TimingIndex, norm, type Word } from '@/engine/timing';
 import { chunk, clean, iconFor, isContrast, isNumberish, isQuestion, isStop, keyIndex, listSegments } from '@/engine/lexicon';
 import type { PlanInput } from '@/engine/types';
-import { ICONS, type IconId } from './icons';
+import { ICONS, type IconId } from '@/art/icons';
 import { ProductPlanSchema, type KWord, type ProductPlan, type ProductScene } from './schema';
 
 const cut = (s: string, n: number) => (s.length <= n ? s : `${s.slice(0, n - 1).trim()}…`);

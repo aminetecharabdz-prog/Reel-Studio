@@ -4,7 +4,7 @@
  */
 import type { ReactNode } from 'react';
 import { random } from 'remotion';
-import { ellipse, inkOf, rrect } from './ink';
+import { ellipse, inkOf, rrect } from '@/art/ink';
 import { K } from './tokens';
 
 export const Ink = ({ d, w = 4.5, seed = 1, color = K.ink, opacity = 1 }: { d: string; w?: number; seed?: number; color?: string; opacity?: number }) => <path d={inkOf(d, w, seed)} fill={color} fillRule="evenodd" opacity={opacity} />;

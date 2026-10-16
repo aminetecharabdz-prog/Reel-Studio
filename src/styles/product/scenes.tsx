@@ -5,7 +5,7 @@ import { detectDir, measure } from '@/engine/measure';
 import { glow } from '@/engine/paint';
 import { ACCENTS, T, type AccentId } from './tokens';
 import { FAMILY, Grad, KLine, Mark, NeonFrame, Stage, W_BOLD, fitSize, type LWord } from './parts';
-import { Icon } from './icons';
+import { Icon } from '@/art/icons';
 import type { ProductPlan, ProductScene } from './schema';
 
 type Of<K extends ProductScene['kind']> = Extract<ProductScene, { kind: K }>;
