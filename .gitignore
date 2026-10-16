@@ -6,3 +6,4 @@ playwright-report
 *.log
 /.qa
 __pycache__
+.ref/
