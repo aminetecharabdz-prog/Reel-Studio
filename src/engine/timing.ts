@@ -111,11 +111,11 @@ export class TimingIndex {
     return Math.max(prev.end, w.start - lead);
   }
   /** scene windows (seconds) from each scene's first word id; the last runs to the end of the video */
-  windows(firstIds: string[], end = this.duration): Array<{ from: number; to: number }> {
+  windows(firstIds: string[], end = this.duration, lead = 0.2): Array<{ from: number; to: number }> {
     return firstIds.map((id, k) => {
-      const from = k === 0 ? 0 : this.cutBefore(id);
+      const from = k === 0 ? 0 : this.cutBefore(id, lead);
       const next = firstIds[k + 1];
-      const to = next ? this.cutBefore(next) : end;
+      const to = next ? this.cutBefore(next, lead) : end;
       return { from, to: Math.max(from + 1 / this.fps, to) };
     });
   }

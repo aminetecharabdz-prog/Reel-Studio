@@ -2,7 +2,7 @@ import type { StyleModule } from '@/engine/types';
 import type { StyleId } from './catalog';
 
 /** Style engines are code-split; load one before mounting a Player/export with it. */
-const loaders: Partial<Record<StyleId, () => Promise<{ default: StyleModule<never> }>>> = {
+const loaders: Partial<Record<StyleId, () => Promise<{ default: unknown }>>> = {
   product: () => import('./product'),
 };
 
@@ -15,7 +15,7 @@ export const loadStyle = async (id: StyleId): Promise<StyleModule<never>> => {
   if (hit) return hit;
   const l = loaders[id];
   if (!l) throw new Error(`style ${id} has no engine yet`);
-  const mod = (await l()).default;
+  const mod = (await l()).default as StyleModule<never>;
   await loadFonts(mod.fonts);
   loaded.set(id, mod);
   return mod;
