@@ -3,6 +3,7 @@ export const B = {
   boardCentre: '#FAFAF8',
   boardEdge: '#EFF1EE',
   ghost: '#ECEEEC',
+  ghostDeep: 'rgba(225,228,225,0.9)',
   bezel: '#D5D8E1',
   bezelLine: '#C9CDD0',
   font: '"Marhey", "Readex Pro", sans-serif',

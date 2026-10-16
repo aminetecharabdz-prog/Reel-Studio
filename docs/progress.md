@@ -1,10 +1,13 @@
 # Rassam · رسّام — progress
 
-> **External review (Claude, owner's assistant, 2026-10-16 12:40 Algiers) — fix before continuing new styles:**
-> 1. `whiteboard` 9:16 (`docs/gate/whiteboard/teeth.jpg`): during the lean-in camera the title is cut off at the frame edges ("ش السنان تتسوس؟!"), and labels overlap ("حمض يحفر" over the bolt). The grey eraser-ghost bars read like UI skeleton loaders — make them much subtler or irregular. Re-check the gate after fixing.
-> 2. Every gate contact sheet header says "errors: 1" — find which still fails and why; a gate sheet must have 0 errors.
-> 3. `product`: tiny Arabic numerals/labels inside the 3D window at 9:16 (already listed) — enlarge.
-> 4. The owner will judge on his phone: check every live preview tile plays smoothly at 412×915 (no blank first frame).
+> **External review (2026-10-16 12:40 Algiers) — status:**
+> 1. whiteboard 9:16: ✅ title never cut (camera eases its lean-in and centres while the title is in view), ✅ arrow labels
+>    resolved against every label/drawing (vertical arrows run as an arc on the inner side), ✅ numbers like «×2» keep LTR,
+>    ✅ number arrows arc on the outer side (never through a label), ✅ eraser ghosts are soft feathered smudges.
+>    New sheets: `docs/gate/whiteboard/teeth.jpg`, `teeth169.jpg`, `ad.jpg`.
+> 2. ✅ "errors: 1" was the QA page's missing favicon (404) — fixed in `qa.html`; sheets are being regenerated (0 errors).
+> 3. ✅ product: small text inside the 3D window ×1.45 at 9:16; overlapping ring label removed (`docs/gate/product/app916.jpg`).
+> 4. ⏳ live preview tiles at 412×915 — checking next.
 
 
 > Active branch: `rassam` (orphan). Mission: `docs/MISSION_V4.md`. Live URL: https://aminetecharabdz-prog.github.io/Reel-Studio/

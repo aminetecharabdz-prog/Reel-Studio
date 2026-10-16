@@ -18,7 +18,7 @@ import { B, CHAR_S, MARKERS, type Marker } from './tokens';
 type Track = { t0: number; t1: number; pts: P[]; color: Marker };
 type Stroke = { pts: P[]; w: number; color: string; t0: number; t1: number; closed: boolean; key: string; dash?: boolean; spin?: { x: number; y: number; t: number } };
 type Hatch = { region: P[]; color: string; t0: number; t1: number; key: string; box: [number, number, number, number] };
-type Text = { text: string; x: number; y: number; size: number; color: string; t0: number; t1: number; align: 'center' | 'right'; weight?: number };
+type Text = { text: string; x: number; y: number; size: number; color: string; t0: number; t1: number; align: 'center' | 'right'; weight?: number; ltr?: boolean; movable?: boolean; track?: Track };
 type Pop = { x: number; y: number; r: number; t: number; kind: 'star' | 'face' | 'cross' | 'check'; color?: string };
 
 const lengthOf = (pts: P[]) => pts.reduce((a, p, i) => (i ? a + Math.hypot(p[0] - pts[i - 1]![0], p[1] - pts[i - 1]![1]) : 0), 0);
@@ -67,6 +67,36 @@ const placeProp = (id: string, cx: number, cy: number, size: number) => {
     face: def.face ? ([cx + def.face[0] * k, cy + def.face[1] * k] as P) : null,
     living: def.living,
   };
+};
+
+type Rect = [number, number, number, number];
+const textRect = (t: Text): Rect => {
+  const w = measure(t.text, 'Marhey', 700, t.size);
+  return [t.x - w / 2, t.y, t.x + w / 2, t.y + t.size * 1.35];
+};
+const hit = (a: Rect, b: Rect, pad: number) => a[0] < b[2] + pad && b[0] < a[2] + pad && a[1] < b[3] + pad && b[1] < a[3] + pad;
+
+/** movable labels (arrow captions) never sit on another label or on a drawing: nudge to the nearest free spot */
+const resolveLabels = (texts: Text[], oc: Record<number, { x: number; y: number; size: number }>, Bd: Board) => {
+  const { u } = Bd;
+  const objs: Rect[] = Object.values(oc).map((c) => [c.x - c.size * 0.5, c.y - c.size * 0.5, c.x + c.size * 0.5, c.y + c.size * 0.5]);
+  const fixed = texts.filter((t) => !t.movable).map(textRect);
+  texts.forEach((t) => {
+    if (!t.movable) return;
+    const base = { x: t.x, y: t.y };
+    const steps = [0, 1, 2, 3, 4, 5, 6];
+    const cands: Array<[number, number]> = [];
+    steps.forEach((k) => [[0, -1], [0, 1], [1, 0], [-1, 0], [1, -1], [-1, -1], [1, 1], [-1, 1]].forEach(([ax, ay]) => cands.push([ax! * k * 30 * u, ay! * k * 26 * u])));
+    for (const [ox, oy] of cands) {
+      t.x = base.x + ox;
+      t.y = base.y + oy;
+      const r = textRect(t);
+      const inside = r[0] > 40 * u && r[2] < Bd.W - 40 * u && r[1] > 40 * u && r[3] < Bd.H - 40 * u;
+      if (inside && !fixed.some((f) => hit(r, f, 12 * u)) && !objs.some((o) => hit(r, o, 4 * u))) break;
+    }
+    if (t.track) t.track.pts = t.track.pts.map(([px, py]) => [px + t.x - base.x, py + t.y - base.y]);
+    fixed.push(textRect(t));
+  });
 };
 
 /** compile the plan into timed strokes, hatches, texts, pops and the marker's track */
@@ -121,11 +151,12 @@ const compile = (plan: WhiteboardPlan, T: TimingIndex, Bd: Board) => {
     if (pr.living) living.push({ kind: pr.living, x, y, size, t: (hatchWin?.t1 ?? t1) + 0.2, color: MARKERS[color].stroke });
   };
 
-  const addLabel = (text: string, x: number, y: number, size: number, color: Marker, win: { t0: number; t1: number }) => {
+  const addLabel = (text: string, x: number, y: number, size: number, color: Marker, win: { t0: number; t1: number }, movable = false) => {
     if (!text) return 0;
     const w = measure(text, 'Marhey', 700, size);
-    texts.push({ text, x, y, size, color: MARKERS[color].stroke, t0: win.t0, t1: win.t1, align: 'center' });
-    tracks.push({ t0: win.t0, t1: win.t1, pts: [[x + w / 2, y + size * 0.95], [x - w / 2, y + size * 0.95]], color });
+    const track: Track = { t0: win.t0, t1: win.t1, pts: [[x + w / 2, y + size * 0.95], [x - w / 2, y + size * 0.95]], color };
+    texts.push({ text, x, y, size, color: MARKERS[color].stroke, t0: win.t0, t1: win.t1, align: 'center', movable, track });
+    tracks.push(track);
     return w;
   };
 
@@ -175,17 +206,32 @@ const compile = (plan: WhiteboardPlan, T: TimingIndex, Bd: Board) => {
         const nw0 = measure(it.value, 'Marhey', 700, size);
         const x = Math.max(nw0 / 2 + 40 * u, Math.min(Bd.W - nw0 / 2 - 40 * u, bx));
         const y = by - size * 0.7;
-        texts.push({ text: it.value, x, y, size, color: MARKERS[it.color].stroke, t0: w.outline.t0, t1: w.outline.t0 + Math.max(0.3, it.value.length * CHAR_S * 1.5), align: 'center' });
+        texts.push({ text: it.value, x, y, size, color: MARKERS[it.color].stroke, t0: w.outline.t0, t1: w.outline.t0 + Math.max(0.3, it.value.length * CHAR_S * 1.5), align: 'center', ltr: !/[\u0600-\u06FF]/.test(it.value) });
         const nw = measure(it.value, 'Marhey', 700, size);
         tracks.push({ t0: w.outline.t0, t1: w.outline.t0 + 0.4, pts: [[x + nw / 2, y + size], [x - nw / 2, y + size]], color: it.color });
         if (c) {
-          const arr: P[] = Array.from({ length: 20 }, (_, k) => {
-            const s = k / 19;
-            const ex = c.x + (x > c.x ? c.size * 0.55 : -c.size * 0.55);
-            return [lerp(x + (x > c.x ? -nw / 2 : nw / 2), ex, s), lerp(y + size * 0.7, c.y, s) - Math.sin(s * Math.PI) * 40 * u];
-          });
+          // stacked under / over its object → a side arc on the outer side (never through the object's label);
+          // otherwise a soft curve from the number's near edge to the object's near edge
+          const stacked = Math.abs(x - c.x) < c.size * 0.8;
+          const sg = x > Bd.W / 2 ? 1 : -1;
+          const arr: P[] = stacked
+            ? Array.from({ length: 20 }, (_, k) => {
+                const s = k / 19;
+                const x0 = x + sg * (nw / 2 + 14 * u);
+                const x1 = c.x + sg * c.size * 0.58;
+                return [lerp(x0, x1, s) + sg * Math.sin(s * Math.PI) * 50 * u, lerp(y + size * 0.55, c.y, s)];
+              })
+            : Array.from({ length: 20 }, (_, k) => {
+                const s = k / 19;
+                const ex = c.x + (x > c.x ? c.size * 0.55 : -c.size * 0.55);
+                return [lerp(x + (x > c.x ? -nw / 2 : nw / 2), ex, s), lerp(y + size * 0.7, c.y, s) - Math.sin(s * Math.PI) * 40 * u];
+              });
           strokes.push({ pts: arr, w: 6 * u, color: MARKERS[it.color].stroke, t0: w.hatch.t0, t1: w.hatch.t0 + 0.45, closed: false, key: `n${i}` });
           tracks.push({ t0: w.hatch.t0, t1: w.hatch.t0 + 0.45, pts: arr, color: it.color });
+          const end = arr[arr.length - 1]!;
+          const prev = arr[arr.length - 4]!;
+          const ang = Math.atan2(end[1] - prev[1], end[0] - prev[0]);
+          strokes.push({ pts: [[end[0] + Math.cos(ang + 2.5) * 22 * u, end[1] + Math.sin(ang + 2.5) * 22 * u], end, [end[0] + Math.cos(ang - 2.5) * 22 * u, end[1] + Math.sin(ang - 2.5) * 22 * u]], w: 6 * u, color: MARKERS[it.color].stroke, t0: w.hatch.t0 + 0.45, t1: w.hatch.t0 + 0.55, closed: false, key: `nh${i}` });
         }
         if (it.label) addLabel(it.label, x, y + size * 1.15, 34 * u, it.color, w.label);
         objCentre[i] = { x, y: y + size / 2, size: size * 2, labelY: y + size, labelW: nw };
@@ -198,16 +244,30 @@ const compile = (plan: WhiteboardPlan, T: TimingIndex, Bd: Board) => {
         const dx = Bc.x - A.x;
         const dy = Bc.y - A.y;
         const L = Math.hypot(dx, dy) || 1;
-        const pa: P = [A.x + (dx / L) * A.size * 0.62, A.y + (dy / L) * A.size * 0.62];
-        const pb: P = [Bc.x - (dx / L) * Bc.size * 0.62, Bc.y - (dy / L) * Bc.size * 0.62];
         const nx = -dy / L;
         const ny = dx / L;
-        const pts: P[] = Array.from({ length: 32 }, (_, k) => {
-          const s = k / 31;
-          const wave = Math.sin(s * Math.PI * 4) * 7 * u;
-          const sag = Math.sin(s * Math.PI) * 40 * u;
-          return [lerp(pa[0], pb[0], s) + nx * (sag + wave), lerp(pa[1], pb[1], s) + ny * (sag + wave)];
-        });
+        // mostly vertical neighbours: the gap between them is taken by A's label, so the arrow runs as an arc along
+        // the inner side (towards the board centre) from A's flank to B's flank
+        const vertical = Math.abs(dy) > Math.abs(dx) * 1.2;
+        const sg = (A.x + Bc.x) / 2 < Bd.W / 2 ? 1 : -1;
+        const pts: P[] = vertical
+          ? Array.from({ length: 32 }, (_, k) => {
+              const s = k / 31;
+              const x0 = A.x + sg * A.size * 0.6;
+              const x1 = Bc.x + sg * Bc.size * 0.6;
+              const wave = Math.sin(s * Math.PI * 4) * 6 * u;
+              return [lerp(x0, x1, s) + sg * (Math.sin(s * Math.PI) * 70 * u + wave), lerp(A.y + A.size * 0.3, Bc.y - Bc.size * 0.15, s)];
+            })
+          : (() => {
+              const pa: P = [A.x + (dx / L) * A.size * 0.62, A.y + (dy / L) * A.size * 0.62];
+              const pb: P = [Bc.x - (dx / L) * Bc.size * 0.62, Bc.y - (dy / L) * Bc.size * 0.62];
+              return Array.from({ length: 32 }, (_, k): P => {
+                const s = k / 31;
+                const wave = Math.sin(s * Math.PI * 4) * 7 * u;
+                const sag = Math.sin(s * Math.PI) * 40 * u;
+                return [lerp(pa[0], pb[0], s) + nx * (sag + wave), lerp(pa[1], pb[1], s) + ny * (sag + wave)];
+              });
+            })();
         strokes.push({ pts, w: 9 * u, color: MARKERS[it.color].stroke, t0: w.outline.t0, t1: w.outline.t1, closed: false, key: `a${i}`, dash: true });
         tracks.push({ t0: w.outline.t0, t1: w.outline.t1, pts, color: it.color });
         const end = pts[pts.length - 1]!;
@@ -220,7 +280,10 @@ const compile = (plan: WhiteboardPlan, T: TimingIndex, Bd: Board) => {
         ];
         strokes.push({ pts: head, w: 9 * u, color: MARKERS[it.color].stroke, t0: w.outline.t1, t1: w.outline.t1 + 0.12, closed: false, key: `ah${i}` });
         const mid = pts[16]!;
-        addLabel(it.label, mid[0] + nx * 50 * u, mid[1] + ny * 50 * u - 20 * u, 40 * u, it.color, w.label);
+        if (vertical) {
+          const lw = measure(it.label, 'Marhey', 700, 40 * u);
+          addLabel(it.label, mid[0] + sg * (lw / 2 + 26 * u), mid[1] - 30 * u, 40 * u, it.color, w.label, true);
+        } else addLabel(it.label, mid[0] + nx * 50 * u, mid[1] + ny * 50 * u - 20 * u, 40 * u, it.color, w.label, true);
         break;
       }
       case 'band': {
@@ -261,7 +324,8 @@ const compile = (plan: WhiteboardPlan, T: TimingIndex, Bd: Board) => {
         break;
     }
   });
-  return { strokes, hatches, texts, pops, tracks, living, objCentre, wins, titleW: tw + 120 * u };
+  resolveLabels(texts, objCentre, Bd);
+  return { strokes, hatches, texts, pops, tracks, living, objCentre, wins, titleW: tw + 120 * u, titleBot: Bd.title.y + tSize * 1.9 };
 };
 
 const cache = new WeakMap<object, Map<string, ReturnType<typeof compile>>>();
@@ -355,6 +419,17 @@ export const WhiteboardVideo = ({ plan }: { plan: WhiteboardPlan }) => {
     cy = lerp(cy, k.y, p);
     z = lerp(z, k.z, p);
   });
+  cy = Math.max(H / (2 * z), Math.min(H - H / (2 * z), cy));
+  {
+    // the title is never cut by the frame edges: while any of it is in view, the lean-in eases off and centres
+    const viewTop = cy - H / (2 * z);
+    const v = clamp((C.titleBot - viewTop) / (90 * u));
+    const zFit = Math.min(z, W / C.titleW);
+    const z2 = lerp(z, zFit, v);
+    const half = Math.max(0, W / (2 * z2) - C.titleW / 2);
+    cx = lerp(cx, Math.max(Bd.title.x - half, Math.min(Bd.title.x + half, cx)), v);
+    z = z2;
+  }
   cx = Math.max(W / (2 * z), Math.min(W - W / (2 * z), cx));
   cy = Math.max(H / (2 * z), Math.min(H - H / (2 * z), cy));
   const tx = W / 2 - cx * z;
@@ -463,7 +538,7 @@ export const WhiteboardVideo = ({ plan }: { plan: WhiteboardPlan }) => {
       const pr = placeProp(it.mascot, mx, my, 70 * u);
       journey = (
         <g>
-          <path d={`M${loop.map((p) => `${p[0]} ${p[1]}`).join('L')}`} fill="none" stroke={MARKERS.blue.stroke} strokeOpacity={0.7} strokeWidth={4 * u} strokeDasharray={`0.1 ${14 * u}`} strokeLinecap="round" pathLength={undefined} opacity={dots} />
+          <path d={`M${loop.map((p) => `${p[0]} ${p[1]}`).join('L')}`} fill="none" stroke={MARKERS.blue.stroke} strokeOpacity={0.7} strokeWidth={4 * u} strokeDasharray={`0.1 ${14 * u}`} strokeLinecap="round" opacity={dots * (1 - 0.8 * prog(t, j0 + 0.4 + loop.length * 0.75, j0 + 1 + loop.length * 0.75, ease.inOutSine))} />
           {t > j0 + 0.4 && (
             <g>
               {pr.hatch.map((r, k) => (
@@ -491,7 +566,8 @@ export const WhiteboardVideo = ({ plan }: { plan: WhiteboardPlan }) => {
     }
   }
 
-  const ghosts = [0, 1, 2, 3, 4].map((i) => ({ x: random(`gx${i}`) * W * 0.7, y: (0.15 + i * 0.18) * H, w: (300 + random(`gw${i}`) * 400) * u, h: (60 + random(`gh${i}`) * 30) * u }));
+  // eraser ghosts: soft, irregular smudges (two overlapping feathered ellipses + a faint streak), never crisp pills
+  const ghosts = [0, 1, 2, 3, 4].map((i) => ({ x: random(`gx${i}`) * W * 0.7, y: (0.15 + i * 0.18) * H, w: (300 + random(`gw${i}`) * 400) * u, h: (60 + random(`gh${i}`) * 30) * u, r: (random(`gr${i}`) - 0.5) * 6, o: 0.35 + random(`go${i}`) * 0.25 }));
   const bezel = 15 * u;
   return (
     <AbsoluteFill style={{ background: B.boardEdge, overflow: 'hidden' }}>
@@ -500,7 +576,10 @@ export const WhiteboardVideo = ({ plan }: { plan: WhiteboardPlan }) => {
         <div style={{ position: 'absolute', left: 0, top: 0, width: W, height: H, background: `radial-gradient(ellipse, ${B.boardCentre} 0%, ${B.boardCentre} 35%, ${B.boardEdge} 72%)` }} />
         <div style={{ position: 'absolute', left: W * 0.08, top: H * 0.06, width: 450 * u, height: 450 * u, background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 70%)' }} />
         {ghosts.map((g, i) => (
-          <div key={i} style={{ position: 'absolute', left: g.x, top: g.y, width: g.w, height: g.h, borderRadius: g.h, background: B.ghost, opacity: 0.6 }} />
+          <div key={i} style={{ position: 'absolute', left: g.x, top: g.y, width: g.w, height: g.h, transform: `rotate(${g.r}deg)`, opacity: g.o }}>
+            <div style={{ position: 'absolute', left: 0, top: -g.h * 0.3, width: g.w * 0.72, height: g.h * 1.6, background: `radial-gradient(ellipse, ${B.ghostDeep} 0%, ${B.ghostDeep} 30%, rgba(225,228,225,0) 70%)` }} />
+            <div style={{ position: 'absolute', left: g.w * 0.35, top: -g.h * 0.1, width: g.w * 0.65, height: g.h * 1.2, background: `radial-gradient(ellipse, ${B.ghostDeep} 0%, rgba(225,228,225,0) 68%)` }} />
+          </div>
         ))}
         <svg width={W} height={H} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible' }}>
           {hatchEls}
@@ -518,7 +597,7 @@ export const WhiteboardVideo = ({ plan }: { plan: WhiteboardPlan }) => {
           return (
             <div
               key={i}
-              dir="rtl"
+              dir={tx2.ltr ? 'ltr' : 'rtl'}
               style={{
                 position: 'absolute',
                 left: tx2.x - Bd.W,

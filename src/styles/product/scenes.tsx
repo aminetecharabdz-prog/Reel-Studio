@@ -222,6 +222,8 @@ export const ShowcaseView = ({ s, from, dur, plan }: SceneProps<'showcase'>) => 
   const photo = asset(s.photo) ?? undefined;
   const title = s.title ?? plan.brand.name;
   const fs = ww / (vertical ? 640 : wide ? 1300 : 900);
+  // small UI text inside the window stays readable on a phone at 9:16 (≥ 30 px on a 1080-wide frame)
+  const tx = vertical ? 1.45 : 1;
   const stepK = s.steps.map((st) => prog(f, at(st.at) - sec(0.6, fps), sec(0.6, fps), E.inOut));
   const active = Math.max(0, stepK.filter((k) => k > 0).length - 1);
   const nav = s.steps.length >= 2 ? s.steps.map((st) => st.t) : ['الرئيسية', title.split(' ')[0] ?? 'المنتج', 'الطلبات', 'الإعدادات'];
@@ -239,7 +241,7 @@ export const ShowcaseView = ({ s, from, dur, plan }: SceneProps<'showcase'>) => 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 84 * fs, boxSizing: 'border-box', padding: `0 ${30 * fs}px`, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 * fs }}>
                 <Mark size={40 * fs} accent={plan.accent} letter={plan.brand.mark} glow={0} />
-                <span style={{ fontWeight: 700, fontSize: 28 * fs }}>{plan.brand.name}</span>
+                <span style={{ fontWeight: 700, fontSize: 28 * fs * (vertical ? 1.25 : 1) }}>{plan.brand.name}</span>
               </div>
               <div dir="ltr" style={{ display: 'flex', gap: 10 * fs }}>
                 {['#FF5F57', '#FEBC2E', '#28C840'].map((col) => <span key={col} style={{ width: 16 * fs, height: 16 * fs, borderRadius: 99, background: col, opacity: 0.85 }} />)}
@@ -257,7 +259,7 @@ export const ShowcaseView = ({ s, from, dur, plan }: SceneProps<'showcase'>) => 
                 </div>
               ) : null}
               <div style={{ flex: 1, minWidth: 0, padding: `${22 * fs}px ${26 * fs}px`, display: 'flex', flexDirection: 'column', gap: 18 * fs }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 * fs, padding: `${12 * fs}px ${18 * fs}px`, borderRadius: 99, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(168,139,255,0.22)', fontSize: 20 * fs, color: T.text, whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 * fs, padding: `${12 * fs}px ${18 * fs}px`, borderRadius: 99, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(168,139,255,0.22)', fontSize: 20 * fs * tx, color: T.text, whiteSpace: 'nowrap', overflow: 'hidden' }}>
                   <span style={{ width: 10 * fs, height: 10 * fs, borderRadius: 9, background: acc.a, boxShadow: `0 0 ${10 * fs}px ${acc.a}`, flex: 'none' }} />
                   {title}
                 </div>
@@ -270,12 +272,12 @@ export const ShowcaseView = ({ s, from, dur, plan }: SceneProps<'showcase'>) => 
                       return (
                         <div key={i} style={{ borderRadius: 16 * fs, background: i === active ? 'rgba(168,139,255,0.08)' : 'rgba(255,255,255,0.035)', border: `1px solid ${i === active ? 'rgba(168,139,255,0.35)' : 'rgba(255,255,255,0.07)'}`, padding: `${12 * fs}px ${14 * fs}px` }}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 * fs }}>
-                            <span style={{ fontSize: 22 * fs, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{st.t}</span>
-                            <span style={{ width: 24 * fs, height: 24 * fs, borderRadius: 99, flex: 'none', display: 'grid', placeItems: 'center', background: done ? '#34D399' : 'rgba(255,255,255,0.08)', transform: `scale(${done ? pop : 0.85})` }}>
+                            <span style={{ fontSize: 22 * fs * tx, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{st.t}</span>
+                            <span style={{ width: 24 * fs * tx, height: 24 * fs * tx, borderRadius: 99, flex: 'none', display: 'grid', placeItems: 'center', background: done ? '#34D399' : 'rgba(255,255,255,0.08)', transform: `scale(${done ? pop : 0.85})` }}>
                               {done ? <svg width={15 * fs} height={15 * fs} viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" strokeWidth={3.2} fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg> : null}
                             </span>
                           </div>
-                          <div style={{ fontSize: 14 * fs, color: T.grey, marginTop: 4 * fs }}>{done ? 'مكتمل' : k > 0 ? `${Math.round(k * 100)}%` : 'في الانتظار'}</div>
+                          <div style={{ fontSize: 14 * fs * tx, color: T.grey, marginTop: 4 * fs, lineHeight: 1.4 }}>{done ? 'مكتمل' : k > 0 ? `${Math.round(k * 100)}%` : 'في الانتظار'}</div>
                           <div style={{ marginTop: 8 * fs, height: 5 * fs, borderRadius: 9, background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
                             <div style={{ width: `${k * 100}%`, height: '100%', background: done ? '#34D399' : '#8B6CFF' }} />
                           </div>
@@ -341,7 +343,7 @@ const Chip = ({ k, children, accent, u, vertical, big, icon, draw = 1 }: { k: nu
 };
 
 /** Inside the window: the user's product photo on a glowing turntable, or a live "app preview" (ring + bars). */
-const PreviewArt = ({ f, fps, photo, accent, u, name }: { f: number; fps: number; photo?: string; accent: AccentId; u: number; name: string }) => {
+const PreviewArt = ({ f, fps, photo, accent, u }: { f: number; fps: number; photo?: string; accent: AccentId; u: number; name?: string }) => {
   const acc = ACCENTS[accent];
   const spin = (f / fps) * 18;
   if (photo) {
@@ -367,7 +369,6 @@ const PreviewArt = ({ f, fps, photo, accent, u, name }: { f: number; fps: number
         {pct}
         <span style={{ fontSize: 30 * u, color: acc.a }}>%</span>
       </div>
-      <div style={{ position: 'absolute', bottom: 18 * u, fontFamily: T.font, fontSize: 20 * u, color: T.grey }}>{name}</div>
     </AbsoluteFill>
   );
 };
