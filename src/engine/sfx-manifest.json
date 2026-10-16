@@ -1,62 +1,62 @@
 {
  "blip": {
-  "dur": 0.09,
-  "peak": 0.005
+  "dur": 0.107,
+  "peak": 0.001
  },
  "click": {
-  "dur": 0.08,
-  "peak": 0.005
+  "dur": 0.085,
+  "peak": 0.003
  },
  "drop": {
-  "dur": 1.2,
-  "peak": 0.009
+  "dur": 1.216,
+  "peak": 0.005
  },
  "glitch": {
-  "dur": 0.35,
-  "peak": 0.006
+  "dur": 0.363,
+  "peak": 0.021
  },
  "hit": {
-  "dur": 0.45,
-  "peak": 0.006
+  "dur": 0.469,
+  "peak": 0.002
  },
  "impact": {
-  "dur": 0.9,
-  "peak": 0.006
+  "dur": 0.917,
+  "peak": 0.003
  },
  "pen": {
-  "dur": 1.0,
-  "peak": 0.306
+  "dur": 1.003,
+  "peak": 0.407
  },
  "pop": {
-  "dur": 0.12,
-  "peak": 0.005
+  "dur": 0.128,
+  "peak": 0.001
  },
  "riser": {
   "dur": 1.6,
-  "peak": 1.566
+  "peak": 1.59
  },
  "shimmer": {
-  "dur": 0.8,
-  "peak": 0.01
+  "dur": 0.811,
+  "peak": 0.032
  },
  "swell": {
-  "dur": 2.0,
-  "peak": 1.836
+  "dur": 2.005,
+  "peak": 1.839
  },
  "swish": {
-  "dur": 0.9,
-  "peak": 0.516
+  "dur": 0.917,
+  "peak": 0.511
  },
  "tick": {
-  "dur": 0.05,
-  "peak": 0.005
+  "dur": 0.064,
+  "peak": 0.0
  },
  "type": {
-  "dur": 0.7,
-  "peak": 0.154
+  "dur": 0.704,
+  "peak": 0.223
  },
  "whoosh": {
-  "dur": 0.4,
-  "peak": 0.244
+  "dur": 0.405,
+  "peak": 0.274
  }
 }

@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import { E, clamp01, mix, prog, sec, useScene } from './compat';
 import { measure } from '@/engine/measure';
+import { glow } from '@/engine/paint';
 import { ACCENTS, T, type AccentId } from './tokens';
 
 export const FAMILY = 'Readex Pro';
@@ -17,8 +18,8 @@ export const Stage = ({ theme, warm = 0, lift = 0 }: { theme: 'dark' | 'light'; 
   if (theme === 'light') {
     return (
       <AbsoluteFill style={{ backgroundColor: T.light }}>
-        <div style={{ position: 'absolute', left: W * (0.12 + drift), width: W * 0.76, top: H * (0.62 - lift), height: H * 0.62, background: `radial-gradient(closest-side, rgba(168,139,255,0.55), rgba(168,139,255,0.18) 55%, rgba(168,139,255,0) 100%)` }} />
-        <div style={{ position: 'absolute', left: W * (0.3 + drift2), width: W * 0.4, top: H * (0.78 - lift), height: H * 0.4, background: `radial-gradient(closest-side, rgba(217,70,239,0.28), rgba(217,70,239,0) 100%)` }} />
+        <div style={{ position: 'absolute', left: W * (0.12 + drift), width: W * 0.76, top: H * (0.62 - lift), height: H * 0.62, background: glow(`rgba(168,139,255,0.55), rgba(168,139,255,0.18) 55%, rgba(168,139,255,0) 100%`) }} />
+        <div style={{ position: 'absolute', left: W * (0.3 + drift2), width: W * 0.4, top: H * (0.78 - lift), height: H * 0.4, background: glow(`rgba(217,70,239,0.28), rgba(217,70,239,0) 100%`) }} />
       </AbsoluteFill>
     );
   }
@@ -26,14 +27,14 @@ export const Stage = ({ theme, warm = 0, lift = 0 }: { theme: 'dark' | 'light'; 
   return (
     <AbsoluteFill style={{ backgroundColor: T.dark }}>
       {/* violet core */}
-      <div style={{ position: 'absolute', left: -W * 0.15, width: W * 1.3, top: H - dome * (0.78 + lift), height: dome * 1.5, background: `radial-gradient(closest-side, rgba(108,59,255,0.95), rgba(92,52,230,0.55) 45%, rgba(60,30,160,0.18) 75%, rgba(20,10,60,0) 100%)` }} />
+      <div style={{ position: 'absolute', left: -W * 0.15, width: W * 1.3, top: H - dome * (0.78 + lift), height: dome * 1.5, background: glow(`rgba(108,59,255,0.95), rgba(92,52,230,0.55) 45%, rgba(60,30,160,0.18) 75%, rgba(20,10,60,0) 100%`) }} />
       {/* blue left */}
-      <div style={{ position: 'absolute', left: W * (-0.28 + drift), width: W * 0.9, top: H - dome * (0.62 + lift), height: dome * 1.2, background: `radial-gradient(closest-side, rgba(47,91,255,0.85), rgba(47,91,255,0.25) 60%, rgba(47,91,255,0) 100%)` }} />
+      <div style={{ position: 'absolute', left: W * (-0.28 + drift), width: W * 0.9, top: H - dome * (0.62 + lift), height: dome * 1.2, background: glow(`rgba(47,91,255,0.85), rgba(47,91,255,0.25) 60%, rgba(47,91,255,0) 100%`) }} />
       {/* orange/pink right — warmer on "send" */}
-      <div style={{ position: 'absolute', left: W * (0.42 + drift2), width: W * 0.9, top: H - dome * (0.5 + lift), height: dome * 1.1, background: `radial-gradient(closest-side, rgba(255,106,26,${0.55 + 0.35 * warm}), rgba(217,70,239,${0.22 + 0.2 * warm}) 55%, rgba(217,70,239,0) 100%)` }} />
+      <div style={{ position: 'absolute', left: W * (0.42 + drift2), width: W * 0.9, top: H - dome * (0.5 + lift), height: dome * 1.1, background: glow(`rgba(255,106,26,${0.55 + 0.35 * warm}), rgba(217,70,239,${0.22 + 0.2 * warm}) 55%, rgba(217,70,239,0) 100%`) }} />
       {/* darken the top so the dome reads as a horizon */}
       <AbsoluteFill style={{ background: `linear-gradient(180deg, ${T.dark} 0%, rgba(5,5,10,0.92) 38%, rgba(5,5,10,0.15) 72%, rgba(5,5,10,0) 100%)` }} />
-      <AbsoluteFill style={{ background: 'radial-gradient(ellipse at 50% 40%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)' }} />
+      <AbsoluteFill style={{ background: 'radial-gradient(ellipse, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)' }} />
     </AbsoluteFill>
   );
 };

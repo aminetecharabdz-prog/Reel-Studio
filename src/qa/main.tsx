@@ -15,7 +15,7 @@ import type { StyleId } from '@/styles/catalog';
 
 declare global {
   interface Window {
-    __qa?: { ready: boolean; frames: number; fps: number; input: VideoInput; frame: (n: number) => Promise<void>; info: () => unknown };
+    __qa?: { ready: boolean; frames: number; fps: number; input: VideoInput; frame: (n: number) => Promise<void>; info: () => unknown; still: (n: number) => Promise<string>; clip: (a: number, b: number) => Promise<{ size: number; type: string; ext: string }> };
   }
 }
 
@@ -63,6 +63,20 @@ const App = () => {
           setTimeout(res, 50);
         }),
       info: () => ({ plan: input.plan, timing: input.timing }),
+      still: async (n) => {
+        const { exportStill } = await import('@/lib/exporter');
+        const b = await exportStill(input, n, 'png');
+        return await new Promise<string>((res) => {
+          const r = new FileReader();
+          r.onload = () => res(String(r.result));
+          r.readAsDataURL(b);
+        });
+      },
+      clip: async (a, b) => {
+        const { exportVideo } = await import('@/lib/exporter');
+        const out = await exportVideo(input, { quality: '720p', frameRange: [a, b] });
+        return { size: out.blob.size, type: out.blob.type, ext: out.ext };
+      },
     };
   }, [input, ctx]);
   if (err) return <pre style={{ color: '#f66', fontSize: 24 }}>{err}</pre>;

@@ -122,7 +122,7 @@ export const productLocalPlan = (input: PlanInput): ProductPlan => {
       const its = nums.filter((n) => /[0-9٠-٩]/.test(n.w)).slice(0, 4).map((n) => {
         const j = ws.indexOf(n);
         const nx = ws[j + 1];
-        const unit = nx && !/[0-9٠-٩]/.test(nx.w) && (isNumberish(nx.w) || !isStop(nx.w)) && nums.length <= 2 ? ` ${clean(nx.w).replace(/^بالمي[ةه]$|^بالمئة$/, '%')}` : '';
+        const unit = nx && !/[0-9٠-٩]/.test(nx.w) && (isNumberish(nx.w) || !isStop(nx.w)) ? (/^بالم(ي|ئ|ا)[ةه]$/.test(clean(nx.w)) ? '%' : ` ${clean(nx.w)}`) : '';
         return { t: cut(`${clean(n.w)}${unit}`, 40), at: n.id };
       });
       push({ kind: 'capsule', from: w0.id, title: title.map((w, i) => ({ t: t28(w), at: w.id, ...(i === title.length - 1 ? { em: 'grad' as const } : {}) })), items: its }, true);

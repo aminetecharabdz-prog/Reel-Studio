@@ -47,7 +47,7 @@ const Sfx = ({ events, intensity }: { events: SfxEvent[]; intensity: number }) =
       const from = toFrame(Math.max(0, e.at - m.peak));
       return (
         <Sequence key={`${e.name}-${i}`} from={from} durationInFrames={Math.max(2, toFrame(m.dur) + 2)} name={`sfx ${e.name}`} layout="none">
-          <Audio src={staticFile(`${SFX_BASE}${e.name}.m4a`)} volume={(e.vol ?? 0.6) * (0.4 + intensity * 0.9)} />
+          <Audio src={staticFile(`${SFX_BASE}${e.name}.mp3`)} volume={(e.vol ?? 0.6) * (0.4 + intensity * 0.9)} />
         </Sequence>
       );
     })}

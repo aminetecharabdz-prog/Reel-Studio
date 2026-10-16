@@ -2,6 +2,7 @@
 import { AbsoluteFill, Img } from 'remotion';
 import { E, clamp01, keys, mix, prog, sec, useScene as useSceneBase } from './compat';
 import { detectDir, measure } from '@/engine/measure';
+import { glow } from '@/engine/paint';
 import { ACCENTS, T, type AccentId } from './tokens';
 import { FAMILY, Grad, KLine, Mark, NeonFrame, Stage, W_BOLD, fitSize, type LWord } from './parts';
 import { Icon } from './icons';
@@ -152,7 +153,7 @@ export const PromptView = ({ s, from, dur, plan }: SceneProps<'prompt'>) => {
           ) : null}
         </div>
       </AbsoluteFill>
-      {flash > 0 ? <AbsoluteFill style={{ background: `radial-gradient(circle at ${cx - bw / 2 + pad + btn / 2}px ${cy}px, rgba(255,138,61,${0.35 * flash}), rgba(217,70,239,${0.12 * flash}) 30%, rgba(0,0,0,0) 60%)` }} /> : null}
+      {flash > 0 ? <div style={{ position: 'absolute', left: cx - bw / 2 + pad + btn / 2 - W * 0.9, top: cy - W * 0.9, width: W * 1.8, height: W * 1.8, background: glow(`rgba(255,138,61,${0.35 * flash}), rgba(217,70,239,${0.12 * flash}) 40%, rgba(0,0,0,0) 100%`) }} /> : null}
     </AbsoluteFill>
   );
 };
@@ -227,10 +228,11 @@ export const ShowcaseView = ({ s, from, dur, plan }: SceneProps<'showcase'>) => 
   return (
     <AbsoluteFill>
       <Stage theme="dark" lift={0.06} />
-      <AbsoluteFill style={{ perspective: 1800 * u, perspectiveOrigin: '50% 45%', opacity: enter * (1 - exit) }}>
-        <div style={{ position: 'absolute', left: W / 2 - ww / 2, top: H * (vertical ? 0.43 : 0.47) - wh / 2, width: ww, height: wh, transformStyle: 'preserve-3d', transform: `translateZ(${z}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)` }}>
-          {/* neon edge: blurred gradient slab + crisp gradient border */}
-          <div style={{ position: 'absolute', inset: -6 * u, borderRadius: 40 * u, background: `linear-gradient(135deg, ${T.orangeLight}, ${T.pink} 35%, ${acc.b} 70%, ${T.blue})`, filter: `blur(${26 * u}px)`, opacity: 0.75 }} />
+      {/* one self-contained 3D transform (perspective() inside the transform) so the exporter draws it like the preview */}
+      <AbsoluteFill style={{ opacity: enter * (1 - exit) }}>
+        <div style={{ position: 'absolute', left: W / 2 - ww / 2, top: H * (vertical ? 0.43 : 0.47) - wh / 2, width: ww, height: wh, transform: `perspective(${1800 * u}px) translateZ(${z}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)` }}>
+          {/* neon rim glow: layered box-shadows (exporter-safe) + crisp gradient border */}
+          <div style={{ position: 'absolute', inset: 0, borderRadius: 36 * u, boxShadow: `0 0 ${36 * u}px ${10 * u}px rgba(217,70,239,0.45), ${-30 * u}px ${-20 * u}px ${60 * u}px rgba(255,138,61,0.35), ${30 * u}px ${30 * u}px ${70 * u}px rgba(47,91,255,0.45)` }} />
           <div style={{ position: 'absolute', inset: -2 * u, borderRadius: 36 * u, background: `linear-gradient(135deg, ${T.orangeLight}, ${T.pink} 35%, ${acc.b} 70%, ${T.blue})` }} />
           <div dir="rtl" style={{ position: 'absolute', inset: 0, borderRadius: 34 * u, background: 'linear-gradient(180deg, #121022 0%, #0B0A14 100%)', overflow: 'hidden', fontFamily: T.font, color: T.text }}>
             {/* title bar */}
@@ -283,7 +285,7 @@ export const ShowcaseView = ({ s, from, dur, plan }: SceneProps<'showcase'>) => 
                   </div>
                 ) : null}
                 <div style={{ display: 'flex', flex: 1, minHeight: 0, gap: 14 * fs }}>
-                  <div style={{ position: 'relative', flex: 1.7, minWidth: 0, borderRadius: 20 * fs, overflow: 'hidden', background: 'radial-gradient(ellipse at 50% 85%, rgba(108,59,255,0.55), rgba(47,91,255,0.18) 45%, rgba(11,10,20,1) 80%)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ position: 'relative', flex: 1.7, minWidth: 0, borderRadius: 20 * fs, overflow: 'hidden', background: 'linear-gradient(0deg, rgba(108,59,255,0.55) 0%, rgba(47,91,255,0.18) 40%, rgba(11,10,20,1) 85%)', border: '1px solid rgba(255,255,255,0.06)' }}>
                     <PreviewArt f={f} fps={fps} photo={photo} accent={plan.accent} u={fs} name={plan.brand.name} />
                   </div>
                   {!vertical ? (
@@ -402,7 +404,7 @@ export const CapsuleView = ({ s, from, dur, plan }: SceneProps<'capsule'>) => {
         <div style={{ position: 'absolute', left: W / 2 - cw / 2, top: cy - ch / 2, width: cw, height: ch, borderRadius: 999, background: '#FFFFFF', border: `${3 * u}px solid ${acc.a}`, boxShadow: `0 ${12 * u}px ${40 * u}px rgba(108,59,255,0.25)`, overflow: 'hidden', transform: `scale(${appear})` }}>
           <div style={{ position: 'absolute', left: 0, right: 0, top: -roll * ch }}>
             {items.map((it, i) => (
-              <div key={i} dir="rtl" style={{ height: ch, display: 'grid', placeItems: 'center', fontFamily: T.font, fontWeight: 700, fontSize: Math.min(fsz, fitSize(it.t, cw * 0.82)), color: i === idx ? acc.b : T.greyLight, lineHeight: 1.4, whiteSpace: 'nowrap' }}>
+              <div key={i} dir={detectDir(it.t, 'ltr')} style={{ height: ch, display: 'grid', placeItems: 'center', fontFamily: T.font, fontWeight: 700, fontSize: Math.min(fsz, fitSize(it.t, cw * 0.82)), color: i === idx ? acc.b : T.greyLight, lineHeight: 1.4, whiteSpace: 'nowrap' }}>
                 {it.t}
               </div>
             ))}
@@ -421,26 +423,26 @@ export const CardsView = ({ s, from, dur, plan }: SceneProps<'cards'>) => {
   const camZ = keys(f, [[0, -200 * u], [dur, 380 * u]], E.sine);
   const camRy = keys(f, [[0, 8], [dur, -6]], E.sine);
   const titleRows: LWord[][] = s.title.length ? [s.title.map((w) => ({ t: w.t, f: at(w.at), em: w.em }))] : [];
-  const cw = (vertical ? 0.44 : 0.22) * W;
+  const cw = (vertical ? 0.4 : 0.22) * W;
   const chh = cw * 0.72;
   const exit = prog(f, dur - sec(0.35, fps), sec(0.35, fps), E.in);
   return (
     <AbsoluteFill>
       <Stage theme="dark" lift={0.05} />
       {titleRows.length ? <KLine rows={titleRows} size={(vertical ? 70 : 54) * u} giant={false} theme="dark" accent={plan.accent} exitAt={dur} y={H * (vertical ? 0.17 : 0.15)} /> : null}
-      <AbsoluteFill style={{ perspective: 1400 * u, perspectiveOrigin: `50% ${vertical ? 52 : 55}%`, opacity: 1 - exit }}>
-        <div style={{ position: 'absolute', left: W / 2, top: H * (vertical ? 0.56 : 0.6), transformStyle: 'preserve-3d', transform: `translateZ(${camZ}px) rotateY(${camRy}deg)` }}>
+      <AbsoluteFill style={{ opacity: 1 - exit }}>
+        <div style={{ position: 'absolute', left: W / 2, top: H * (vertical ? 0.56 : 0.6) }}>
           {s.cards.map((cd, i) => {
             const k = prog(f, at(cd.at) - sec(0.15, fps), sec(0.55, fps), E.out);
             const cols = vertical ? 2 : 3;
             const col = i % cols;
             const row = Math.floor(i / cols);
-            const x = (col - (Math.min(cols, n) - 1) / 2) * cw * 1.12 + (row % 2 ? cw * 0.3 : 0);
+            const x = (col - (Math.min(cols, n) - 1) / 2) * cw * (vertical ? 1.08 : 1.12) + (row % 2 ? cw * (vertical ? 0.1 : 0.3) : 0);
             const y = (row - (Math.ceil(n / cols) - 1) / 2) * chh * 1.2;
             const zz = -row * 160 * u + (col % 2 ? 60 * u : -40 * u);
             const light = i % 3 === 1;
             return (
-              <div key={i} dir="rtl" style={{ position: 'absolute', left: x - cw / 2, top: y - chh / 2, width: cw, height: chh, transform: `translateZ(${zz + (1 - k) * -500 * u}px) rotateY(${(col - 1) * -10}deg)`, opacity: k, borderRadius: 26 * u, padding: 26 * u, boxSizing: 'border-box', background: light ? '#F4F2FF' : 'linear-gradient(160deg, #1A1730 0%, #0F0D1C 100%)', border: light ? 'none' : '1.5px solid rgba(168,139,255,0.25)', boxShadow: `0 ${20 * u}px ${50 * u}px rgba(0,0,0,0.55), 0 0 ${30 * u}px ${acc.b}33`, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontFamily: T.font }}>
+              <div key={i} dir="rtl" style={{ position: 'absolute', left: -cw / 2, top: -chh / 2, width: cw, height: chh, transform: `perspective(${1400 * u}px) translateZ(${camZ}px) rotateY(${camRy}deg) translate3d(${x}px, ${y}px, ${zz + (1 - k) * -500 * u}px) rotateY(${(col - 1) * -10}deg)`, opacity: k, borderRadius: 26 * u, padding: 26 * u, boxSizing: 'border-box', background: light ? '#F4F2FF' : 'linear-gradient(160deg, #1A1730 0%, #0F0D1C 100%)', border: light ? 'none' : '1.5px solid rgba(168,139,255,0.25)', boxShadow: `0 ${20 * u}px ${50 * u}px rgba(0,0,0,0.55), 0 0 ${30 * u}px ${acc.b}33`, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontFamily: T.font }}>
                 <Icon id={cd.icon} size={chh * 0.38} color={light ? acc.b : acc.a} draw={prog(f, at(cd.at), sec(0.8, fps), E.inOut)} width={1.9} />
                 <div style={{ fontWeight: 700, fontSize: Math.min((vertical ? 44 : 34) * u, fitSize(cd.t, cw - 52 * u)), color: light ? T.textDark : T.text, lineHeight: 1.35, whiteSpace: 'nowrap' }}>{cd.t}</div>
               </div>
@@ -486,9 +488,9 @@ export const OrbView = ({ s, from, dur, plan }: SceneProps<'orb'>) => {
           <div key={i} style={{ position: 'absolute', left: W / 2 - orbR * r, top: cy - orbR * r, width: orbR * r * 2, height: orbR * r * 2, borderRadius: '50%', background: `radial-gradient(circle, rgba(168,139,255,${0.05 + i * 0.05}) 60%, rgba(168,139,255,0) 100%)`, transform: `scale(${appear})` }} />
         ))}
         {row(false)}
-        <div style={{ position: 'absolute', left: W / 2 - orbR, top: cy - orbR, width: orbR * 2, height: orbR * 2, borderRadius: '50%', transform: `scale(${appear})`, background: `radial-gradient(circle at 35% 30%, #C9B8FF 0%, ${acc.b} 45%, #3A1FB0 100%)`, boxShadow: `0 ${18 * u}px ${50 * u}px rgba(108,59,255,0.45), inset 0 0 ${30 * u}px rgba(255,255,255,0.25)` }} />
+        <div style={{ position: 'absolute', left: W / 2 - orbR, top: cy - orbR, width: orbR * 2, height: orbR * 2, borderRadius: '50%', transform: `scale(${appear})`, background: `radial-gradient(circle, #B49CFF 0%, ${acc.b} 40%, #3A1FB0 72%)`, boxShadow: `0 ${18 * u}px ${50 * u}px rgba(108,59,255,0.45), inset 0 0 ${30 * u}px rgba(255,255,255,0.25)` }} />
         <div style={{ position: 'absolute', inset: 0, clipPath: `circle(${orbR * appear}px at ${W / 2}px ${cy}px)` }}>{row(true)}</div>
-        <div style={{ position: 'absolute', left: W / 2 - orbR * 0.55, top: cy - orbR * 0.75, width: orbR * 0.6, height: orbR * 0.32, borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(255,255,255,0.55), rgba(255,255,255,0))', transform: `scale(${appear})` }} />
+        <div style={{ position: 'absolute', left: W / 2 - orbR * 0.55, top: cy - orbR * 0.75, width: orbR * 0.6, height: orbR * 0.32, borderRadius: '50%', background: glow('rgba(255,255,255,0.55), rgba(255,255,255,0)'), transform: `scale(${appear})` }} />
       </AbsoluteFill>
       {s.list.length ? <ListRoller items={s.list.map((l) => ({ t: l.t, f: at(l.at) }))} f={f} fps={fps} W={W} H={H} u={u} vertical={vertical} accent={plan.accent} start={listStart} /> : null}
     </AbsoluteFill>
@@ -544,7 +546,7 @@ export const EndView = ({ s, from, plan }: SceneProps<'end'>) => {
         const r = mk * (1 + (i % 3) * 0.6) * (1 - join);
         const a = (f / fps) * (0.9 + i * 0.13) * (i % 2 ? -1 : 1) + i * 1.3;
         const sz = (14 + (i % 3) * 8) * u * (1 - join * 0.6);
-        return <div key={i} style={{ position: 'absolute', left: W / 2 + Math.cos(a) * r - sz, top: cy + Math.sin(a) * r * 0.92 - sz, width: sz * 2, height: sz * 2, borderRadius: '50%', background: 'radial-gradient(circle at 35% 30%, #F1EBFF 0%, #A88BFF 45%, #4B2BD0 100%)', boxShadow: `0 0 ${16 * u}px rgba(168,139,255,0.6)`, opacity: 1 - lock }} />;
+        return <div key={i} style={{ position: 'absolute', left: W / 2 + Math.cos(a) * r - sz, top: cy + Math.sin(a) * r * 0.92 - sz, width: sz * 2, height: sz * 2, borderRadius: '50%', background: 'radial-gradient(circle, #F1EBFF 0%, #A88BFF 45%, #4B2BD0 100%)', boxShadow: `0 0 ${16 * u}px rgba(168,139,255,0.6)`, opacity: 1 - lock }} />;
       })}
       <div dir={dir} style={{ position: 'absolute', top: cy, left: 0, right: 0, transform: 'translateY(-50%)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ flex: 'none', transform: `scale(${1 + 0.08 * Math.sin(f / 10) * (1 - lock)})` }}>

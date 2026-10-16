@@ -22,7 +22,7 @@ export const isStop = (w: string) => {
   return !n || STOP.has(n) || (n.length <= 2 && !/\d/.test(n));
 };
 
-export const isNumberish = (w: string) => /[0-9٠-٩]/.test(w) || /^(مليون|مليار|ألف|الف|آلاف|%|بالمئة|بالمية)$/.test(norm(w));
+export const isNumberish = (w: string) => /[0-9٠-٩%]/.test(w) || /^(مليون|مليار|الف|الاف|بالمئه|بالميه|بالمائه|pourcent|percent)$/.test(norm(w));
 
 /** index of the line's key word: a number if any, else the last content word (the reference accents the last one). */
 export const keyIndex = (words: string[]): number => {
