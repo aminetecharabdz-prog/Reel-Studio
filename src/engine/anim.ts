@@ -11,6 +11,7 @@ export const ease = {
   inExpo: Easing.in(Easing.exp),
   outQuad: Easing.out(Easing.quad),
   inQuad: Easing.in(Easing.quad),
+  inOutQuad: Easing.inOut(Easing.quad),
   outBack: Easing.out(Easing.back(1.4)),
   outBackSoft: Easing.out(Easing.back(1.1)),
 };

@@ -95,3 +95,22 @@ export const setAtPath = <P>(plan: P, path: string, value: string): P => {
   else if (isObj(o)) o[lastKey] = value;
   return p as unknown as P;
 };
+
+/** snaps every unknown word id in a plan to the nearest real word (no reordering) — for single-shot styles */
+export const snapIds = <P>(plan: P, wordIds: string[]): { plan: P; issues: string[] } => {
+  const issues: string[] = [];
+  const valid = new Set(wordIds);
+  const nums = wordIds.map((x) => Number(x.slice(1)));
+  const walk = (o: unknown): unknown => {
+    if (Array.isArray(o)) return o.map(walk);
+    if (!o || typeof o !== 'object') return typeof o === 'string' && /^w\d+$/.test(o) && !valid.has(o) ? fix(o) : o;
+    return Object.fromEntries(Object.entries(o as Record<string, unknown>).map(([k, v]) => [k, walk(v)]));
+  };
+  const fix = (id: string) => {
+    const n = Number(id.slice(1));
+    const best = nums.reduce((a, b) => (Math.abs(b - n) < Math.abs(a - n) ? b : a), nums[0] ?? 0);
+    issues.push(`unknown word ${id} → w${best}`);
+    return `w${best}`;
+  };
+  return { plan: walk(plan) as P, issues };
+};

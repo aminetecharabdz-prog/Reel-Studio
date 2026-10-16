@@ -71,7 +71,7 @@ export const STYLES: Record<StyleId, StyleMeta> = {
     goals: ['explainer', 'ad', 'talking'],
     nativeAspect: '16:9',
     swatch: ['#FAFAF8', '#23272E', '#1E63D6'],
-    ready: false,
+    ready: true,
     keywords: ['خطوات', 'كيفاش', 'طريقة', 'شرح', 'درس', 'نصائح'],
   },
   plotter: {
