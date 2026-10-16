@@ -1,0 +1,48 @@
+name: Dependency snapshot for the Claude sandbox
+
+# The Claude sandbox cannot reach the npm registry. This job installs node_modules on a linux-x64 runner and publishes it
+# (split in <95 MB parts) plus the resolved package-lock.json on the orphan branch `deps-cache`.
+# Runs on pushes to rassam / claude/** whose commit message contains [deps], or manually.
+on:
+  push:
+    branches: ['rassam', 'claude/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deps-cache
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[deps]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install (npm install keeps the lock in sync with package.json)
+        run: npm install --no-audit --no-fund
+      - name: Pack node_modules
+        run: |
+          mkdir -p .deps
+          rm -rf node_modules/.cache
+          tar -cf - node_modules | gzip -6 > .deps/node_modules.tgz
+          (cd .deps && split -b 90m -d node_modules.tgz part- && rm node_modules.tgz)
+          cp package-lock.json .deps/package-lock.json
+          sha256sum package-lock.json | cut -d' ' -f1 > .deps/LOCK_SHA.txt
+          echo "${GITHUB_SHA} ${GITHUB_REF_NAME} $(date -u +%FT%TZ)" > .deps/SHA.txt
+          ls -la .deps
+      - name: Publish to deps-cache branch
+        run: |
+          cd .deps
+          git init -q -b deps-cache
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "node_modules for ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" deps-cache

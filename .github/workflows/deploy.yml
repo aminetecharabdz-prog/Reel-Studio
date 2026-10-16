@@ -1,0 +1,91 @@
+name: Build & deploy Rassam to GitHub Pages
+
+# Only the `rassam` branch deploys the public site (MISSION_V4 §0). Commits with [no-deploy] are skipped.
+on:
+  push:
+    branches: ['rassam']
+    paths-ignore: ['docs/**', '**.md']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    if: "!contains(github.event.head_commit.message, '[no-deploy]')"
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci || npm install --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: Publish dist/ to gh-pages
+        run: |
+          cd dist
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Deploy ${GITHUB_SHA} from ${GITHUB_REF_NAME}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+      - name: Make sure GitHub Pages serves the gh-pages branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/repos/${GITHUB_REPOSITORY}/pages)
+          echo "pages api: $code"
+          if [ "$code" = "404" ]; then
+            curl -s -X POST -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/${GITHUB_REPOSITORY}/pages -d '{"source":{"branch":"gh-pages","path":"/"}}' || true
+          fi
+      - name: Live URL
+        run: echo "https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/" >> "$GITHUB_STEP_SUMMARY"
+
+  live-test:
+    needs: build-deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Wait for this commit to be live
+        run: |
+          URL="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}"
+          for i in $(seq 1 60); do
+            live=$(curl -s "$URL/version.json?t=$(date +%s)" | grep -o '"sha":"[^"]*"' || true)
+            echo "attempt $i: $live"
+            if echo "$live" | grep -q "$GITHUB_SHA"; then exit 0; fi
+            sleep 10
+          done
+          echo "::error::Live site did not update — check Settings → Pages"; exit 1
+      - run: npx playwright install --with-deps chromium
+      - name: Playwright (412×915 + 1440×900) on the LIVE URL
+        run: npx playwright test --project=live-mobile --project=live-desktop
+        env:
+          LIVE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+      - name: Publish live results to qa-rassam-live
+        if: always()
+        run: |
+          mkdir -p .live && cp -r test-results .live/ 2>/dev/null || true
+          cd .live
+          echo "${GITHUB_SHA} ${GITHUB_REF_NAME} $(date -u +%FT%TZ) ${{ job.status }}" > SHA.txt
+          git init -q -b qa-rassam-live
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Live test results for ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" qa-rassam-live
