@@ -28,5 +28,11 @@ Code: `src/brand/` — every video imports from here (`import { brand, Caption, 
 | Caption size | 64 px, line-height 1.25, 84% width | readable bold 2 lines on 1080×1920 |
 | Glass | white 8% fill, white 22% border, 24 px blur, 36 px radius | "light" frosted glass, rounded panels as on the page |
 
+## Glass card
+- Component: `GlassCard` (`src/brand/GlassCard.tsx`) — title + optional subtitle, white Montserrat, brand text entrance.
+- Preview: composition `GlassCardPreview` in Studio (brand-color gradient + a yellow disc behind the corner so the frosting is visible).
+- Readability rule: keep bright yellow away from behind the text; white text needs contrast ≥ 4.5 against what is behind the glass.
+- Check: `python3 scripts/check_glass.py` (blur really renders + text contrast).
+
 ## Known issue
 Montserrat has no Arabic letters. Arabic text will fall back to the device font until an Arabic font is added to the design page.
