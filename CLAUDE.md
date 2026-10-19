@@ -30,6 +30,7 @@
 - Cache AI results and generated images by content hash. Log every paid call in the cost ledger.
 
 ## Video rules (most important)
+- **Owner's brand (design page `docs/design-page.png`):** every video imports colours, fonts, caption/motion rules and the glass style from `src/brand` — never hard-code them, never add colours or fonts that aren't on the page. Preview: composition `BrandPreview`.
 - **Style engines (MISSION_V4):** each of the 10 styles is a module with its own tokens, scene vocabulary and drawable illustration library, matching its reference video. Within a style, every video is planned from its own content (no fixed scene sequence).
 - **Timing is anchored to word IDs**, converted to frames in one compiler module (SPEC §6). Never hand-type seconds.
 - Remotion code is deterministic: `random(seed)` not `Math.random()`, no `Date.now()`, animation only from `useCurrentFrame()`. Stay within what the web renderer supports.
