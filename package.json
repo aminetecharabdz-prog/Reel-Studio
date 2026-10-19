@@ -7,7 +7,8 @@
     "dev": "remotion studio",
     "build": "remotion bundle",
     "render": "remotion render Reel out/reel.mp4",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "check:daftari": "node --experimental-strip-types --no-warnings scripts/check-daftari.mjs"
   },
   "dependencies": {
     "@remotion/cli": "4.0.537",
